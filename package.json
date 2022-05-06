@@ -5,14 +5,13 @@
   "main": "index.js",
   "lint-staged": {
     "*/.ts": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.js": "eslint --cache --fix"
   },
   "scripts": {
     "start": "echo \"TODO link with react start\" && exit 1",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\"",
     "prepare": "husky install"
   },
   "repository": {
