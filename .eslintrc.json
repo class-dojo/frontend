@@ -18,8 +18,15 @@
     },
     "plugins": [
         "react",
+        "json",
         "@typescript-eslint"
     ],
+    "settings": {
+        "react": {
+          "pragma": "React",
+          "version": "latest"
+        }
+    },
     "rules": {
         "indent": [
             "error",
