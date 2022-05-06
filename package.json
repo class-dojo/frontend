@@ -7,7 +7,7 @@
     "*/.ts": [
       "eslint --fix"
     ],
-    "*.js": "eslint --cache --fix"
+    "*.ts": "eslint --cache --fix"
   },
   "scripts": {
     "start": "echo \"TODO link with react start\" && exit 1",
@@ -29,6 +29,7 @@
     "@typescript-eslint/parser": "^5.22.0",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "husky": "^7.0.4",
