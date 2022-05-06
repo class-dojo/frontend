@@ -1,2 +1,1 @@
-const test = true;
-
+const test = 'hi';
