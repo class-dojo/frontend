@@ -1,13 +1,11 @@
 import React from 'react';
-
+import SentimentAnalysis from './pages/SentimentAnalysis';
 
 function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>{'IT\'S ROLLING'}</h1>
-      </header>
-    </div>
+    <main>
+      <SentimentAnalysis />
+    </main>
   );
 }
 
