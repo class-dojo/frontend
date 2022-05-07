@@ -36,8 +36,5 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2"
-  },
-  "dependencies": {
-    "aws-sdk": "^2.1130.0"
   }
 }
