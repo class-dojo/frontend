@@ -10,7 +10,7 @@ const UploadVideo = () => {
             <h2 className="fw-bold text-white mb-3">analyze video</h2><small></small>
             <p className="mb-4">Upload a video and ClassDojo will analyze it</p><small>Select analysis quality&nbsp;</small><select>
               <optgroup label="This is a group">
-                <option value="12" selected={false}>Low</option>
+                <option value="12" defaultValue={undefined}>Low</option>
                 <option value="13">Medium</option>
                 <option value="14">High</option>
               </optgroup>

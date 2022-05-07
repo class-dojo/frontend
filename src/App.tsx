@@ -1,6 +1,8 @@
 import React from 'react';
+import './App.css';
+import './index.css';
+import './assets/bootstrap/css/bootstrap.min.css';
 import Navbar from './components/Navbar/Navbar';
-import SentimentAnalysis from './components/SentimentAnalysis';
 import UploadVideo from './components/UploadVideo/UploadVideo';
 
 function App () {
@@ -8,7 +10,6 @@ function App () {
     <main>
       <Navbar/>
       <UploadVideo/>
-      {/* <SentimentAnalysis /> */}
     </main>
   );
 }
