@@ -1,4 +1,10 @@
 version: '3.9'
 services:
   frontend:
-    command: bash -c "npm install && npm start"
+    command: bash -c "npm install && npm start && sleep 10000"
+
+  s3:
+    volumes:
+      - ./s3-data:/data
+    ports:
+      - "9001:9001"
