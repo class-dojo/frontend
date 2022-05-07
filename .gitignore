@@ -24,3 +24,4 @@ yarn-error.log*
 
 /.idea/
 .eslintcache
+/s3-data/
