@@ -21,7 +21,9 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src/*",
+    "src",
+    "declarations.d.ts",
   ],
   "exclude": ["node_modules", "build"]
 }
