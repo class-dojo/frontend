@@ -1,10 +1,14 @@
 import React from 'react';
-import SentimentAnalysis from './pages/SentimentAnalysis';
+import Navbar from './components/Navbar/Navbar';
+import SentimentAnalysis from './components/SentimentAnalysis';
+import UploadVideo from './components/UploadVideo/UploadVideo';
 
 function App () {
   return (
     <main>
-      <SentimentAnalysis />
+      <Navbar/>
+      <UploadVideo/>
+      {/* <SentimentAnalysis /> */}
     </main>
   );
 }
