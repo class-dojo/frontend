@@ -5,13 +5,22 @@ import { VideoSource } from './types';
 export const getStillsFromVideo =
 async (ffmpeg: FFmpeg, source: VideoSource): Promise<Uint8Array[]> => {
   ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
-  await ffmpeg.run('-i', 'test.mp4', '-vf', 'fps=1/5', '%d.jpg');
-  const frameArray = [];
+  // await ffmpeg.run('-i', 'test.mp4', '-vf', 'fps=1/5', '%d.bmp');
+  // ffmpeg -ss -i input.mp4   -frames:v 1 $i.bmp
+  const startTime = new Date().getTime();
+
   const duration: number = await getVideoDuration(source);
+  for (let i = 0; i <= duration; i = i + 5) {
+    await ffmpeg.run('-ss', `${i}`, '-i', 'test.mp4', '-frames:v', '1', `${i/5}.jpg`);
+  }
+
+  const frameArray = [];
   for (let i = 1; i<=Math.floor(duration/5); i++) {
     const frame = ffmpeg.FS('readFile', `${i}.jpg`);
     frameArray.push(frame);
   }
+  const elapsedTime = new Date().getTime() - startTime;
+  console.log('ELAPSED TIME', elapsedTime);
   return frameArray;
 };
 
