@@ -9,9 +9,9 @@ import FfmpegTest from './components/FfmpegTest';
 function App () {
   return (
     <main>
-      {/* <Navbar/>
-      <UploadVideo/> */}
-      <FfmpegTest/>
+      <Navbar/>
+      <UploadVideo/>
+      {/* <FfmpegTest/> */}
     </main>
   );
 }
