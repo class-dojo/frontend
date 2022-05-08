@@ -1,35 +1,27 @@
 import React, {useState} from 'react';
 import {createFFmpeg, FFmpeg} from '@ffmpeg/ffmpeg';
 
-import Frame from '../Frame';
-import { getStillsFromVideo } from './utils';
+import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
+import { VideoSource } from './types';
 
 const UploadVideo = () => {
 
-  const [source, setSource] = useState<string | Buffer | Blob | File>('');
+  const [source, setSource] = useState<VideoSource>('');
   const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState('Click the button to transcode');
 
   const ffmpeg: FFmpeg = createFFmpeg({ log: true });
 
-  const handleTranscodeClick = async () => {
+  const handleTranscodeClick = async (): Promise<void> => {
     setMessage('Loading ffmpeg-core.js');
     await ffmpeg.load();
     setMessage('Start transcoding');
-    const frameRawDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg, source);
+    const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg, source);
     setMessage('Complete transcoding');
 
-    const filesArray: File[] = [];
-    const newFrameUrlArray: string[] = [];
-    frameRawDataArray.forEach((frameRawData, i) => {
-      const frameUrlBlob: string = URL.createObjectURL(new Blob([frameRawData], { type: 'image/png' }));
-      newFrameUrlArray.push(frameUrlBlob);
-      const imgFile = new File([frameRawData], `${i+1}.png`);
-      filesArray.push(imgFile);
-    });
+    const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
     setFrameUrlArray(newFrameUrlArray);
-
     uploadImgToBucket(filesArray[0]);
 
     // TODO send request to backend
@@ -38,7 +30,7 @@ const UploadVideo = () => {
     // };
   };
 
-  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       setSource(event.target.files[0]);
     }
@@ -64,7 +56,7 @@ const UploadVideo = () => {
             <sub>Estimated duration: 3 min</sub>
           </div>
           <div>
-            {frameUrlArray && frameUrlArray.map((frameURL, i) => <Frame frameURL={frameURL} key={i}/>)}
+            {frameUrlArray && frameUrlArray.map(frameURL => <img src={frameURL} key={frameURL}/>)}
           </div>
         </div>
       </div>
