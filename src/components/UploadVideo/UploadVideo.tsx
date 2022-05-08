@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {createFFmpeg, FFmpeg} from '@ffmpeg/ffmpeg';
+import React, {useEffect, useState, useRef} from 'react';
+import {createFFmpeg} from '@ffmpeg/ffmpeg';
 
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
@@ -11,18 +11,30 @@ const UploadVideo = () => {
   const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState('Click the button to transcode');
 
-  const ffmpeg: FFmpeg = createFFmpeg({ log: true });
+  const [isLoaderReady, setLoaderReady] = useState(false);
+  const ffmpeg = useRef(createFFmpeg({ log: true }));
+
+  const load = async () => {
+    setMessage('Loading ffmpeg-core.js');
+    await ffmpeg.current.load();
+    setLoaderReady(true);
+    setMessage('Start transcoding');
+    console.log('loaded');
+  };
+  useEffect(()=> {load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
-    setMessage('Loading ffmpeg-core.js');
-    await ffmpeg.load();
-    setMessage('Start transcoding');
-    const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg, source);
-    setMessage('Complete transcoding');
+    // setMessage('Loading ffmpeg-core.js');
+    // await ffmpeg.load();
+    // setMessage('Start transcoding');
+    if (isLoaderReady) {
+      const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source);
+      setMessage('Transcoding Complete');
 
-    const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
-    setFrameUrlArray(newFrameUrlArray);
-    uploadImgToBucket(filesArray[0]);
+      const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
+      setFrameUrlArray(newFrameUrlArray);
+      uploadImgToBucket(filesArray[0]); // TODO change alert with warning component
+    } else {alert('Loader not ready, wait for "Start Transcoding" message to appear');}
 
     // TODO send request to backend
     // const DataToBeSent = {
