@@ -1,6 +1,6 @@
 import React from 'react';
+
 import Navbar from './components/Navbar/Navbar';
-import SentimentAnalysis from './components/SentimentAnalysis';
 import UploadVideo from './components/UploadVideo/UploadVideo';
 
 function App () {
@@ -8,7 +8,6 @@ function App () {
     <main>
       <Navbar/>
       <UploadVideo/>
-      {/* <SentimentAnalysis /> */}
     </main>
   );
 }
