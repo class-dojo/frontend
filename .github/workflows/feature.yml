@@ -29,5 +29,5 @@ jobs:
       - name: Build
         run: |
           docker-compose up -d
-          docker-compose run frontend make -C production/ version
+          docker-compose run frontend make -C production/ version package qa
           docker-compose down

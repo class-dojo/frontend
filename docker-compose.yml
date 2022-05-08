@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   frontend:
-    image: "node:16"
+    image: tinazhouhui/node16-zip
     working_dir: /frontend
     volumes:
       - .:/frontend
