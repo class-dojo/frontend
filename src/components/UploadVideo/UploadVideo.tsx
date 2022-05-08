@@ -19,14 +19,10 @@ const UploadVideo = () => {
     await ffmpeg.current.load();
     setLoaderReady(true);
     setMessage('Start transcoding');
-    console.log('loaded');
   };
   useEffect(()=> {load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
-    // setMessage('Loading ffmpeg-core.js');
-    // await ffmpeg.load();
-    // setMessage('Start transcoding');
     if (isLoaderReady) {
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source);
       setMessage('Transcoding Complete');
