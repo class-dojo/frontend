@@ -1,69 +1,36 @@
 import React, {useState} from 'react';
-import {createFFmpeg, fetchFile} from '@ffmpeg/ffmpeg';
-import Frame from '../Frame';
+import {createFFmpeg, FFmpeg} from '@ffmpeg/ffmpeg';
+
+import { getStillsFromVideo, transformRawFrameData } from './utils';
+import { uploadImgToBucket } from '../../services/s3Service';
+import { VideoSource } from './types';
 
 const UploadVideo = () => {
 
-  const [source, setSource] = useState<string | Buffer | Blob | File>('');
+  const [source, setSource] = useState<VideoSource>('');
+  const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState('Click the button to transcode');
-  const [frames, setFrames] = useState<string[]>([]);
 
-  // set the array frames inside an object as value
+  const ffmpeg: FFmpeg = createFFmpeg({ log: true });
 
-  const ffmpeg = createFFmpeg({
-    log: true,
-  });
-
-  const handleTranscodeClick = async () => {
+  const handleTranscodeClick = async (): Promise<void> => {
     setMessage('Loading ffmpeg-core.js');
     await ffmpeg.load();
     setMessage('Start transcoding');
-    ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
-    await ffmpeg.run('-i', 'test.mp4', '-vf', 'fps=1/5', '%d.png');
+    const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg, source);
     setMessage('Complete transcoding');
-    const frameArray = [];
-    for (let i = 1; i<=14; i++) {
-      const frame = ffmpeg.FS('readFile', `${i}.png`);
-      frameArray.push(frame);
-    }
 
-    const filesArray: File[] = [];
-    frameArray.forEach((frame, i) =>
-    {
-      setFrames(prev => {
-        const blobString = URL.createObjectURL(new Blob([frame], { type: 'image/png' }));
-        const frameUrls = [...prev, blobString];
-        return frameUrls;
-      });
-      const blobFile = new File([frame], `${i+1}.png`);
-      filesArray.push(blobFile);
-    });
+    const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
+    setFrameUrlArray(newFrameUrlArray);
+    uploadImgToBucket(filesArray[0]);
 
-    // TODO upload to bucket
+    // TODO send request to backend
     // const DataToBeSent = {
     //   [source.toString()]: filesArray
     // };
-
-    const url = 'http://images.localhost:9000/images/dummy.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220507%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220507T123814Z&X-Amz-Expires=604800&X-Amz-Signature=627218060ca95a97b5b0b8413ac00e4eeaf72c7adb746a0b3346e7d59665b807&X-Amz-SignedHeaders=host';
-    // take the first file from FilesList
-    const file = filesArray[0];
-    // Extract Content-Type & filename
-    const {type} = file;
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': type,
-      },
-      body: file,
-    })
-      .then(console.log)
-      .catch(console.error);
-
   };
 
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       setSource(event.target.files[0]);
     }
@@ -83,12 +50,14 @@ const UploadVideo = () => {
             </optgroup>
           </select>
           <div>
-            <input type="file" accept="video/*" onChange={handleChange}/>
+            <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <p>{message}</p>
             <sub>Estimated duration: 3 min</sub>
           </div>
-          <div>{frames && frames.map((frameURL, i) => <Frame frameURL={frameURL} key={i}/>)}</div>
+          <div>
+            {frameUrlArray && frameUrlArray.map(frameURL => <img src={frameURL} key={frameURL}/>)}
+          </div>
         </div>
       </div>
     </section>

@@ -1,13 +1,12 @@
 import React from 'react';
 
 import './navbar.css';
-import { navbarClasses } from './bootstrapClasses';
 
 const Navbar = () => {
 
   return (
     <>
-      <nav className={navbarClasses} style={{height: 73}}>
+      <nav className='navbar navbar-dark navbar-expand-md bg-dark py-3' style={{height: 73}}>
         <div className="container"><a className="navbar-brand d-flex align-items-center" href="#"><span className="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-karate">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
           <circle cx="18" cy="4" r="1"></circle>
