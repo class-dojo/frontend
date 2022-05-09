@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useReducer} from 'react';
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 
 import { getStillsFromVideo, transformRawFrameData } from './utils';
@@ -9,13 +9,13 @@ const UploadVideo = () => {
 
   const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('Click the button to transcode');
-  const [isLoaderReady, setLoaderReady] = useState(false);
+  const [isLoaderReady, setLoaderReady] = useReducer(()=> true, false);
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
   const load = async () => {
     setMessage('Loading ffmpeg-core.js');
     await ffmpeg.current.load();
-    setLoaderReady(true);
+    setLoaderReady();
     setMessage('Start transcoding');
   };
   useEffect(()=> {load();}, []);
