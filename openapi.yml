@@ -20,7 +20,6 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/s3Response"
                 "$ref": "#/components/schemas/S3LinksResponse"
 
 components:
