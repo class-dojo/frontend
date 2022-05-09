@@ -21,7 +21,7 @@ const UploadVideo = () => {
     setLoaderReady();
     setMessage('Start transcoding');
   };
-  useEffect(()=> {load();}, []);
+  useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
     if (isLoaderReady && source.current) {

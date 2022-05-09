@@ -40,12 +40,8 @@ const promiseMaker = (fileArr: File[], urlArr: string[]) => {
 };
 
 export const uploadImgToBucket = (files: File[]) => {
-
   const imageBatches = arrayDivider(files, 5);
   const urlBatches = arrayDivider(urls, 5);
-
   const payloads = imageBatches.map((images, i) => promiseMaker(images as File[], urlBatches[i] as string[]));
-
-  payloads.forEach(payload => Promise.all(payload));
-
+  payloads.forEach(payload => Promise.all(payload)); // TODO handle errors
 };
