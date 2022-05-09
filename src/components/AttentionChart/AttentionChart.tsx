@@ -4,7 +4,7 @@ import '@nivo/core';
 import { linearGradientDef } from '@nivo/core';
 
 import { parseAttentionData as parseAttentionData } from './utils';
-import { mockRawData } from './mockData';
+import { mockRawData } from '../../assets/mockData';
 
 import './attentionChart.css';
 import testImage from '../../assets/images/test.jpg';
