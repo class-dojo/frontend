@@ -13,6 +13,7 @@ const UploadVideo = () => {
   const [barProgress, setBarProgress] = useState<number>();
   const [isLoaderReady, setLoaderReady] = useReducer(()=> true, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
+  const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
   const load = async () => {
@@ -29,12 +30,12 @@ const UploadVideo = () => {
       ffmpeg.current.setProgress(({ ratio }) => {
         setBarProgress(ratio*100);
       });
-      const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current);
+      const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
       const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
       setFrameUrlArray(newFrameUrlArray);
-      uploadImgToBucket(filesArray);// TODO change alert with warning component
+      uploadImgToBucket(filesArray, accuracy.current);// TODO change alert with warning component
     } else {alert('Loader not ready, wait for "Start Transcoding" message to appear');}
     // TODO send request to backend
     // const DataToBeSent = {
@@ -48,17 +49,22 @@ const UploadVideo = () => {
     }
   };
 
+  const handleAccuracyChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    accuracy.current = +event.target.value;
+  };
+
   return (
 
     <section className="py-4 py-xl-5">
       <div className="container">
         <div className="text-white bg-dark border rounded border-0 p-4 p-md-5">
           <h2 className="fw-bold text-white mb-3">analyze video</h2><small></small>
-          <p className="mb-4">Upload a video and ClassDojo will analyze it</p><small>Select analysis quality&nbsp;</small><select>
-            <optgroup label="This is a group">
-              <option value="12" defaultValue={undefined}>Low</option>
-              <option value="13">Medium</option>
-              <option value="14">High</option>
+          <p className="mb-4">Upload a video and ClassDojo will analyze it</p><small>Select analysis quality&nbsp;</small>
+          <select defaultValue={5} onChange={handleAccuracyChange}>
+            <optgroup label="Parsing Accuracy">
+              <option value={20}>Low</option>
+              <option value={10}>Medium</option>
+              <option value={5}>High</option>
             </optgroup>
           </select>
           <div>
