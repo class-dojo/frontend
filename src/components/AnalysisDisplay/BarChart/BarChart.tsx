@@ -25,12 +25,12 @@ const graphContainerStyle: React.CSSProperties = {
 
 const mockBoxStyle: React.CSSProperties = {
   position: 'absolute',
-  height: '400.5px',
-  width: 'calc(100% - 140px)',
+  height: '481.6px',
+  width: 'calc(100% - 148px)',
   border: '1px solid black',
   backgroundColor: '#f2f2f2',
-  top: 0,
-  left: 70,
+  top: 19.3,
+  left: 74,
 };
 
 const data = parseAttentionData(mockRawData, 5);
