@@ -16,19 +16,36 @@ const urls = [
   'http://images.localhost:9000/images/dummy15.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=0858028c4c68a36e1789cca39736c12aa235a37bb5fc707ca95facbef547729e&X-Amz-SignedHeaders=host'
 ];
 
+const arrayDivider = (arr: Array<File> | Array<string>, size: number): (Array<File> | Array<string>)[] => arr.length > 0 ? [arr.slice(0, size), ...arrayDivider(arr.slice(size), size)] : [arr];
+
+const promiseMaker = (fileArr: File[], urlArr: string[]) => {
+  const payload = [];
+  for (let i = 0; i < fileArr.length; i++) {
+    const batch = new Promise((resolve) => {
+      const { type } = fileArr[i];
+      const url = urlArr[i];
+      resolve(fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': type,
+        },
+        body: fileArr[i],
+      })
+        .then(console.log)
+        .catch(console.error));
+    });
+    payload.push(batch);
+  }
+  return payload;
+};
 
 export const uploadImgToBucket = (files: File[]) => {
-  for (let i = 0; i < files.length; i++) {
-    const { type } = files[i];
-    const url = urls[i];
-    fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': type,
-      },
-      body: files[i],
-    })
-      .then(console.log)
-      .catch(console.error);
-  }
+
+  const imageBatches = arrayDivider(files, 5);
+  const urlBatches = arrayDivider(urls, 5);
+
+  const payloads = imageBatches.map((images, i) => promiseMaker(images as File[], urlBatches[i] as string[]));
+
+  payloads.forEach(payload => Promise.all(payload));
+
 };
