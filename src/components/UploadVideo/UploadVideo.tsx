@@ -10,6 +10,7 @@ const UploadVideo = () => {
 
   const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('Click the button to transcode');
+  const [barProgress, setBarProgress] = useState<number>();
   const [isLoaderReady, setLoaderReady] = useReducer(()=> true, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const source = useRef<VideoSource>('');
@@ -25,6 +26,9 @@ const UploadVideo = () => {
   const handleTranscodeClick = async (): Promise<void> => {
     if (isLoaderReady && source.current) {
       toggleIsTranscoding();
+      ffmpeg.current.setProgress(({ ratio }) => {
+        setBarProgress(ratio*100);
+      });
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
@@ -32,7 +36,6 @@ const UploadVideo = () => {
       setFrameUrlArray(newFrameUrlArray);
       uploadImgToBucket(filesArray[0]); // TODO change alert with warning component
     } else {alert('Loader not ready, wait for "Start Transcoding" message to appear');}
-
     // TODO send request to backend
     // const DataToBeSent = {
     //   [source.current.toString()]: filesArray
@@ -61,7 +64,7 @@ const UploadVideo = () => {
           <div>
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
-            <div>{ isTranscoding ? <ProgressBar animated now={50}/> : <p>{message}</p>}</div>
+            <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
             <sub>Estimated duration: 3 min</sub>
           </div>
           <div>
