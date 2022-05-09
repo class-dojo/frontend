@@ -2,8 +2,8 @@ import React from 'react';
 
 import Navbar from './components/Navbar/Navbar';
 import UploadVideo from './components/UploadVideo/UploadVideo';
-import AttentionChart from './components/AttentionChart/AttentionChart';
-import AttentionChart2 from './components/AttentionChart2/AttentionChart2';
+import AttentionChart from './components/BarChart/BarChart';
+import AttentionChart2 from './components/LineChart/LineChart';
 
 function App () {
   return (

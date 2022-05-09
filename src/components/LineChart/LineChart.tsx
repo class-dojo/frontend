@@ -4,7 +4,7 @@ import { ResponsiveLine } from '@nivo/line';
 import { parseAttentionData as parseAttentionData } from './utils';
 import { mockRawData } from '../../assets/mockData';
 
-import '../AttentionChart/attentionChart.css';
+import '../BarChart/attentionChart.css';
 import testImage from '../../assets/images/test.jpg';
 import { todoType } from '../../types';
 
