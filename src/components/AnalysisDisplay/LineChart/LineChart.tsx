@@ -165,7 +165,8 @@ const LineChart = ({ isMultiline, data, title }: AttentionChartProps): JSX.Eleme
                           color: point.serieColor,
                           display: 'flex',
                           justifyContent: 'space-between',
-                          flexDirection: isMultiline ? 'row' : 'column'
+                          flexDirection: isMultiline ? 'row' : 'column',
+                          gap: isMultiline ? 20 : 10
                         }}
                       >
                         <strong>{point.serieId}: </strong>
@@ -176,7 +177,8 @@ const LineChart = ({ isMultiline, data, title }: AttentionChartProps): JSX.Eleme
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    flexDirection: isMultiline ? 'row' : 'column'
+                    flexDirection: isMultiline ? 'row' : 'column',
+                    gap: isMultiline ? 20 : 10
                   }}
                   >
                     <strong>Time: </strong>
