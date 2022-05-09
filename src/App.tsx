@@ -2,7 +2,7 @@ import React from 'react';
 
 import Navbar from './components/Navbar/Navbar';
 import UploadVideo from './components/UploadVideo/UploadVideo';
-import AttentionChart from './components/InterestChart/AttetionChart';
+import AttentionChart from './components/InterestChart/AttentionChart';
 
 function App () {
   return (
