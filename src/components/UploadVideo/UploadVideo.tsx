@@ -11,7 +11,6 @@ const UploadVideo = () => {
   const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
-  const [isLoaderReady, setLoaderReady] = useReducer(()=> true, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
@@ -19,13 +18,12 @@ const UploadVideo = () => {
   const load = async () => {
     setMessage('Loading transcoder');
     await ffmpeg.current.load();
-    setLoaderReady();
     setMessage('Start transcoding');
   };
   useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
-    if (isLoaderReady && source.current) {
+    if (ffmpeg.current.isLoaded() && source.current) {
       toggleIsTranscoding();
       ffmpeg.current.setProgress(({ ratio }) => {
         setBarProgress(ratio*100);
