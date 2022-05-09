@@ -79,8 +79,6 @@ const UploadVideo = () => {
         </div>
       </div>
     </section>
-
-
   );
 };
 
