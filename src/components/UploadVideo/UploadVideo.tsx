@@ -1,35 +1,41 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useReducer} from 'react';
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
-
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource } from './types';
+import { ProgressBar } from 'react-bootstrap';
+
 
 const UploadVideo = () => {
 
   const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('Click the button to transcode');
-  const [isLoaderReady, setLoaderReady] = useState(false);
+  const [barProgress, setBarProgress] = useState<number>();
+  const [isLoaderReady, setLoaderReady] = useReducer(()=> true, false);
+  const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
   const load = async () => {
-    setMessage('Loading ffmpeg-core.js');
+    setMessage('Loading transcoder');
     await ffmpeg.current.load();
-    setLoaderReady(true);
+    setLoaderReady();
     setMessage('Start transcoding');
   };
   useEffect(()=> {load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
     if (isLoaderReady && source.current) {
+      toggleIsTranscoding();
+      ffmpeg.current.setProgress(({ ratio }) => {
+        setBarProgress(ratio*100);
+      });
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current);
+      toggleIsTranscoding();
       setMessage('Transcoding Complete');
-
       const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
       setFrameUrlArray(newFrameUrlArray);
-      uploadImgToBucket(filesArray[0]); // TODO change alert with warning component
+      uploadImgToBucket(filesArray);// TODO change alert with warning component
     } else {alert('Loader not ready, wait for "Start Transcoding" message to appear');}
-
     // TODO send request to backend
     // const DataToBeSent = {
     //   [source.current.toString()]: filesArray
@@ -58,7 +64,7 @@ const UploadVideo = () => {
           <div>
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
-            <p>{message}</p>
+            <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
             <sub>Estimated duration: 3 min</sub>
           </div>
           <div>
