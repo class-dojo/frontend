@@ -2,16 +2,15 @@ import React from 'react';
 
 import Navbar from './components/Navbar/Navbar';
 import UploadVideo from './components/UploadVideo/UploadVideo';
-import AttentionChart from './components/AttentionChart/AttentionChart';
-import AttentionChart2 from './components/AttentionChart2/AttentionChart2';
+import BarChart from './components/AnalysisDisplay/BarChart/BarChart';
+import AnalysisDisplay from './components/AnalysisDisplay/AnalysisDisplay';
 
 function App () {
   return (
     <main>
       <Navbar/>
       <UploadVideo/>
-      {/* <AttentionChart/> */}
-      {/* <AttentionChart2/> */}
+      <AnalysisDisplay/>
     </main>
   );
 }

@@ -1,64 +1,66 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import '@nivo/core';
 import { linearGradientDef } from '@nivo/core';
 
 import { parseAttentionData as parseAttentionData } from './utils';
-import { mockRawData } from '../../assets/mockData';
+import { mockRawData } from '../../../assets/mockDataProvider';
 
-import './attentionChart.css';
-import testImage from '../../assets/images/test.jpg';
+import './barChart.css';
+import testImage from '../../../assets/images/test.jpg';
+import { todoType } from '../../../types';
 
 const mainContainerStyle: React.CSSProperties = {
-  marginTop: 40,
+  marginTop: 100,
   fontFamily: 'sans-serif',
   textAlign: 'center',
+  height: 'calc(100vh - 133px)'
 };
 
 const graphContainerStyle: React.CSSProperties = {
   padding: '0 20px',
-  height: '450px',
+  height: '551px',
   position: 'relative',
   margin: '10px 0 40px 0',
 };
 
-const mockBoxStyle: React.CSSProperties = {
+const displayBoxStyle: React.CSSProperties = {
   position: 'absolute',
-  height: '400.5px',
-  width: 'calc(100% - 140px)',
+  height: '482px',
+  width: 'calc(100% - 147.3px)',
   border: '1px solid black',
   backgroundColor: '#f2f2f2',
-  top: 0,
-  left: 70,
+  top: 19.4,
+  left: 73.6,
 };
 
 const data = parseAttentionData(mockRawData, 5);
+const title = 'Attention Index';
 
-const AttentionChart = () => {
+const BarChart = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseEnter = (_: any, event: any) => {
+  const handleMouseEnter = (_: todoType, event: todoType) => {
     event.target.classList.add('animate');
     event.target.classList.add('hovered');
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseLeave = (_: any, event: any) => {
+  const handleMouseLeave = (_: todoType, event: todoType) => {
     event.target.classList.remove('hovered');
   };
 
   return (
     <div style={mainContainerStyle}>
-      <h1>Attention Index During Lecture</h1>
+      <h1>{title}</h1>
       <div style={graphContainerStyle}>
-        <div style={mockBoxStyle}>
+        <div style={displayBoxStyle}>
         </div>
         <ResponsiveBar
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           data={data}
           keys={['Attention Index']}
-          indexBy="Time"
+          indexBy='Time'
           maxValue={10}
           padding={0.06}
           margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
@@ -97,13 +99,8 @@ const AttentionChart = () => {
                 { offset: 0, color: '#d5edec' },
                 { offset: 100, color: '#309f9a' },
               ],
-              // colors: [
-              //   { offset: 0, color: '#faf047' },
-              //   { offset: 100, color: '#e4b400' },
-              // ],
             },
           ]}
-          // 2. defining rules to apply those gradients
           fill={[
             { match: '*', id: 'gradientC' },
           ]}
@@ -130,4 +127,4 @@ const AttentionChart = () => {
   );
 };
 
-export default AttentionChart;
+export default BarChart;
