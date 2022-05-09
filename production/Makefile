@@ -10,6 +10,7 @@ version := $(shell git describe --tags --match="v*")
 
 .PHONY: all
 all: clean app
+
 .PHONY: clean
 clean:
 	@(printf "${BG}Cleaning project${NC}")
