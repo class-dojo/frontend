@@ -25,3 +25,10 @@ yarn-error.log*
 /.idea/
 .eslintcache
 /s3-data/
+
+# tests
+/log/
+
+# production
+/production/build/
+/production/release/
