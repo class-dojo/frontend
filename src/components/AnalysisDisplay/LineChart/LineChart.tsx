@@ -6,9 +6,10 @@ import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 
 const mainContainerStyle: React.CSSProperties = {
-  marginTop: 40,
+  marginTop: 100,
   fontFamily: 'sans-serif',
   textAlign: 'center',
+  height: 'calc(100vh - 133px)'
 };
 
 const graphContainerStyle: React.CSSProperties = {
@@ -18,50 +19,63 @@ const graphContainerStyle: React.CSSProperties = {
   margin: '10px 0 40px 0',
 };
 
-const mockBoxStyle: React.CSSProperties = {
+const displayBoxStyle: React.CSSProperties = {
   position: 'absolute',
-  height: '482px',
-  width: 'calc(100% - 147.3px)',
-  border: '1px solid black',
+  height: '480px',
+  width: 'calc(100% - 147.7px)',
+  top: 19.5,
+  left: 73.8,
+};
+
+const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
-  top: 18.7,
-  left: 73.6,
+  zIndex: -10
+};
+
+const displayBoxFrameStyle: React.CSSProperties = {
+  border: '1px solid black',
+  zIndex: 10,
+  pointerEvents: 'none'
 };
 
 type AttentionChartProps = {
-  type: string,
-  data: todoType
+  isMultiline: boolean,
+  data: todoType,
+  title: string
 }
 
-const LineChart = ({ type, data }: AttentionChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, data, title }: AttentionChartProps): JSX.Element => {
 
   let hasLegend = false;
   let hasFill = true;
-  let lineWidth = 10;
+  let lineWidth = 8;
   let enableSlices = true;
   let hasPoints = false;
   let hasGridX = false;
   let hasGridY = false;
 
-  if (type === 'multiline') {
+  if (isMultiline) {
     hasLegend = true;
     hasFill = false;
-    lineWidth = 7;
+    lineWidth = 5;
     enableSlices = true;
     hasPoints = false;
     hasGridX = true;
     hasGridY = true;
   }
 
-
   return (
     <div style={mainContainerStyle}>
+      <h1>{title}</h1>
       <div style={graphContainerStyle}>
-        <div style={mockBoxStyle}>
+        <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
+        </div>
+        <div style={{...displayBoxStyle, ...displayBoxBgStyle}}>
         </div>
         <ResponsiveLine
           data={[...data]}
           colors={data => data.color}
+          margin={{ top: 20, right: 55, bottom: 80, left: 55 }}
           xScale={{ type: 'linear' }}
           yScale={{
             type: 'linear',
@@ -93,7 +107,6 @@ const LineChart = ({ type, data }: AttentionChartProps): JSX.Element => {
           }}
           lineWidth={lineWidth}
           useMesh={true}
-          margin={{ top: 20, right: 55, bottom: 80, left: 55 }}
           pointLabelYOffset={0}
           enableGridY={hasGridX}
           enableGridX={hasGridY}
@@ -127,13 +140,13 @@ const LineChart = ({ type, data }: AttentionChartProps): JSX.Element => {
               <div
                 style={{
                   background: 'white',
-                  padding: 15,
-                  border: '1px solid #ccc',
+                  padding: '0 15px',
+                  border: '1px solid black',
                   borderRadius: 10,
                   display: 'flex',
                   gap: 20,
                   alignItems: 'center',
-                  minHeight: 200
+                  height: 200,
                   // TODO try make hover on important point less wonky
                 }}
               >
@@ -141,8 +154,8 @@ const LineChart = ({ type, data }: AttentionChartProps): JSX.Element => {
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    gap: 20
+                    justifyContent: 'space-evenly',
+                    height: '100%'
                   }}
                 >
                   {slice.points.map((point: todoType ) => (
@@ -152,7 +165,7 @@ const LineChart = ({ type, data }: AttentionChartProps): JSX.Element => {
                           color: point.serieColor,
                           display: 'flex',
                           justifyContent: 'space-between',
-                          gap: 20
+                          flexDirection: isMultiline ? 'row' : 'column'
                         }}
                       >
                         <strong>{point.serieId}: </strong>
@@ -160,12 +173,25 @@ const LineChart = ({ type, data }: AttentionChartProps): JSX.Element => {
                       </div>
                     </div>
                   ))}
-                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexDirection: isMultiline ? 'row' : 'column'
+                  }}
+                  >
                     <strong>Time: </strong>
                     <span style={{ fontWeight: 900 }}>{slice.points[0].data.x} sec</span>
                   </div>
                 </div>
-                {slice.points[0].data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
+                {slice.points[0].data.isImportant &&
+                <img src={testImage}
+                  style={{
+                    height: 200,
+                    borderRadius: '2px 10px 10px 2px',
+                    marginRight: -15,
+                  }}
+                />
+                }
               </div>
             );
           }}
