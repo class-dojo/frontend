@@ -1,19 +1,21 @@
 import React, {useEffect, useState, useRef, useReducer} from 'react';
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
-
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource } from './types';
+import { ProgressBar } from 'react-bootstrap';
+
 
 const UploadVideo = () => {
 
   const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [isLoaderReady, setLoaderReady] = useReducer(()=> true, false);
+  const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
   const load = async () => {
-    setMessage('Loading ffmpeg-core.js');
+    setMessage('Loading transcoder');
     await ffmpeg.current.load();
     setLoaderReady();
     setMessage('Start transcoding');
@@ -22,9 +24,10 @@ const UploadVideo = () => {
 
   const handleTranscodeClick = async (): Promise<void> => {
     if (isLoaderReady && source.current) {
+      toggleIsTranscoding();
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current);
+      toggleIsTranscoding();
       setMessage('Transcoding Complete');
-
       const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
       setFrameUrlArray(newFrameUrlArray);
       uploadImgToBucket(filesArray[0]); // TODO change alert with warning component
@@ -58,7 +61,7 @@ const UploadVideo = () => {
           <div>
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
-            <p>{message}</p>
+            <div>{ isTranscoding ? <ProgressBar animated now={50}/> : <p>{message}</p>}</div>
             <sub>Estimated duration: 3 min</sub>
           </div>
           <div>
