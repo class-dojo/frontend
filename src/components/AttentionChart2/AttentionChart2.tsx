@@ -24,12 +24,12 @@ const graphContainerStyle: React.CSSProperties = {
 
 const mockBoxStyle: React.CSSProperties = {
   position: 'absolute',
-  height: '400.5px',
-  width: 'calc(100% - 140px)',
+  height: '401px',
+  width: 'calc(100% - 148px)',
   border: '1px solid black',
   backgroundColor: '#f2f2f2',
   top: 0,
-  left: 70,
+  left: 74,
 };
 
 const data = parseAttentionData(mockRawData, 5);
@@ -54,6 +54,7 @@ const AttentionChart = () => {
         <div style={mockBoxStyle}>
         </div>
         <ResponsiveLine
+          colors={data => data.color}
           data={[data]}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -71,9 +72,6 @@ const AttentionChart = () => {
           enablePoints={false}
           pointSize={16}
           lineWidth={6}
-          // pointColor={{ theme: 'background' }}
-          // pointBorderWidth={2}
-          // pointBorderColor={{ from: 'serieColor' }}
           useMesh={true}
           margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
           enableSlices="x"
@@ -95,46 +93,46 @@ const AttentionChart = () => {
             legendPosition: 'middle',
             legendOffset: -50
           }}
-          // defs={[
-          //   // will inherit colors from current element
-          //   linearGradientDef('gradientA', [
-          //     { offset: 0, color: 'inherit' },
-          //     { offset: 100, color: 'inherit', opacity: 0 },
-          //   ]),
-          //   {
-          //     id: 'gradientC',
-          //     type: 'linearGradient',
-          //     colors: [
-          //       { offset: 0, color: '#d5edec' },
-          //       { offset: 100, color: '#309f9a' },
-          //     ],
-          //     // colors: [
-          //     //   { offset: 0, color: '#faf047' },
-          //     //   { offset: 100, color: '#e4b400' },
-          //     // ],
-          //   },
-          // ]}
-          // // 2. defining rules to apply those gradients
-          // fill={[
-          //   { match: '*', id: 'gradientC' },
-          // ]}
-          // tooltip={({ id, value, color, indexValue }) => (
-          //   <div
-          //     style={{
-          //       padding: 12,
-          //       color,
-          //       background: '#222222',
-          //       borderRadius: 10,
-          //     }}
-          //   >
-          //     <img src={testImage} style={{height: 200, borderRadius: 10,}}/>
-          //     <br />
-          //     <span>
-          //       {id}: {value}
-          //     </span>
-          //     <p style={{ margin: 'unset' }}>Time: {indexValue} seconds</p>
-          //   </div>
-          // )}
+          defs={[
+            {
+              id: 'gradientC',
+              type: 'linearGradient',
+              colors: [
+                { offset: 0, color: '#d5edec' },
+                { offset: 100, color: '#309f9a' },
+              ],
+            },
+          ]}
+          fill={[
+            { match: '*', id: 'gradientC' },
+          ]}
+          sliceTooltip={({ slice }) => {
+            return (
+              <div
+                style={{
+                  background: 'white',
+                  padding: 15,
+                  border: '1px solid #ccc',
+                  borderRadius: 10,
+                }}
+              >
+                <img src={testImage} style={{height: 200, borderRadius: 10,}}/>
+                {slice.points.map(point => (
+                  <div key={point.id}>
+                    <div
+                      style={{
+                        color: point.serieColor,
+                        padding: '3px 0',
+                      }}
+                    >
+                      <strong>{point.serieId}</strong> [{point.data.yFormatted}]
+                    </div>
+                    <div><strong>Time</strong> [{point.data.x}]</div>
+                  </div>
+                ))}
+              </div>
+            );
+          }}
         />
       </div>
     </div>
