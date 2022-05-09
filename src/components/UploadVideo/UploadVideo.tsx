@@ -34,7 +34,7 @@ const UploadVideo = () => {
       setMessage('Transcoding Complete');
       const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
       setFrameUrlArray(newFrameUrlArray);
-      uploadImgToBucket(filesArray[0]); // TODO change alert with warning component
+      uploadImgToBucket(filesArray);// TODO change alert with warning component
     } else {alert('Loader not ready, wait for "Start Transcoding" message to appear');}
     // TODO send request to backend
     // const DataToBeSent = {
