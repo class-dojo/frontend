@@ -9,8 +9,7 @@ function App () {
   return (
     <main>
       <Navbar/>
-      {/* <UploadVideo/> */}
-      {/* <AttentionChart/> */}
+      <UploadVideo/>
       <AnalysisDisplay/>
     </main>
   );

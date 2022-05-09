@@ -3,17 +3,17 @@ import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
 import { VideoSource } from './types';
 
 export const getStillsFromVideo =
-async (ffmpeg: FFmpeg, source: VideoSource): Promise<Uint8Array[]> => {
-  ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
-  await ffmpeg.run('-i', 'test.mp4', '-vf', 'fps=1/5', '%d.jpg');
-  const frameArray = [];
-  const duration: number = await getVideoDuration(source);
-  for (let i = 1; i<=Math.floor(duration/5); i++) {
-    const frame = ffmpeg.FS('readFile', `${i}.jpg`);
-    frameArray.push(frame);
-  }
-  return frameArray;
-};
+  async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
+    ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
+    await ffmpeg.run('-i', 'test.mp4', '-vf', `fps=1/${accuracy}`, '%d.jpg');
+    const frameArray = [];
+    const duration: number = await getVideoDuration(source);
+    for (let i = 1; i <= Math.floor(duration / accuracy); i++) {
+      const frame = ffmpeg.FS('readFile', `${i}.jpg`);
+      frameArray.push(frame);
+    }
+    return frameArray;
+  };
 
 export const getVideoDuration = async (source: VideoSource) => {
   const video = document.createElement('video');
@@ -38,8 +38,8 @@ export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
   rawFrameDataArray.forEach((frameRawData, i) => {
     const frameUrlBlob: string = URL.createObjectURL(new Blob([frameRawData], { type: 'image/jpg' }));
     newFrameUrlArray.push(frameUrlBlob);
-    const imgFile = new File([frameRawData], `${i+1}.jpg`);
+    const imgFile = new File([frameRawData], `${i + 1}.jpg`);
     filesArray.push(imgFile);
   });
-  return {filesArray, newFrameUrlArray};
+  return { filesArray, newFrameUrlArray };
 };
