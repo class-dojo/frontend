@@ -8,6 +8,7 @@ import { mockRawData } from '../../assets/mockData';
 
 import './attentionChart.css';
 import testImage from '../../assets/images/test.jpg';
+import { todoType } from '../../types';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 40,
@@ -37,13 +38,13 @@ const data = parseAttentionData(mockRawData, 5);
 const AttentionChart = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseEnter = (_: any, event: any) => {
+  const handleMouseEnter = (_: todoType, event: todoType) => {
     event.target.classList.add('animate');
     event.target.classList.add('hovered');
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseLeave = (_: any, event: any) => {
+  const handleMouseLeave = (_: todoType, event: todoType) => {
     event.target.classList.remove('hovered');
   };
 

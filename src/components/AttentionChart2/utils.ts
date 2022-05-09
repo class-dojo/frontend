@@ -1,6 +1,6 @@
 export const parseAttentionData = (rawData: number[], samplePeriod: number) => {
   const mappedData = rawData.map((attentionLevel, i) => {
-    return { x: i * samplePeriod, y: attentionLevel };
+    return { x: i * samplePeriod, y: attentionLevel, isImportant: false };
   });
   return {
     id: 'Attention index',

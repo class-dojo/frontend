@@ -1,13 +1,12 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
-import '@nivo/core';
-import { linearGradientDef } from '@nivo/core';
 
 import { parseAttentionData as parseAttentionData } from './utils';
 import { mockRawData } from '../../assets/mockData';
 
 import '../AttentionChart/attentionChart.css';
 import testImage from '../../assets/images/test.jpg';
+import { todoType } from '../../types';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 40,
@@ -17,14 +16,14 @@ const mainContainerStyle: React.CSSProperties = {
 
 const graphContainerStyle: React.CSSProperties = {
   padding: '0 20px',
-  height: '450px',
+  height: '550px',
   position: 'relative',
   margin: '10px 0 40px 0',
 };
 
 const mockBoxStyle: React.CSSProperties = {
   position: 'absolute',
-  height: '401px',
+  height: '501px',
   width: 'calc(100% - 148px)',
   border: '1px solid black',
   backgroundColor: '#f2f2f2',
@@ -33,19 +32,10 @@ const mockBoxStyle: React.CSSProperties = {
 };
 
 const data = parseAttentionData(mockRawData, 5);
-console.log(data);
+data.data[17].isImportant = true;
+data.data[9].isImportant = true;
+
 const AttentionChart = () => {
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseEnter = (_: any, event: any) => {
-    event.target.classList.add('animate');
-    event.target.classList.add('hovered');
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseLeave = (_: any, event: any) => {
-    event.target.classList.remove('hovered');
-  };
 
   return (
     <div style={mainContainerStyle}>
@@ -54,10 +44,8 @@ const AttentionChart = () => {
         <div style={mockBoxStyle}>
         </div>
         <ResponsiveLine
-          colors={data => data.color}
           data={[data]}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          colors={data => data.color}
           xScale={{ type: 'point' }}
           yScale={{
             type: 'linear',
@@ -67,14 +55,35 @@ const AttentionChart = () => {
             reverse: false
           }}
           curve="cardinal"
+          enableSlices="x"
           enableArea={true}
           areaOpacity={1}
-          enablePoints={false}
-          pointSize={16}
+          enablePoints={true}
+          pointSize={20}
+          pointColor='#32a09c'
+          pointSymbol={(pointProps: todoType) => {
+            // TODO refactor
+            let fillColor = '';
+            let borderColor = '';
+            let radius = '0';
+            if (pointProps.datum.isImportant) {
+              fillColor = '#32a09c';
+              borderColor = '#32a09c';
+              radius = '12';
+            } else {
+              fillColor = '';
+              borderColor = '';
+              radius = '0';
+            }
+            const renderedPoint = <circle cx="0" cy="0" r={radius} stroke={borderColor} strokeWidth="2" fill={fillColor} />;
+            return (
+              renderedPoint
+            );
+          }}
           lineWidth={6}
           useMesh={true}
           margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
-          enableSlices="x"
+          pointLabelYOffset={0}
           enableGridY={false}
           enableGridX={false}
           axisBottom={{
@@ -114,20 +123,24 @@ const AttentionChart = () => {
                   padding: 15,
                   border: '1px solid #ccc',
                   borderRadius: 10,
+                  // TODO make hover on important point less wonky
                 }}
               >
-                <img src={testImage} style={{height: 200, borderRadius: 10,}}/>
-                {slice.points.map(point => (
-                  <div key={point.id}>
-                    <div
-                      style={{
-                        color: point.serieColor,
-                        padding: '3px 0',
-                      }}
-                    >
-                      <strong>{point.serieId}</strong> [{point.data.yFormatted}]
+                {slice.points.map((point: todoType) => (
+                  <div
+                    key={point.id}
+                  >
+                    {point.data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
+                    <div>
+                      <div
+                        style={{
+                          color: point.serieColor,
+                        }}
+                      >
+                        <strong>{point.serieId}</strong> [{point.data.yFormatted}]
+                      </div>
+                      <div><strong>Time</strong> [{point.data.x}]</div>
                     </div>
-                    <div><strong>Time</strong> [{point.data.x}]</div>
                   </div>
                 ))}
               </div>
