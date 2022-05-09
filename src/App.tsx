@@ -2,14 +2,14 @@ import React from 'react';
 
 import Navbar from './components/Navbar/Navbar';
 import UploadVideo from './components/UploadVideo/UploadVideo';
-import InterestChart from './components/InterestChart/InterestChart';
+import AttentionChart from './components/InterestChart/AttetionChart';
 
 function App () {
   return (
     <main>
       <Navbar/>
       {/* <UploadVideo/> */}
-      <InterestChart/>
+      <AttentionChart/>
     </main>
   );
 }

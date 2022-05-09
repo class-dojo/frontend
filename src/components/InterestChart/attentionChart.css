@@ -1,0 +1,10 @@
+.animate {
+  transition: 0.2s ease;
+  transform-origin: 50% 50%;
+  transform-box:fill-box;
+}
+
+.hovered {
+  transform: scaleX(1.1);
+  filter: brightness(106%);
+}
