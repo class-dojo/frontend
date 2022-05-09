@@ -4,7 +4,7 @@ import '@nivo/core';
 import { linearGradientDef } from '@nivo/core';
 
 import { parseAttentionData as parseAttentionData } from './utils';
-import { mockRawData } from '../../../assets/mockData';
+import { mockRawData } from '../../../assets/mockDataProvider';
 
 import './attentionChart.css';
 import testImage from '../../assets/images/test.jpg';
@@ -35,7 +35,7 @@ const mockBoxStyle: React.CSSProperties = {
 
 const data = parseAttentionData(mockRawData, 5);
 
-const AttentionChart = () => {
+const BarChart = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseEnter = (_: todoType, event: todoType) => {
@@ -59,7 +59,7 @@ const AttentionChart = () => {
           onMouseLeave={handleMouseLeave}
           data={data}
           keys={['Attention Index']}
-          indexBy="Time"
+          indexBy='Time'
           maxValue={10}
           padding={0.06}
           margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
@@ -131,4 +131,4 @@ const AttentionChart = () => {
   );
 };
 
-export default AttentionChart;
+export default BarChart;

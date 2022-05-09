@@ -1,11 +1,9 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
-
-import { getRandomData } from './utils';
+import { linearGradientDef } from '@nivo/core';
 
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
-import { linearGradientDef } from '@nivo/core';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 40,
@@ -30,51 +28,39 @@ const mockBoxStyle: React.CSSProperties = {
   left: 73.6,
 };
 
-const dataset1 = getRandomData(21);
-dataset1.data[17].isImportant = true;
-dataset1.data[9].isImportant = true;
-dataset1.color = '#32a09c';
-dataset1.id = 'Happiness';
+type AttentionChartProps = {
+  type: string,
+  data: todoType
+}
 
-const dataset2 = getRandomData(21);
-dataset2.data[17].isImportant = true;
-dataset2.data[9].isImportant = true;
-dataset2.color = '#469c5d';
-dataset2.id = 'Sadness';
+const LineChart = ({ type, data }: AttentionChartProps): JSX.Element => {
 
-const dataset3 = getRandomData(21);
-dataset3.data[17].isImportant = true;
-dataset3.data[9].isImportant = true;
-dataset3.color = '#5252bf';
-dataset3.id = 'Calmness';
+  let hasLegend = false;
+  let hasFill = true;
+  let lineWidth = 10;
+  let enableSlices = true;
+  let hasPoints = false;
+  let hasGridX = false;
+  let hasGridY = false;
 
+  if (type === 'multiline') {
+    hasLegend = true;
+    hasFill = false;
+    lineWidth = 7;
+    enableSlices = true;
+    hasPoints = false;
+    hasGridX = true;
+    hasGridY = true;
+  }
 
-const dataset4 = getRandomData(21);
-dataset4.data[17].isImportant = true;
-dataset4.data[9].isImportant = true;
-dataset4.color = '#b0c44b';
-dataset4.id = 'Confusion';
-
-
-// Multiline
-const hasLegend = true;
-const hasFill = false;
-const lineWidth = 7;
-const enableSlices = false;
-const hasPoints = false;
-const hasGridX = true;
-const hasGridY = true;
-
-const AttentionChart = () => {
 
   return (
     <div style={mainContainerStyle}>
-      <h1>Emotions During Lecture</h1>
       <div style={graphContainerStyle}>
         <div style={mockBoxStyle}>
         </div>
         <ResponsiveLine
-          data={[dataset1, dataset2, dataset3, dataset4]}
+          data={[...data]}
           colors={data => data.color}
           xScale={{ type: 'linear' }}
           yScale={{
@@ -136,7 +122,7 @@ const AttentionChart = () => {
           fill={[
             { match: '*', id: 'gradientA' },
           ]}
-          sliceTooltip={({ slice }) => {
+          sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return (
               <div
                 style={{
@@ -144,26 +130,42 @@ const AttentionChart = () => {
                   padding: 15,
                   border: '1px solid #ccc',
                   borderRadius: 10,
+                  display: 'flex',
+                  gap: 20,
+                  alignItems: 'center',
+                  minHeight: 200
                   // TODO try make hover on important point less wonky
                 }}
               >
-                {slice.points.map((point: todoType ) => ( // Need to extend Point for this to work with type
-                  <div
-                    key={point.id}
-                  >
-                    {point.data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
-                    <div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    gap: 20
+                  }}
+                >
+                  {slice.points.map((point: todoType ) => (
+                    <div key={point.id}>
                       <div
                         style={{
                           color: point.serieColor,
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          gap: 20
                         }}
                       >
-                        <strong>{point.serieId}</strong> [{point.data.yFormatted}]
+                        <strong>{point.serieId}: </strong>
+                        <span style={{ fontWeight: 900 }}>{point.data.yFormatted}</span>
                       </div>
-                      <div><strong>Time</strong> [{point.data.x} sec]</div>
                     </div>
+                  ))}
+                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <strong>Time: </strong>
+                    <span style={{ fontWeight: 900 }}>{slice.points[0].data.x} sec</span>
                   </div>
-                ))}
+                </div>
+                {slice.points[0].data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
               </div>
             );
           }}
@@ -175,7 +177,6 @@ const AttentionChart = () => {
                   padding: 15,
                   border: '1px solid #ccc',
                   borderRadius: 10,
-                  // TODO make hover on important point less wonky
                 }}
               >
                 <div
@@ -188,9 +189,13 @@ const AttentionChart = () => {
                         color: point.serieColor,
                       }}
                     >
-                      <strong>{point.serieId}</strong> [{point.data.yFormatted}]
+                      <strong>{point.serieId}: </strong>
+                      <span style={{ fontWeight: 900 }}>[{point.data.yFormatted}]</span>
                     </div>
-                    <div><strong>Time</strong> [{point.data.x} sec]</div>
+                    <div>
+                      <strong>Time: </strong>
+                      <span style={{ fontWeight: 900 }}>[{point.data.x} sec]</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -226,4 +231,4 @@ const AttentionChart = () => {
   );
 };
 
-export default AttentionChart;
+export default LineChart;

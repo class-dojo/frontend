@@ -2,8 +2,8 @@ import React from 'react';
 
 import Navbar from './components/Navbar/Navbar';
 import UploadVideo from './components/UploadVideo/UploadVideo';
-import AttentionChart from './components/AnalysisDisplay/BarChart/BarChart';
-import AttentionChart2 from './components/AnalysisDisplay/LineChart/LineChart';
+import BarChart from './components/AnalysisDisplay/BarChart/BarChart';
+import AnalysisDisplay from './components/AnalysisDisplay/AnalysisDisplay';
 
 function App () {
   return (
@@ -11,7 +11,7 @@ function App () {
       <Navbar/>
       {/* <UploadVideo/> */}
       {/* <AttentionChart/> */}
-      <AttentionChart2/>
+      <AnalysisDisplay/>
     </main>
   );
 }
