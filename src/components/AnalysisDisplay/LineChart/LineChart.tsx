@@ -2,11 +2,10 @@ import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 
 import { parseAttentionData as parseAttentionData } from './utils';
-import { mockRawData } from '../../assets/mockData';
+import { mockRawData } from '../../../assets/mockData';
 
-import '../BarChart/attentionChart.css';
-import testImage from '../../assets/images/test.jpg';
-import { todoType } from '../../types';
+import testImage from '../../../assets/images/test.jpg';
+import { todoType } from '../../../types';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 40,

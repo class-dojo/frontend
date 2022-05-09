@@ -4,11 +4,11 @@ import '@nivo/core';
 import { linearGradientDef } from '@nivo/core';
 
 import { parseAttentionData as parseAttentionData } from './utils';
-import { mockRawData } from '../../assets/mockData';
+import { mockRawData } from '../../../assets/mockData';
 
 import './attentionChart.css';
 import testImage from '../../assets/images/test.jpg';
-import { todoType } from '../../types';
+import { todoType } from '../../../types';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 40,
