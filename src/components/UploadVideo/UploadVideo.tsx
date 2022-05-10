@@ -35,7 +35,10 @@ const UploadVideo = () => {
       const {filesArray, newFramesArray} = transformRawFrameData(rawFrameDataArray);
       setFramesArray(newFramesArray);
       uploadImgToBucket(filesArray);// TODO change alert with warning component
-    } else {alert('Loader not ready, wait for "Start Transcoding" message to appear');}
+    } else {!source.current ?
+      alert('Please select a file to analyze') :
+      alert('Loader not ready, wait for "Start Transcoding" message to appear');
+    }
     // TODO send request to backend
     // const DataToBeSent = {
     //   [source.current.toString()]: filesArray
@@ -53,7 +56,6 @@ const UploadVideo = () => {
   };
 
   return (
-
     <section className="py-4 py-xl-5">
       <div className="container">
         <div className="text-white bg-dark border rounded border-0 p-4 p-md-5">
@@ -66,15 +68,17 @@ const UploadVideo = () => {
               <option value={5}>High</option>
             </optgroup>
           </select>
+          <br />
+          <br />
           <div>
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
-            <sub>Estimated duration: 3 min</sub>
+            {/* <sub>Estimated duration: 3 min</sub> */}
           </div>
-          <div>
-            {framesArray && framesArray.map((frameURL, i) => <p key={i}>{Object.keys(frameURL)}</p>/*<img src={frameURL} key={frameURL}/>*/)}
-          </div>
+          {/* <div>
+            {framesArray && framesArray.map((frameURL, i) => <p key={i}>{Object.keys(frameURL)}</p>)}
+          </div> */}
         </div>
       </div>
     </section>
