@@ -1,9 +1,8 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { linearGradientDef } from '@nivo/core';
+import { linearGradientDef, patternSquaresDef } from '@nivo/core';
 
-import { parseAttentionData as parseAttentionData } from './utils';
-import { mockRawData } from '../../../assets/mockDataProvider';
+import { createSingleBarData } from '../../../assets/mockDataProvider';
 
 import './barChart.css';
 import testImage from '../../../assets/images/test.jpg';
@@ -33,8 +32,9 @@ const displayBoxStyle: React.CSSProperties = {
   left: 73.6,
 };
 
-const data = parseAttentionData(mockRawData, 5);
+const dataset = createSingleBarData();
 const title = 'Attention Index';
+const isMultibar = false;
 
 const BarChart = () => {
 
@@ -58,13 +58,13 @@ const BarChart = () => {
         <ResponsiveBar
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          data={data}
-          keys={['Attention Index']}
+          data={dataset.data}
+          keys={['Attention Level']}
           indexBy='Time'
           maxValue={10}
           padding={0.06}
           margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
-          colors={{scheme: 'blue_green'}}
+          colors={({ data }) => data.color}
           borderRadius={4}
           borderWidth={1}
           borderColor='black'
@@ -87,40 +87,91 @@ const BarChart = () => {
             legendOffset: -50
           }}
           defs={[
-            // will inherit colors from current element
             linearGradientDef('gradientA', [
-              { offset: 0, color: 'inherit' },
-              { offset: 100, color: 'inherit', opacity: 0 },
+              { offset: 0, color: 'inherit', opacity: 0.5 },
+              { offset: 100, color: 'inherit', opacity: 1 },
             ]),
-            {
-              id: 'gradientC',
-              type: 'linearGradient',
-              colors: [
-                { offset: 0, color: '#d5edec' },
-                { offset: 100, color: '#309f9a' },
-              ],
-            },
+            // linearGradientDef('gradientImportant', [
+            //   { offset: 0, color: 'inherit', opacity: 1 },
+            //   { offset: 100, color: 'inherit', opacity: 1 },
+            // ]),
+            // TODO discuss this
+            patternSquaresDef('patternImportant', {
+              'size': 1,
+              'padding': 3,
+              'stagger': false,
+              'background': 'inherit',
+              'color': '#000000'
+            })
           ]}
           fill={[
-            { match: '*', id: 'gradientC' },
+            { match: ({ data }) => {
+              console.log(data);
+              return dataset.importantIndexes.includes(data.index as number);
+            },
+            id: 'patternImportant' },
+            { match: '*', id: 'gradientA' },
           ]}
-          tooltip={({ id, value, color, indexValue }) => (
-            <div
-              style={{
-                padding: 12,
-                color,
-                background: '#222222',
-                borderRadius: 10,
-              }}
-            >
-              <img src={testImage} style={{height: 200, borderRadius: 10,}}/>
-              <br />
-              <span>
-                {id}: {value}
-              </span>
-              <p style={{ margin: 'unset' }}>Time: {indexValue} seconds</p>
-            </div>
-          )}
+
+          tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
+            return (
+              <div
+                style={{
+                  background: 'white',
+                  padding: '0 15px',
+                  border: '1px solid black',
+                  borderRadius: 10,
+                  display: 'flex',
+                  gap: 20,
+                  alignItems: 'center',
+                  height: 200,
+                  // TODO try make hover on important point less wonky
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-evenly',
+                    height: '100%'
+                  }}
+                >
+                  <div
+                    style={{
+                      color: color,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      flexDirection: 'column',
+                      gap: 10
+                    }}
+                  >
+                    <strong>{id}: </strong>
+                    <span style={{ fontWeight: 900 }}>{value}</span>
+                  </div>
+
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexDirection: 'column',
+                    gap: 10
+                  }}
+                  >
+                    <strong>Time: </strong>
+                    <span style={{ fontWeight: 900 }}>{indexValue} sec</span>
+                  </div>
+                </div>
+                {dataset.importantIndexes.includes(index) &&
+                <img src={testImage}
+                  style={{
+                    height: 200,
+                    borderRadius: '2px 10px 10px 2px',
+                    marginRight: -15,
+                  }}
+                />
+                }
+              </div>
+            );
+          }}
         />
       </div>
     </div>
