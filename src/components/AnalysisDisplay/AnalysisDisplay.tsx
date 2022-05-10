@@ -1,7 +1,8 @@
 import React from 'react';
-import { createMultiLineData, createSingleLineData } from '../../assets/mockDataProvider';
+import { createMultiLineData, createSingleLineData, mockRadarData } from '../../assets/mockDataProvider';
 import BarChart from './BarChart/BarChart';
 import LineChart from './LineChart/LineChart';
+import RadarChart from './RadarChart/RadarChart';
 
 const AnalysisDisplay = () => {
   return (
@@ -16,6 +17,10 @@ const AnalysisDisplay = () => {
         isMultiline={true}
         data={createMultiLineData()}
         title={'Emotion indexes'}
+      />
+      <RadarChart
+        data={mockRadarData}
+        title={'Average emotions'}
       />
     </div>
   );

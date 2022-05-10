@@ -1,3 +1,4 @@
+import { colors } from '../colors';
 
 export const createMultiLineData = () => {
   const dataset1 = getRandomData(21);
@@ -31,7 +32,7 @@ export const createSingleLineData = () => {
   const dataset = getRandomData(21);
   dataset.data[17].isImportant = true;
   dataset.data[9].isImportant = true;
-  dataset.color = '#32a09c';
+  dataset.color = colors.turquoise;
   dataset.id = 'Happiness';
 
   return [dataset];
@@ -39,6 +40,41 @@ export const createSingleLineData = () => {
 
 export const mockRawData = [3, 4, 4, 6, 5, 6, 4, 3, 5, 7, 6, 5, 5, 4, 4, 3, 2, 5, 7, 8, 8, 7, 7, 6, 7];
 export const mockRawData2 = [...mockRawData].reverse();
+
+export const mockRadarData = [
+  {
+    emotion: 'Confusion',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+  {
+    emotion: 'Surprise',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+  {
+    emotion: 'Fear',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+  {
+    emotion: 'Sadness',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+  {
+    emotion: 'Happiness',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+  {
+    emotion: 'Anger',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+  {
+    emotion: 'Disgust',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+  {
+    emotion: 'Calmness',
+    value: +((Math.random() * 9) + 1).toFixed(1),
+  },
+];
 
 const parseLineChartData = (rawData: number[], samplePeriod: number) => {
   return rawData.map((attentionLevel, i) => {
