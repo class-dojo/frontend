@@ -18,8 +18,6 @@ const Landing = () => {
         <Button className='mx-1' variant='outline-dark'>LEARN MORE</Button>
       </div>
     </div>
-
-
   );
 };
 
