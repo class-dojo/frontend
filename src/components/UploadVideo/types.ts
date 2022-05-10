@@ -1,1 +1,5 @@
 export type VideoSource = string | Buffer | Blob | File;
+
+export type Frame = {
+  [key: string]: string
+}

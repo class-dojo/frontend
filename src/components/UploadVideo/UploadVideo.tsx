@@ -69,10 +69,10 @@ const UploadVideo = () => {
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
-            <sub>Estimated duration: 3 min</sub>
+            {/* <sub>Estimated duration: 3 min</sub> */}
           </div>
           <div>
-            {frameUrlArray && frameUrlArray.map(frameURL => <img src={frameURL} key={frameURL}/>)}
+            {frameUrlArray && frameUrlArray.map(frameURL => <p key={frameURL}>{frameURL}</p>/*<img src={frameURL} key={frameURL}/>*/)}
           </div>
         </div>
       </div>
