@@ -16,7 +16,7 @@ const urls = [
   'http://images.localhost:9000/images/dummy15.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=0858028c4c68a36e1789cca39736c12aa235a37bb5fc707ca95facbef547729e&X-Amz-SignedHeaders=host'
 ];
 
-const arrayDivider = (arr: Array<File> | Array<string>, size: number): (Array<File> | Array<string>)[] => arr.length > 0 ? [arr.slice(0, size), ...arrayDivider(arr.slice(size), size)] : [arr];
+const arrayDivider = (arr: Array<File> | Array<string>, size: number): (Array<File> | Array<string>)[] => arr.length > size ? [arr.slice(0, size), ...arrayDivider(arr.slice(size), size)] : [arr];
 
 const promiseMaker = (fileArr: File[], urlArr: string[]) => {
   const payload = [];
@@ -39,7 +39,7 @@ const promiseMaker = (fileArr: File[], urlArr: string[]) => {
   return payload;
 };
 
-export const uploadImgToBucket = (files: File[], accuracy: number) => {
+export const uploadImgToBucket = (files: File[], accuracy = 10) => {
   const imageBatches = arrayDivider(files, accuracy);
   const urlBatches = arrayDivider(urls, accuracy);
   const payloads = imageBatches.map((images, i) => promiseMaker(images as File[], urlBatches[i] as string[]));
