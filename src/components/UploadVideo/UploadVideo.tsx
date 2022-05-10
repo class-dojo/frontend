@@ -41,10 +41,10 @@ const UploadVideo = () => {
       uploadImgToBucket(filesArray);
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
+
     } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
       toggleShowAlert();
     }
-
     // TODO send request to backend
   };
 

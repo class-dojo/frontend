@@ -1,6 +1,6 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
-
 import { VideoSource, Frame } from './types';
+import { sendDataToBackEnd } from '../../services/backendService';
 
 export const getStillsFromVideo =
   async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
@@ -32,6 +32,8 @@ const videoLoaded = async (video: HTMLVideoElement): Promise<number> => {
   });
 };
 
+
+
 export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
   const filesArray: File[] = [];
   const newFramesArray: Frame[] = [];
@@ -42,5 +44,6 @@ export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
     const imgFile = new File([frameRawData], frameName);
     filesArray.push(imgFile);
   });
+  sendDataToBackEnd(newFramesArray);
   return { filesArray, newFramesArray };
 };
