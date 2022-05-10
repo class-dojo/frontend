@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 test('renders learn react link', () => {
-  render(<App />);
-  const uploadButton = screen.getByText('UPLOAD VIDEO');
+  render(<BrowserRouter><App /></BrowserRouter>);
+  const uploadButton = screen.getByText('TRY NOW');
   expect(uploadButton).toBeInTheDocument();
 });
