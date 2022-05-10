@@ -2,9 +2,10 @@ import React, {useEffect, useState, useRef, useReducer} from 'react';
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
-import { VideoSource } from './types';
+import { VideoSource, Frame, AlertMessageProps } from './types';
 import { ProgressBar } from 'react-bootstrap';
-import { Frame } from './types';
+import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
+import ActionAlert from './Alert/Alert';
 
 
 const UploadVideo = () => {
@@ -12,7 +13,9 @@ const UploadVideo = () => {
   const [framesArray, setFramesArray] = useState<Frame[]>([]);
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
+  const [showAlert, toggleShowAlert] = useReducer(state => !state, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
+  const [alertMessage, setAlertMessage] = useState<AlertMessageProps>({heading: '', body: '', variant: ''});
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
@@ -34,15 +37,14 @@ const UploadVideo = () => {
       setMessage('Transcoding Complete');
       const {filesArray, newFramesArray} = transformRawFrameData(rawFrameDataArray);
       setFramesArray(newFramesArray);
-      uploadImgToBucket(filesArray);// TODO change alert with warning component
-    } else {!source.current ?
-      alert('Please select a file to analyze') :
-      alert('Loader not ready, wait for "Start Transcoding" message to appear');
+      uploadImgToBucket(filesArray);
+      setAlertMessage(uploadSuccessful);
+      toggleShowAlert();
+    } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
+      toggleShowAlert();
     }
+
     // TODO send request to backend
-    // const DataToBeSent = {
-    //   [source.current.toString()]: filesArray
-    // };
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -56,7 +58,7 @@ const UploadVideo = () => {
   };
 
   return (
-    <section className="py-4 py-xl-5">
+    <section className="py-4 py-xl-5 d-flex justify-content-center align-items-center">
       <div className="container">
         <div className="text-white bg-dark border rounded border-0 p-4 p-md-5">
           <h2 className="fw-bold text-white mb-3">analyze video</h2><small></small>
@@ -68,17 +70,12 @@ const UploadVideo = () => {
               <option value={5}>High</option>
             </optgroup>
           </select>
-          <br />
-          <br />
-          <div>
+          <div className='my-3'>
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
-            {/* <sub>Estimated duration: 3 min</sub> */}
+            {showAlert && <ActionAlert alertMessage={alertMessage} toggleShowAlert={toggleShowAlert}/>}
           </div>
-          {/* <div>
-            {framesArray && framesArray.map((frameURL, i) => <p key={i}>{Object.keys(frameURL)}</p>)}
-          </div> */}
         </div>
       </div>
     </section>
