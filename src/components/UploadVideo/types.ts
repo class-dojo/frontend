@@ -4,7 +4,7 @@ export type Frame = {
   [key: string]: string
 }
 
-export type BEData = {
+export type dataToBackend = {
   bucket: string,
   frameNames: string[] // Object.keys(Frame[])
 }
