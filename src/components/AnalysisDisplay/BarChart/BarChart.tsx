@@ -1,12 +1,11 @@
 import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { linearGradientDef, patternSquaresDef } from '@nivo/core';
-
-import { createSingleBarData } from '../../../assets/mockDataProvider';
+import { linearGradientDef, patternLinesDef, patternSquaresDef } from '@nivo/core';
 
 import './barChart.css';
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
+import { colors } from '../colors';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 100,
@@ -28,15 +27,52 @@ const displayBoxStyle: React.CSSProperties = {
   width: 'calc(100% - 147.3px)',
   border: '1px solid black',
   backgroundColor: '#f2f2f2',
-  top: 19.4,
+  top: 19.7,
   left: 73.6,
 };
 
-const dataset = createSingleBarData();
-const title = 'Attention Index';
-const isMultibar = false;
+interface BarDataset {
+  data: {
+    id: number;
+    Time: number;
+    color: string;
+    'Attention Level'?: number;
+    Happiness?: number; // TODO Make camelcase and handle capitalization somewhere else
+    Sadness?: number;
+    Confusion?: number;
+    Calmness?: number;
+  } [];
+  keys: string[];
+  importantIndexes: number[];
+}
 
-const BarChart = () => {
+type BarChartProps = {
+  isMultibar: boolean,
+  title: string
+  dataset: BarDataset,
+}
+
+const setBarColor = (id: string) => {
+  switch (id) {
+  case 'Happiness':
+    return colors.happiness;
+    break;
+  case 'Sadness':
+    return colors.sadness;
+    break;
+  case 'Calmness':
+    return colors.calmness;
+    break;
+  case 'Confusion':
+    return colors.confusion;
+    break;
+  default:
+    return colors.primary;
+    break;
+  }
+};
+
+const BarChart = ({ isMultibar, dataset, title }: BarChartProps) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseEnter = (_: todoType, event: todoType) => {
@@ -59,17 +95,19 @@ const BarChart = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           data={dataset.data}
-          keys={['Attention Level']}
+          keys={dataset.keys}
           indexBy='Time'
           maxValue={10}
-          padding={0.06}
+          padding={isMultibar ? 0.2 : 0.04}
           margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
-          colors={({ data }) => data.color}
-          borderRadius={4}
-          borderWidth={1}
+          colors={({ id }) => setBarColor(id as string)}
+          borderRadius={isMultibar ? 3 : 5}
+          // borderWidth={1} // TODO debate
           borderColor='black'
           enableLabel={false}
           enableGridY={false}
+          enableGridX={isMultibar ? true : false}
+          groupMode='grouped'
           axisBottom={{
             tickSize: 0,
             tickPadding: 12,
@@ -82,34 +120,41 @@ const BarChart = () => {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
-            legend: 'Attention',
+            legend: 'Attention Level',
             legendPosition: 'middle',
             legendOffset: -50
           }}
           defs={[
             linearGradientDef('gradientA', [
-              { offset: 0, color: 'inherit', opacity: 0.5 },
+              { offset: 0, color: 'inherit', opacity: isMultibar ? 0.6 : 0.5 },
               { offset: 100, color: 'inherit', opacity: 1 },
             ]),
             // linearGradientDef('gradientImportant', [
             //   { offset: 0, color: 'inherit', opacity: 1 },
             //   { offset: 100, color: 'inherit', opacity: 1 },
             // ]),
-            // TODO discuss this
-            patternSquaresDef('patternImportant', {
+            patternSquaresDef('patternSquare', {
               'size': 1,
               'padding': 3,
               'stagger': false,
               'background': 'inherit',
               'color': '#000000'
+            }),
+            patternLinesDef('patternLine', {
+              'spacing': 7,
+              'rotation': 45,
+              'lineWidth': isMultibar ? 0.2 : 0.5,
+              'background': 'inherit',
+              'color': '#000000'
             })
           ]}
           fill={[
-            { match: ({ data }) => {
-              console.log(data);
-              return dataset.importantIndexes.includes(data.index as number);
+            {
+              match: ({ data }) => {
+                return dataset.importantIndexes.includes(data.index as number);
+              },
+              id: isMultibar ? 'patternLine' : 'patternSquare'
             },
-            id: 'patternImportant' },
             { match: '*', id: 'gradientA' },
           ]}
 

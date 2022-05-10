@@ -2,7 +2,7 @@ import React from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
 
 import { todoType } from '../../../types';
-import { colors } from '../../../colors';
+import { colors } from '../colors';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 100,
@@ -48,7 +48,7 @@ const RadarChart = ({ data, title }: { data: todoType, title: string }) => {
         </div>
         <ResponsiveRadar
           data={data}
-          colors={colors.turquoise}
+          colors={colors.primary}
           keys={['value' ]}
           indexBy='emotion'
           maxValue={10}
@@ -101,7 +101,7 @@ const RadarChart = ({ data, title }: { data: todoType, title: string }) => {
                   }}
                 >
                   <strong>{index} </strong>
-                  <span style={{ fontWeight: 900, color: colors.turquoise }}>{data[0].value}</span>
+                  <span style={{ fontWeight: 900, color: colors.primary }}>{data[0].value}</span>
                 </div>
               </div>
 

@@ -1,28 +1,28 @@
-import { colors } from '../colors';
+import { colors } from '../components/AnalysisDisplay/colors';
 
 export const createMultiLineData = () => {
   const dataset1 = getRandomLineData(21);
   dataset1.data[17].isImportant = true;
   dataset1.data[9].isImportant = true;
-  dataset1.color = '#f5c022';
+  dataset1.color = colors.happiness;
   dataset1.id = 'Happiness';
 
   const dataset2 = getRandomLineData(21);
   dataset2.data[17].isImportant = true;
   dataset2.data[9].isImportant = true;
-  dataset2.color = '#2fcbd6';
+  dataset2.color = colors.sadness;
   dataset2.id = 'Sadness';
 
   const dataset3 = getRandomLineData(21);
   dataset3.data[17].isImportant = true;
   dataset3.data[9].isImportant = true;
-  dataset3.color = '#5252bf';
+  dataset3.color = colors.calmness;
   dataset3.id = 'Calmness';
 
   const dataset4 = getRandomLineData(21);
   dataset4.data[17].isImportant = true;
   dataset4.data[9].isImportant = true;
-  dataset4.color = '#1db525';
+  dataset4.color = colors.confusion;
   dataset4.id = 'Confusion';
 
   return [dataset1, dataset2, dataset3, dataset4];
@@ -32,19 +32,39 @@ export const createSingleLineData = () => {
   const dataset = getRandomLineData(21);
   dataset.data[17].isImportant = true;
   dataset.data[9].isImportant = true;
-  dataset.color = colors.turquoise;
+  dataset.color = colors.primary;
   dataset.id = 'Attention Level';
 
   return [dataset];
 };
 
 export const createSingleBarData = () => {
-  const dataset = getRandomBarData(21);
-  dataset;
-  dataset.color = colors.turquoise;
-  dataset.id = 'Attention Level';
+  const data = getRandomBarData(21, 'Attention Level');
+  const keys = ['Attention Level'];
+  const importantIndexes = [3, 12];
+  return {
+    data,
+    keys,
+    importantIndexes
+  };
+};
 
-  return dataset;
+export const createMultiBarData = () => {
+  const data1 = getRandomBarData(21, 'Happiness', colors.happiness);
+  const data2 = getRandomBarData(21, 'Sadness', colors.sadness);
+  const data3 = getRandomBarData(21, 'Calmness', colors.calmness);
+  const data4 = getRandomBarData(21, 'Confusion', colors.confusion);
+  const keys = ['Happiness', 'Sadness', 'Calmness', 'Confusion'];
+  const importantIndexes = [10, 19];
+  const data = [];
+  for (let i = 0; i < data1.length; i++) {
+    data.push(Object.assign({}, data1[i], data2[i], data3[i], data4[i]));
+  }
+  return {
+    data,
+    keys,
+    importantIndexes
+  };
 };
 
 export const mockRawData = [3, 4, 4, 6, 5, 6, 4, 3, 5, 7, 6, 5, 5, 4, 4, 3, 2, 5, 7, 8, 8, 7, 7, 6, 7];
@@ -91,9 +111,9 @@ const parseLineChartData = (rawData: number[], samplePeriod: number) => {
   });
 };
 
-export const parseBarChartData = (rawData: number[], samplePeriod: number) => {
+export const parseBarChartData = (rawData: number[], samplePeriod: number, key: string, color: string) => {
   return rawData.map((value, i) => {
-    return { id: i, Time: i * samplePeriod, 'Attention Level': value, color: colors.turquoise }; // TODO change attention index for variable
+    return { id: i, Time: i * samplePeriod, [key]: value, color }; // TODO change attention index for variable
   });
 };
 
@@ -122,7 +142,7 @@ const getRandomLineData = (dataLength: number) => {
   };
 };
 
-const getRandomBarData = (dataLength: number) => {
+const getRandomBarData = (dataLength: number, key: string, color: string = colors.primary) => {
   let previousNum: number;
   const rawData = Array(dataLength).fill(0).map((num, i) => {
     if (i === 0) {
@@ -138,14 +158,9 @@ const getRandomBarData = (dataLength: number) => {
     return previousNum;
   });
 
-  const data = parseBarChartData(rawData, 5);
+  const data = parseBarChartData(rawData, 5, key, color);
 
-  return {
-    data,
-    color: Math.floor(Math.random()*16777215).toString(16),
-    id: generateId(7),
-    importantIndexes: [7, 13],
-  };
+  return data;
 };
 
 const generateId = (length: number) => {

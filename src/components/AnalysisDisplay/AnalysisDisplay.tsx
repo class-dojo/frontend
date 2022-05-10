@@ -1,5 +1,5 @@
 import React from 'react';
-import { createMultiLineData, createSingleLineData, mockRadarData } from '../../assets/mockDataProvider';
+import { createMultiBarData, createMultiLineData, createSingleBarData, createSingleLineData, mockRadarData } from '../../assets/mockDataProvider';
 import BarChart from './BarChart/BarChart';
 import LineChart from './LineChart/LineChart';
 import RadarChart from './RadarChart/RadarChart';
@@ -7,15 +7,24 @@ import RadarChart from './RadarChart/RadarChart';
 const AnalysisDisplay = () => {
   return (
     <div>
-      <BarChart/>
+      <BarChart
+        isMultibar={false}
+        dataset={createSingleBarData()}
+        title={'Attention index'}
+      />
+      <BarChart
+        isMultibar={true}
+        dataset={createMultiBarData()}
+        title={'Emotion indexes'}
+      />
       <LineChart
         isMultiline={false}
-        data={createSingleLineData()}
+        dataset={createSingleLineData()}
         title={'Attention index'}
       />
       <LineChart
         isMultiline={true}
-        data={createMultiLineData()}
+        dataset={createMultiLineData()}
         title={'Emotion indexes'}
       />
       <RadarChart
