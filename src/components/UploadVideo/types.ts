@@ -5,9 +5,9 @@ export type Frame = {
 }
 
 export type AlertMessageProps = {
-  heading: string | undefined,
-  body: string | undefined,
-  variant: string | undefined
+  heading: string,
+  body: string,
+  variant: string
 }
 
 export type dataToBackend = {
