@@ -4,11 +4,12 @@ import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource } from './types';
 import { ProgressBar } from 'react-bootstrap';
+import { Frame } from './types';
 
 
 const UploadVideo = () => {
 
-  const [frameUrlArray, setFrameUrlArray] = useState<string[]>([]);
+  const [framesArray, setFramesArray] = useState<Frame[]>([]);
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
@@ -31,8 +32,8 @@ const UploadVideo = () => {
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
-      const {filesArray, newFrameUrlArray} = transformRawFrameData(rawFrameDataArray);
-      setFrameUrlArray(newFrameUrlArray);
+      const {filesArray, newFramesArray} = transformRawFrameData(rawFrameDataArray);
+      setFramesArray(newFramesArray);
       uploadImgToBucket(filesArray);// TODO change alert with warning component
     } else {alert('Loader not ready, wait for "Start Transcoding" message to appear');}
     // TODO send request to backend
@@ -69,10 +70,10 @@ const UploadVideo = () => {
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
             <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
-            {/* <sub>Estimated duration: 3 min</sub> */}
+            <sub>Estimated duration: 3 min</sub>
           </div>
           <div>
-            {frameUrlArray && frameUrlArray.map(frameURL => <p key={frameURL}>{frameURL}</p>/*<img src={frameURL} key={frameURL}/>*/)}
+            {framesArray && framesArray.map((frameURL, i) => <p key={i}>{Object.keys(frameURL)}</p>/*<img src={frameURL} key={frameURL}/>*/)}
           </div>
         </div>
       </div>
