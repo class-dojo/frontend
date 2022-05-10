@@ -38,13 +38,13 @@ const displayBoxFrameStyle: React.CSSProperties = {
   pointerEvents: 'none'
 };
 
-type AttentionChartProps = {
+type LineChartProps = {
   isMultiline: boolean,
-  data: todoType,
+  dataset: todoType,
   title: string
 }
 
-const LineChart = ({ isMultiline, data, title }: AttentionChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element => {
 
   let hasLegend = false;
   let hasFill = true;
@@ -73,7 +73,7 @@ const LineChart = ({ isMultiline, data, title }: AttentionChartProps): JSX.Eleme
         <div style={{...displayBoxStyle, ...displayBoxBgStyle}}>
         </div>
         <ResponsiveLine
-          data={[...data]}
+          data={[...dataset]}
           colors={data => data.color}
           margin={{ top: 20, right: 55, bottom: 80, left: 55 }}
           xScale={{ type: 'linear' }}
