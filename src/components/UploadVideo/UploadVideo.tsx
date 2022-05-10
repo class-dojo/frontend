@@ -27,6 +27,7 @@ const UploadVideo = () => {
   useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
+    if (showAlert) toggleShowAlert();
     if (ffmpeg.current.isLoaded() && source.current) {
       toggleIsTranscoding();
       ffmpeg.current.setProgress(({ ratio }) => {
