@@ -25,10 +25,19 @@ const displayBoxStyle: React.CSSProperties = {
   position: 'absolute',
   height: '482px',
   width: 'calc(100% - 147.3px)',
-  border: '1px solid black',
-  backgroundColor: '#f2f2f2',
   top: 19.7,
   left: 73.6,
+};
+
+const displayBoxBgStyle: React.CSSProperties = {
+  backgroundColor: '#f2f2f2',
+  zIndex: -10
+};
+
+const displayBoxFrameStyle: React.CSSProperties = {
+  border: '1px solid black',
+  zIndex: 10,
+  pointerEvents: 'none'
 };
 
 interface BarDataset {
@@ -89,7 +98,9 @@ const BarChart = ({ isMultibar, dataset, title }: BarChartProps) => {
     <div style={mainContainerStyle}>
       <h1>{title}</h1>
       <div style={graphContainerStyle}>
-        <div style={displayBoxStyle}>
+        <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
+        </div>
+        <div style={{...displayBoxStyle, ...displayBoxBgStyle}}>
         </div>
         <ResponsiveBar
           onMouseEnter={handleMouseEnter}
