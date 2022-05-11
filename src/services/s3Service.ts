@@ -39,9 +39,12 @@ const promiseMaker = (fileArr: File[], urlArr: string[]) => {
   return payload;
 };
 
+// TODO refactor to get links from our backend
 export const uploadImgToBucket = (files: File[], accuracy = 10) => {
   const imageBatches = batchDivider(files, accuracy);
   const urlBatches = batchDivider(urls, accuracy);
   const payloads = imageBatches.map((images, i) => promiseMaker(images as File[], urlBatches[i] as string[]));
   payloads.forEach(payload => Promise.all(payload)); // TODO handle errors
 };
+
+// TODO once received successful response from s3 bucket, send POST request to backend to /analyze to receive the data to show

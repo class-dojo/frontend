@@ -11,6 +11,6 @@ export type AlertMessageProps = {
 }
 
 export type dataToBackend = {
-  bucket: string,
-  frameNames: string[] // Object.keys(Frame[])
+  videoId: string, // uuid
+  frames: string[] // Object.keys(Frame[])
 }
