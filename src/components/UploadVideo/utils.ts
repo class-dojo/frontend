@@ -1,6 +1,6 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
 import { VideoSource, Frame } from './types';
-import { sendDataToBackEnd } from '../../services/backendService';
+import { v4 as uuidv4 } from 'uuid';
 
 export const getStillsFromVideo =
   async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
@@ -9,14 +9,14 @@ export const getStillsFromVideo =
     const frameArray = [];
     const duration: number = await getVideoDuration(source);
     for (let i = 1; i <= Math.floor(duration / accuracy); i++) {
-      const frame = ffmpeg.FS('readFile', `${i}.jpg`);
+      const frame: Uint8Array = ffmpeg.FS('readFile', `${i}.jpg`);
       frameArray.push(frame);
     }
     return frameArray;
   };
 
 export const getVideoDuration = async (source: VideoSource) => {
-  const video = document.createElement('video');
+  const video: HTMLVideoElement = document.createElement('video');
   video.src = URL.createObjectURL(source as Blob);
   video.preload = 'metadata';
   const duration: number = await videoLoaded(video);
@@ -32,18 +32,16 @@ const videoLoaded = async (video: HTMLVideoElement): Promise<number> => {
   });
 };
 
-
-
 export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
   const filesArray: File[] = [];
   const newFramesArray: Frame[] = [];
+  const videoId: string = uuidv4();
   rawFrameDataArray.forEach((frameRawData, i) => {
-    const frameName = `${i + 1}.jpg`;
+    const frameName = `${videoId}/${i + 1}.jpg`;
     const singleFrameObj: Frame = { [frameName]: URL.createObjectURL(new Blob([frameRawData], { type: 'image/jpg' })) };
     newFramesArray.push(singleFrameObj);
     const imgFile = new File([frameRawData], frameName);
     filesArray.push(imgFile);
   });
-  sendDataToBackEnd(newFramesArray);
-  return { filesArray, newFramesArray };
+  return { filesArray, newFramesArray, videoId };
 };
