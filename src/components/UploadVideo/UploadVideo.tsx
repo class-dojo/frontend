@@ -6,7 +6,7 @@ import { VideoSource, Frame, AlertMessageProps } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/Alert';
-import { sendDataToBackEnd } from '../../services/backendService';
+import { getAnalytics, sendDataToBackEnd } from '../../services/backendService';
 
 
 const UploadVideo = () => {
@@ -40,7 +40,8 @@ const UploadVideo = () => {
       const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
       setFramesArray(newFramesArray);
       const urls: string[] = sendDataToBackEnd(newFramesArray, videoId); // TODO it's gonna be async
-      uploadImgToBucket(filesArray, urls);
+      const isUploaded = await uploadImgToBucket(filesArray, urls); // make it return a boolean if responses % is high enough
+      const analytics = getAnalytics(videoId); // TODO pass analytics to helper functions and then to dashboard
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
 

@@ -12,5 +12,5 @@ export type AlertMessageProps = {
 
 export type dataToBackend = {
   videoId: string, // uuid
-  frames: string[] // Object.keys(Frame[])
+  frames?: string[] // Object.keys(Frame[])
 }
