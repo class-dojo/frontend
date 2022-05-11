@@ -59,7 +59,7 @@ const UploadVideo = () => {
   };
 
   return (
-    <section className="py-4 py-xl-5">
+    <section className="py-4 py-xl-5 mt-5">
       <div className="container my-5">
         <div className="text-white bg-dark border rounded border-0 p-4 p-md-5">
           <h2 className="fw-bold text-white mb-3">analyze video</h2><small></small>
@@ -73,7 +73,7 @@ const UploadVideo = () => {
           </select>
           <div className='my-3'>
             <input type="file" accept="video/*" onChange={handleFileInputChange}/>
-            <div className="my-3"><a className="btn btn-primary btn-lg me-2" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
+            <div className="my-3"><a className="btn btn-primary btn-lg me-2 dark-element" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
           </div>
           {showAlert && <ActionAlert alertMessage={alertMessage} toggleShowAlert={toggleShowAlert}/>}

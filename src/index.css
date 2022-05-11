@@ -17,3 +17,19 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+
+/* STYLING - Move into other files */
+
+.dark-element {
+  background-color: #183043 !important;
+}
+
+.upload-input {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
