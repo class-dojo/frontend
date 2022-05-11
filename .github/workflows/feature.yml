@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Build
+      - name: Build and QA
         run: |
           docker-compose up -d
           docker-compose run frontend make -C production/ version package qa
