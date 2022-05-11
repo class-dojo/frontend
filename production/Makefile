@@ -43,7 +43,7 @@ app: npm build
 .PHONY: package
 package: app
 	@(printf "${BG}Create package${NC}")
-		cd $(build) && zip ../release/classdojo-frontend.zip *
+		cd $(build) && zip -r ../release/classdojo-frontend.zip *
 
 	@(printf "${BG}Package version $(version) is ready${NC}")
 		echo $(version) >$(release)/latest.version
