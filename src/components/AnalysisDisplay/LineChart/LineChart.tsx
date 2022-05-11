@@ -41,10 +41,13 @@ const displayBoxFrameStyle: React.CSSProperties = {
 type LineChartProps = {
   isMultiline: boolean,
   dataset: todoType,
-  title: string
+  title: string,
+  yAxisName: string,
+  isOverlayed?: boolean,
+  isSecondary?: boolean,
 }
 
-const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false }: LineChartProps): JSX.Element => {
 
   let hasLegend = false;
   let hasFill = true;
@@ -62,8 +65,12 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
     hasGridY = true;
   }
 
+  if (isOverlayed) {
+    hasFill = false;
+  }
+
   return (
-    <div style={mainContainerStyle}>
+    <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
       <h1>{title}</h1>
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
@@ -108,7 +115,7 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
           pointLabelYOffset={0}
           enableGridY={hasGridX}
           enableGridX={hasGridY}
-          axisBottom={{
+          axisBottom={isOverlayed ? null : {
             tickSize: 0,
             tickPadding: 12,
             tickRotation: 0,
@@ -116,14 +123,22 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
             legendPosition: 'middle',
             legendOffset: 40,
           }}
-          axisLeft={{
+          axisLeft={isSecondary ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
-            legend: 'Attention',
+            legend: yAxisName,
             legendPosition: 'middle',
             legendOffset: -50
           }}
+          axisRight={isSecondary ? {
+            tickSize: 10,
+            tickPadding: 10,
+            tickRotation: 0,
+            legend: yAxisName,
+            legendPosition: 'middle',
+            legendOffset: 50
+          } : null}
           defs={[
             linearGradientDef('gradientA', [
               { offset: 0, color: 'inherit', opacity: 0.45 },
