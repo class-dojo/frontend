@@ -62,7 +62,7 @@ const RadarChart = ({ data, title }: { data: todoType, title: string }) => {
           dotBorderWidth={2}
           motionConfig='wobbly'
           fillOpacity={0.5}
-          borderWidth={4}
+          borderWidth={2}
           gridLevels={4}
           gridShape={'linear'}
           // defs={[
