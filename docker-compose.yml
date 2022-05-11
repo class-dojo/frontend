@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   frontend:
-    image: michalsimon/node
+    image: 'michalsimon/static-website:node16'
     working_dir: /frontend
     volumes:
       - .:/frontend
