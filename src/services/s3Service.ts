@@ -4,20 +4,15 @@ const batchDivider = (arr: Array<File> | Array<string>, size: number): (Array<Fi
 const promiseMaker = (fileArr: File[], urlArr: string[]) => {
   const payload = [];
   for (let i = 0; i < fileArr.length; i++) {
-    const batch = new Promise((resolve) => {
-      const { type } = fileArr[i];
-      const url = urlArr[i];
-      resolve(fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': type,
-        },
-        body: fileArr[i],
-      })
-        //.then(console.log)
-        .catch(console.error));
-    });
-    payload.push(batch);
+    const { type } = fileArr[i];
+    const url = urlArr[i];
+    payload.push(fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': type,
+      },
+      body: fileArr[i],
+    }));
   }
   return payload;
 };
