@@ -5,28 +5,6 @@ import { linearGradientDef } from '@nivo/core';
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 
-const mainContainerStyle: React.CSSProperties = {
-  marginTop: 100,
-  fontFamily: 'sans-serif',
-  textAlign: 'center',
-  height: 'calc(100vh - 133px)'
-};
-
-const graphContainerStyle: React.CSSProperties = {
-  padding: '0 20px',
-  height: '578.5px',
-  position: 'relative',
-  margin: '10px 0 40px 0',
-};
-
-const displayBoxStyle: React.CSSProperties = {
-  position: 'absolute',
-  height: '480px',
-  width: 'calc(100% - 147.7px)',
-  top: 19.5,
-  left: 73.8,
-};
-
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
   zIndex: -10
@@ -45,9 +23,34 @@ type LineChartProps = {
   yAxisName: string,
   isOverlayed?: boolean,
   isSecondary?: boolean,
+  isThumbnail?: boolean,
 }
 
-const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false }: LineChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
+
+  const mainContainerStyle: React.CSSProperties = {
+    marginTop: isThumbnail ? 0 : 110,
+    textAlign: 'center',
+    height: isThumbnail ? '230px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
+    width: isThumbnail ? '100%' : 'auto',
+    padding: isThumbnail ? 10 : 'auto',
+  };
+
+  const graphContainerStyle: React.CSSProperties = {
+    padding: isThumbnail ? 'auto' : '0 20px',
+    height: isThumbnail ? '230px' : '578.5px',
+    position: 'relative',
+    margin: '0 0 40px 0',
+    // width: isThumbnail ? '100%' : 'auto',
+  };
+
+  const displayBoxStyle: React.CSSProperties = {
+    position: 'absolute',
+    height: isThumbnail ? '100%' : '480px',
+    width: isThumbnail ? '100%' : 'calc(100% - 147.7px)',
+    top: isThumbnail ? 0 : 19.5,
+    left: isThumbnail ? 0 : 73.8,
+  };
 
   let hasLegend = false;
   let hasFill = true;
@@ -71,7 +74,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
-      <h1>{title}</h1>
+      { !isThumbnail && <h1 style={{ margin: 'unset' }}>{title}</h1>}
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>
@@ -80,7 +83,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
         <ResponsiveLine
           data={[...dataset]}
           colors={data => data.color}
-          margin={{ top: 20, right: 55, bottom: 80, left: 55 }}
+          margin={ isThumbnail ? {} : { top: 20, right: 55, bottom: 80, left: 55 }}
           xScale={{ type: 'linear' }}
           yScale={{
             type: 'linear',
@@ -115,7 +118,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
           pointLabelYOffset={0}
           enableGridY={hasGridX}
           enableGridX={hasGridY}
-          axisBottom={isOverlayed ? null : {
+          axisBottom={isOverlayed || isThumbnail ? null : {
             tickSize: 0,
             tickPadding: 12,
             tickRotation: 0,
@@ -123,7 +126,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             legendPosition: 'middle',
             legendOffset: 40,
           }}
-          axisLeft={isSecondary ? null : {
+          axisLeft={isSecondary || isThumbnail ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -131,7 +134,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             legendPosition: 'middle',
             legendOffset: -50
           }}
-          axisRight={isSecondary ? {
+          axisRight={isSecondary && !isThumbnail ? {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,

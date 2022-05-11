@@ -8,8 +8,7 @@ import { todoType } from '../../../types';
 import { colors } from '../colors';
 
 const mainContainerStyle: React.CSSProperties = {
-  marginTop: 100,
-  fontFamily: 'sans-serif',
+  marginTop: 110,
   textAlign: 'center',
   height: 'calc(100vh - 133px)'
 };
@@ -18,7 +17,7 @@ const graphContainerStyle: React.CSSProperties = {
   padding: '0 20px',
   height: '548.5px',
   position: 'relative',
-  margin: '10px 0 40px 0',
+  margin: '0 0 40px 0',
 };
 
 const displayBoxStyle: React.CSSProperties = {
@@ -97,7 +96,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
-      <h1>{title}</h1>
+      <h1 style={{ margin: 'unset' }}>{title}</h1>
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>
