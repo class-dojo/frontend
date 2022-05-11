@@ -42,10 +42,12 @@ type LineChartProps = {
   isMultiline: boolean,
   dataset: todoType,
   title: string,
-  isOverlayed: boolean,
+  yAxisName: string,
+  isOverlayed?: boolean,
+  isSecondary?: boolean,
 }
 
-const LineChart = ({ isMultiline, dataset, title, isOverlayed = false }: LineChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false }: LineChartProps): JSX.Element => {
 
   let hasLegend = false;
   let hasFill = true;
@@ -70,7 +72,7 @@ const LineChart = ({ isMultiline, dataset, title, isOverlayed = false }: LineCha
   }
 
   return (
-    <div style={mainContainerStyle}>
+    <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
       <h1>{title}</h1>
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
@@ -123,14 +125,22 @@ const LineChart = ({ isMultiline, dataset, title, isOverlayed = false }: LineCha
             legendPosition: 'middle',
             legendOffset: 40,
           }}
-          axisLeft={{
+          axisLeft={isSecondary ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
-            legend: 'Attention',
+            legend: yAxisName,
             legendPosition: 'middle',
             legendOffset: -50
           }}
+          axisRight={isSecondary ? {
+            tickSize: 10,
+            tickPadding: 10,
+            tickRotation: 0,
+            legend: yAxisName,
+            legendPosition: 'middle',
+            legendOffset: 50
+          } : null}
           defs={[
             linearGradientDef('gradientA', [
               { offset: 0, color: 'inherit', opacity: 0 },

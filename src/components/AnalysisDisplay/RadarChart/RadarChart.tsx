@@ -21,9 +21,9 @@ const graphContainerStyle: React.CSSProperties = {
 const displayBoxStyle: React.CSSProperties = {
   position: 'absolute',
   height: '480px',
-  width: 'calc(100% - 900px)',
+  width: 'calc(100% - 400px)',
   top: 19.5,
-  left: 450,
+  left: 'calc(200px)',
 };
 
 const displayBoxFrameStyle: React.CSSProperties = {

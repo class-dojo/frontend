@@ -40,28 +40,7 @@ const displayBoxFrameStyle: React.CSSProperties = {
   pointerEvents: 'none'
 };
 
-interface BarDataset {
-  data: {
-    id: number;
-    Time: number;
-    color: string;
-    'Attention Level'?: number;
-    Happiness?: number; // TODO Make camelcase and handle capitalization somewhere else
-    Sadness?: number;
-    Confusion?: number;
-    Calmness?: number;
-  } [];
-  keys: string[];
-  importantIndexes: number[];
-}
-
-type BarChartProps = {
-  isMultibar: boolean,
-  title: string
-  dataset: BarDataset,
-}
-
-const setBarColor = (id: string) => {
+const setBarColor = (id: string, isSecondary: boolean) => {
   switch (id) {
   case 'Happiness':
     return colors.happiness;
@@ -76,12 +55,34 @@ const setBarColor = (id: string) => {
     return colors.confusion;
     break;
   default:
+    if (isSecondary) return colors.disabled;
     return colors.primary;
     break;
   }
 };
 
-const BarChart = ({ isMultibar, dataset, title }: BarChartProps) => {
+interface BarDataset {
+  data: {
+    id: number;
+    Time: number;
+    'Attention Level'?: number;
+    Happiness?: number; // TODO Make camelcase and handle capitalization somewhere else
+    Sadness?: number;
+    Confusion?: number;
+    Calmness?: number;
+  } [];
+  keys: string[];
+  importantIndexes: number[];
+}
+
+type BarChartProps = {
+  isMultibar: boolean,
+  title: string
+  dataset: BarDataset,
+  isSecondary?: boolean,
+}
+
+const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartProps) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseEnter = (_: todoType, event: todoType) => {
@@ -95,7 +96,7 @@ const BarChart = ({ isMultibar, dataset, title }: BarChartProps) => {
   };
 
   return (
-    <div style={mainContainerStyle}>
+    <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
       <h1>{title}</h1>
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
@@ -111,8 +112,8 @@ const BarChart = ({ isMultibar, dataset, title }: BarChartProps) => {
           maxValue={10}
           padding={isMultibar ? 0.2 : 0.04}
           margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
-          colors={({ id }) => setBarColor(id as string)}
-          borderRadius={isMultibar ? 3 : 5}
+          colors={({ id }) => setBarColor(id as string, isSecondary)}
+          borderRadius={isMultibar ? 1 : 3}
           // borderWidth={1} // TODO debate
           borderColor='black'
           enableLabel={false}
@@ -127,7 +128,7 @@ const BarChart = ({ isMultibar, dataset, title }: BarChartProps) => {
             legendPosition: 'middle',
             legendOffset: 40,
           }}
-          axisLeft={{
+          axisLeft={isSecondary ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -135,6 +136,14 @@ const BarChart = ({ isMultibar, dataset, title }: BarChartProps) => {
             legendPosition: 'middle',
             legendOffset: -50
           }}
+          axisRight={isSecondary ? {
+            tickSize: 10,
+            tickPadding: 10,
+            tickRotation: 0,
+            legend: 'Attention Level',
+            legendPosition: 'middle',
+            legendOffset: 50
+          } : null}
           defs={[
             linearGradientDef('gradientA', [
               { offset: 0, color: 'inherit', opacity: isMultibar ? 0.6 : 0.5 },

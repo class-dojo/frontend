@@ -50,10 +50,10 @@ export const createSingleBarData = () => {
 };
 
 export const createMultiBarData = () => {
-  const data1 = getRandomBarData(21, 'Happiness', colors.happiness);
-  const data2 = getRandomBarData(21, 'Sadness', colors.sadness);
-  const data3 = getRandomBarData(21, 'Calmness', colors.calmness);
-  const data4 = getRandomBarData(21, 'Confusion', colors.confusion);
+  const data1 = getRandomBarData(21, 'Happiness');
+  const data2 = getRandomBarData(21, 'Sadness');
+  const data3 = getRandomBarData(21, 'Calmness');
+  const data4 = getRandomBarData(21, 'Confusion');
   const keys = ['Happiness', 'Sadness', 'Calmness', 'Confusion'];
   const importantIndexes = [10, 19];
   const data = [];
@@ -111,9 +111,9 @@ const parseLineChartData = (rawData: number[], samplePeriod: number) => {
   });
 };
 
-export const parseBarChartData = (rawData: number[], samplePeriod: number, key: string, color: string) => {
+export const parseBarChartData = (rawData: number[], samplePeriod: number, key: string) => {
   return rawData.map((value, i) => {
-    return { id: i, Time: i * samplePeriod, [key]: value, color }; // TODO change attention index for variable
+    return { id: i, Time: i * samplePeriod, [key]: value }; // TODO change attention index for variable
   });
 };
 
@@ -142,7 +142,7 @@ const getRandomLineData = (dataLength: number) => {
   };
 };
 
-const getRandomBarData = (dataLength: number, key: string, color: string = colors.primary) => {
+const getRandomBarData = (dataLength: number, key: string) => {
   let previousNum: number;
   const rawData = Array(dataLength).fill(0).map((num, i) => {
     if (i === 0) {
@@ -158,7 +158,7 @@ const getRandomBarData = (dataLength: number, key: string, color: string = color
     return previousNum;
   });
 
-  const data = parseBarChartData(rawData, 5, key, color);
+  const data = parseBarChartData(rawData, 5, key);
 
   return data;
 };

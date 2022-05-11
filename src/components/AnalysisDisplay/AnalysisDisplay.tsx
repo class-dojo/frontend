@@ -22,14 +22,14 @@ const AnalysisDisplay = () => {
       <LineChart
         isMultiline={false}
         dataset={createSingleLineData(colors.primary)}
+        yAxisName='Attention'
         title={'Attention index'}
-        isOverlayed={false}
       />
       <LineChart
         isMultiline={true}
         dataset={createMultiLineData()}
+        yAxisName='Emotion score'
         title={'Emotion indexes'}
-        isOverlayed={false}
       />
       <RadarChart
         data={mockRadarData}
