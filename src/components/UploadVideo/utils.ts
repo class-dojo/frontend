@@ -1,6 +1,5 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
 import { VideoSource, Frame } from './types';
-import { sendDataToBackEnd } from '../../services/backendService';
 import { v4 as uuidv4 } from 'uuid';
 
 export const getStillsFromVideo =
@@ -44,6 +43,5 @@ export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
     const imgFile = new File([frameRawData], frameName);
     filesArray.push(imgFile);
   });
-  sendDataToBackEnd(newFramesArray, videoId);
-  return { filesArray, newFramesArray };
+  return { filesArray, newFramesArray, videoId };
 };

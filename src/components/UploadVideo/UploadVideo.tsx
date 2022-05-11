@@ -6,6 +6,7 @@ import { VideoSource, Frame, AlertMessageProps } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/Alert';
+import { sendDataToBackEnd } from '../../services/backendService';
 
 
 const UploadVideo = () => {
@@ -36,9 +37,10 @@ const UploadVideo = () => {
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
-      const {filesArray, newFramesArray} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
+      const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
       setFramesArray(newFramesArray);
-      uploadImgToBucket(filesArray);
+      const urls: string[] = sendDataToBackEnd(newFramesArray, videoId); // TODO it's gonna be async
+      uploadImgToBucket(filesArray, urls);
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
 
