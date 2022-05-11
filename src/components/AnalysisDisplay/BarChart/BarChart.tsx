@@ -16,14 +16,14 @@ const mainContainerStyle: React.CSSProperties = {
 
 const graphContainerStyle: React.CSSProperties = {
   padding: '0 20px',
-  height: '551px',
+  height: '548.5px',
   position: 'relative',
   margin: '10px 0 40px 0',
 };
 
 const displayBoxStyle: React.CSSProperties = {
   position: 'absolute',
-  height: '482px',
+  height: '479.5px',
   width: 'calc(100% - 147.3px)',
   top: 19.7,
   left: 73.6,

@@ -28,11 +28,11 @@ export const createMultiLineData = () => {
   return [dataset1, dataset2, dataset3, dataset4];
 };
 
-export const createSingleLineData = () => {
+export const createSingleLineData = (color: string) => {
   const dataset = getRandomLineData(21);
   dataset.data[17].isImportant = true;
   dataset.data[9].isImportant = true;
-  dataset.color = colors.primary;
+  dataset.color = color;
   dataset.id = 'Attention Level';
 
   return [dataset];

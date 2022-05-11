@@ -41,10 +41,11 @@ const displayBoxFrameStyle: React.CSSProperties = {
 type LineChartProps = {
   isMultiline: boolean,
   dataset: todoType,
-  title: string
+  title: string,
+  isOverlayed: boolean,
 }
 
-const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, title, isOverlayed = false }: LineChartProps): JSX.Element => {
 
   let hasLegend = false;
   let hasFill = true;
@@ -62,6 +63,10 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
     hasPoints = false;
     hasGridX = true;
     hasGridY = true;
+  }
+
+  if (isOverlayed) {
+    hasFill = false;
   }
 
   return (
@@ -110,7 +115,7 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
           pointLabelYOffset={0}
           enableGridY={hasGridX}
           enableGridX={hasGridY}
-          axisBottom={{
+          axisBottom={isOverlayed ? null : {
             tickSize: 0,
             tickPadding: 12,
             tickRotation: 0,
