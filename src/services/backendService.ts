@@ -22,7 +22,7 @@ export const sendDataToBackEnd = (framesArray: Frame[], id: string) => {
   //   .catch(err => console.error(err));
 };
 
-export const getAnalytics = (id: string) => {
+export const getAnalysis = (id: string) => {
   const ref: dataToBackend = { videoId: id };
   console.log('DATA SENT TO BACKEND', ref); // TODO delete when connecting to be
   // fetch(process.env.REACT_APP_BASE_URL as string, {

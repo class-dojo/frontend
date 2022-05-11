@@ -6,7 +6,7 @@ import { VideoSource, Frame, AlertMessageProps } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/Alert';
-import { getAnalytics, sendDataToBackEnd } from '../../services/backendService';
+import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
 
 
 const UploadVideo = () => {
@@ -41,7 +41,7 @@ const UploadVideo = () => {
       setFramesArray(newFramesArray);
       const urls: string[] = sendDataToBackEnd(newFramesArray, videoId); // TODO it's gonna be async
       const isUploaded = await uploadImgToBucket(filesArray, urls);
-      isUploaded && getAnalytics(videoId); // TODO pass analytics to helper functions and then to dashboard atm we're logging a string
+      isUploaded && getAnalysis(videoId); // TODO pass analytics to helper functions and then to dashboard atm we're logging a string
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
 
