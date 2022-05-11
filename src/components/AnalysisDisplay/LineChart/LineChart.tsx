@@ -48,7 +48,6 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
 
   let hasLegend = false;
   let hasFill = true;
-  let lineWidth = 8;
   let enableSlices = true;
   let hasPoints = false;
   let hasGridX = false;
@@ -57,7 +56,6 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
   if (isMultiline) {
     hasLegend = true;
     hasFill = false;
-    lineWidth = 5;
     enableSlices = true;
     hasPoints = false;
     hasGridX = true;
@@ -90,7 +88,7 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
           areaOpacity={0.8}
           enablePoints={true}
           pointSymbol={(pointProps: todoType) => {
-            if (hasPoints) return <circle cx="0" cy="0" r={12} stroke={pointProps.color} strokeWidth="2" fill={pointProps.color} />;
+            if (hasPoints) return <circle cx="0" cy="0" r={4} stroke={pointProps.color} strokeWidth="2" fill={pointProps.color} />;
             // TODO refactor
             let fillColor = '';
             let borderColor = '';
@@ -98,14 +96,14 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
             if (pointProps.datum.isImportant) {
               fillColor = pointProps.color;
               borderColor = pointProps.color;
-              radius = '12';
+              radius = '4';
             }
             const renderedPoint = <circle cx="0" cy="0" r={radius} stroke={borderColor} strokeWidth="2" fill={fillColor} />;
             return (
               renderedPoint
             );
           }}
-          lineWidth={lineWidth}
+          lineWidth={2}
           useMesh={true}
           pointLabelYOffset={0}
           enableGridY={hasGridX}
@@ -128,8 +126,11 @@ const LineChart = ({ isMultiline, dataset, title }: LineChartProps): JSX.Element
           }}
           defs={[
             linearGradientDef('gradientA', [
-              { offset: 0, color: 'inherit', opacity: 0 },
-              { offset: 100, color: 'inherit', opacity: 0.9 },
+              { offset: 0, color: 'inherit', opacity: 0.45 },
+              { offset: 20, color: 'inherit', opacity: 0.2 },
+              { offset: 80, color: 'inherit', opacity: 0.15 },
+              { offset: 100, color: 'inherit', opacity: 0.05 },
+
             ]),
           ]}
           fill={[
