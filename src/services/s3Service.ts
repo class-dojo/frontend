@@ -4,20 +4,15 @@ const batchDivider = (arr: Array<File> | Array<string>, size: number): (Array<Fi
 const promiseMaker = (fileArr: File[], urlArr: string[]) => {
   const payload = [];
   for (let i = 0; i < fileArr.length; i++) {
-    const batch = new Promise((resolve) => {
-      const { type } = fileArr[i];
-      const url = urlArr[i];
-      resolve(fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': type,
-        },
-        body: fileArr[i],
-      })
-        //.then(console.log)
-        .catch(console.error));
-    });
-    payload.push(batch);
+    const { type } = fileArr[i];
+    const url = urlArr[i];
+    payload.push(fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': type,
+      },
+      body: fileArr[i],
+    }));
   }
   return payload;
 };
@@ -27,7 +22,19 @@ export const uploadImgToBucket = async (files: File[], urls: string[], accuracy 
   const imageBatches = batchDivider(files, accuracy);
   const urlBatches = batchDivider(urls, accuracy);
   const payloads = imageBatches.map((images, i) => promiseMaker(images as File[], urlBatches[i] as string[]));
-  const responses = payloads.map(async payload => await Promise.all(payload)); // TODO handle errors
+  const responses = payloads.map(payload => {
+    let result = true;
+    for (let i = 0; i < 5; i++) {
+      try {
+        Promise.all(payload);
+        return result;
+      } catch (error) {
+        console.error(error);
+        result = false;
+      }
+    }
+    return result;
+  }).every(batch => batch === true);
   return responses;
 };
 
