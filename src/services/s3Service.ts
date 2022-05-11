@@ -31,7 +31,7 @@ const promiseMaker = (fileArr: File[], urlArr: string[]) => {
         },
         body: fileArr[i],
       })
-        .then(console.log)
+        //.then(console.log)
         .catch(console.error));
     });
     payload.push(batch);

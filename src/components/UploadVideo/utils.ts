@@ -44,7 +44,6 @@ export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
     const imgFile = new File([frameRawData], frameName);
     filesArray.push(imgFile);
   });
-  console.log(filesArray);
   sendDataToBackEnd(newFramesArray, videoId);
   return { filesArray, newFramesArray };
 };

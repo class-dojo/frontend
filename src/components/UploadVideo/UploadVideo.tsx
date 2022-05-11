@@ -36,7 +36,7 @@ const UploadVideo = () => {
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
-      const {filesArray, newFramesArray} = transformRawFrameData(rawFrameDataArray);
+      const {filesArray, newFramesArray} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
       setFramesArray(newFramesArray);
       uploadImgToBucket(filesArray);
       setAlertMessage(uploadSuccessful);
@@ -45,7 +45,6 @@ const UploadVideo = () => {
     } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
       toggleShowAlert();
     }
-    // TODO send request to backend
   };
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
