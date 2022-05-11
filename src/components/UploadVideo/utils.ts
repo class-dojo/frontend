@@ -1,6 +1,7 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
 import { VideoSource, Frame } from './types';
 import { sendDataToBackEnd } from '../../services/backendService';
+import { v4 as uuidv4 } from 'uuid';
 
 export const getStillsFromVideo =
   async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
@@ -32,18 +33,18 @@ const videoLoaded = async (video: HTMLVideoElement): Promise<number> => {
   });
 };
 
-
-
 export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
   const filesArray: File[] = [];
   const newFramesArray: Frame[] = [];
+  const videoId = uuidv4();
   rawFrameDataArray.forEach((frameRawData, i) => {
-    const frameName = `${i + 1}.jpg`;
+    const frameName = `${videoId}_${i + 1}.jpg`;
     const singleFrameObj: Frame = { [frameName]: URL.createObjectURL(new Blob([frameRawData], { type: 'image/jpg' })) };
     newFramesArray.push(singleFrameObj);
     const imgFile = new File([frameRawData], frameName);
     filesArray.push(imgFile);
   });
+  console.log(newFramesArray);
   sendDataToBackEnd(newFramesArray);
   return { filesArray, newFramesArray };
 };
