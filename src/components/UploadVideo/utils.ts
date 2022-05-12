@@ -2,18 +2,17 @@ import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
 import { VideoSource, Frame } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
-export const getStillsFromVideo =
-  async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
-    ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
-    await ffmpeg.run('-i', 'test.mp4', '-vf', `fps=1/${accuracy}`, '%d.jpg');
-    const frameArray = [];
-    const duration: number = await getVideoDuration(source);
-    for (let i = 1; i <= Math.floor(duration / accuracy); i++) {
-      const frame: Uint8Array = ffmpeg.FS('readFile', `${i}.jpg`);
-      frameArray.push(frame);
-    }
-    return frameArray;
-  };
+export const getStillsFromVideo = async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
+  ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
+  await ffmpeg.run('-i', 'test.mp4', '-vf', `fps=1/${accuracy}`, '%d.jpg');
+  const frameArray = [];
+  const duration: number = await getVideoDuration(source);
+  for (let i = 1, ratio = Math.floor(duration / accuracy); i <= ratio; i++) {
+    const frame: Uint8Array = ffmpeg.FS('readFile', `${i}.jpg`);
+    frameArray.push(frame);
+  }
+  return frameArray;
+};
 
 export const getVideoDuration = async (source: VideoSource) => {
   const video: HTMLVideoElement = document.createElement('video');

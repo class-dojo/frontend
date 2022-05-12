@@ -2,6 +2,10 @@ version: '3.9'
 services:
   frontend:
     image: 'michalsimon/static-website:node16'
+    environment:
+      REACT_APP_BASE_URL: 'http://localhost:4001'
+      REACT_APP_VERSION: 'v0.0.1'
+      ENV: dev
     working_dir: /frontend
     volumes:
       - .:/frontend
