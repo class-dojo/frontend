@@ -55,7 +55,7 @@ const MixedChart = ({ isThumbnail, color, type }: MixedChartProps) => {
   };
 
   return (
-    <div className='mt-2' style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
+    <div style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
       <div className={`row d-flex justify-content-between mt-3 ${isThumbnail ? 'ms-5 me-5' : 'ms-6 me-6'}` }>
         <div className={`toggle-btn-group col-md-3 ${isThumbnail ? 'thumbnail-toggle-btn-group-margins' : ''}` }>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2'>Select primary chart</p>}
@@ -77,6 +77,7 @@ const MixedChart = ({ isThumbnail, color, type }: MixedChartProps) => {
         <BarChart
           isMultibar={false}
           dataset={createSingleBarData()}
+          isOverlayed={true}
           isSecondary={!isBarPrimary}
           isThumbnail={isThumbnail}
           color={color}
