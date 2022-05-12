@@ -98,7 +98,7 @@ components:
 
     dataAnalysisResponse:
       properties:
-        frameInfo:
+        framesArray:
           type: array
         peaks:
           type: object
@@ -112,7 +112,128 @@ components:
           - valleys
           - averages
         example:
-          frameInfo: [{currentmood, current attention, currentpeople, isImportant}]
-          peaks: { moodPeak, attentionPeak, peoplePeak}
-          valleys: { moodValley, attentionValley, peopleValley}
-          averages : {moodAverage, attentionAverage, peopleAverage}
+          framesArray: [
+                        {
+                          attentionScore: 0.71,
+                          moodScore: 0.25,
+                          amountOfPeople: 8,
+                          isImportantAttention: true,
+                          isImportantMood: false,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.6,
+                          moodScore: 0.44,
+                          amountOfPeople: 10,
+                          isImportantAttention: false,
+                          isImportantMood: false,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.32,
+                          moodScore: 0.19,
+                          amountOfPeople: 3,
+                          isImportantAttention: true,
+                          isImportantMood: true,
+                          isImportantPeople: true
+                        },
+                        {
+                          attentionScore: 0.06,
+                          moodScore: 0.51,
+                          amountOfPeople: 5,
+                          isImportantAttention: false,
+                          isImportantMood: true,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.28,
+                          moodScore: 0.27,
+                          amountOfPeople: 2,
+                          isImportantAttention: false,
+                          isImportantMood: true,
+                          isImportantPeople: true
+                        },
+                        {
+                          attentionScore: 0.5,
+                          moodScore: 0.33,
+                          amountOfPeople: 4,
+                          isImportantAttention: true,
+                          isImportantMood: false,
+                          isImportantPeople: true
+                        },
+                        {
+                          attentionScore: 0.34,
+                          moodScore: 0.51,
+                          amountOfPeople: 2,
+                          isImportantAttention: false,
+                          isImportantMood: true,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.19,
+                          moodScore: 0.9,
+                          amountOfPeople: 0,
+                          isImportantAttention: true,
+                          isImportantMood: false,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.57,
+                          moodScore: 0.14,
+                          amountOfPeople: 3,
+                          isImportantAttention: false,
+                          isImportantMood: true,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.49,
+                          moodScore: 0.98,
+                          amountOfPeople: 7,
+                          isImportantAttention: false,
+                          isImportantMood: true,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.85,
+                          moodScore: 0.83,
+                          amountOfPeople: 6,
+                          isImportantAttention: false,
+                          isImportantMood: false,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.84,
+                          moodScore: 0.1,
+                          amountOfPeople: 9,
+                          isImportantAttention: false,
+                          isImportantMood: false,
+                          isImportantPeople: true
+                        },
+                        {
+                          attentionScore: 0.36,
+                          moodScore: 0.88,
+                          amountOfPeople: 10,
+                          isImportantAttention: false,
+                          isImportantMood: false,
+                          isImportantPeople: false
+                        },
+                        {
+                          attentionScore: 0.42,
+                          moodScore: 0.47,
+                          amountOfPeople: 3,
+                          isImportantAttention: false,
+                          isImportantMood: false,
+                          isImportantPeople: true
+                        },
+                        {
+                          attentionScore: 0.26,
+                          moodScore: 0.39,
+                          amountOfPeople: 3,
+                          isImportantAttention: true,
+                          isImportantMood: true,
+                          isImportantPeople: true
+                        }
+                      ]
+          peaks: { moodPeak: 0.98, attentionPeak: 0.85, peoplePeak: 10 }
+          valleys: { moodValley: 0.98, attentionValley: 0.85, peopleValley: 10 }
+          averages : { moodAverage: 0.48, attentionAverage: 0.45, peopleAverage: 5 }
