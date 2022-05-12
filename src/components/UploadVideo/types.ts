@@ -5,16 +5,50 @@ export type Frame = {
 }
 
 export type AlertMessageProps = {
-  heading: string,
-  body: string,
+  heading: string
+  body: string
   variant: string
 }
 
-export type dataToBackend = {
-  videoId: string, // uuid
+export type DataToBackend = {
+  videoId: string // uuid
   frames?: string[] // Object.keys(Frame[])
 }
 
-export type s3Links = {
+export type S3Links = {
   links: string[]
+}
+
+export type DataAnalysis = {
+  framesArray: SingleFrameAnalysis[]
+  peaks: Peaks
+  valleys: Valleys
+  averages: Averages
+}
+
+type SingleFrameAnalysis = {
+  attentionScore: number
+  moodScore: number
+  amountOfPeople: number
+  isImportantAttention: boolean
+  isImportantMood: boolean
+  isImportantPeople: boolean
+}
+
+type Peaks = {
+  moodPeak: number
+  attentionPeak: number
+  peoplePeak: number
+}
+
+type Valleys = {
+  moodValley: number
+  attentionValley: number
+  peopleValley: number
+}
+
+type Averages = {
+  moodAverage: number
+  attentionAverage: number
+  peopleAverage: number
 }

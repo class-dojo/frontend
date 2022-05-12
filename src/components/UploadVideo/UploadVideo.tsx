@@ -2,21 +2,21 @@ import React, {useEffect, useState, useRef, useReducer} from 'react';
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
-import { VideoSource, Frame, s3Links, AlertMessageProps } from './types';
+import { VideoSource, Frame, S3Links, AlertMessageProps, DataAnalysis } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
-import ActionAlert from './Alert/Alert';
+import ActionAlert from './Alert/ActionAlert';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
-
 
 const UploadVideo = () => {
 
   const [framesArray, setFramesArray] = useState<Frame[]>([]);
+  const [analysisData, setAnalysisData] = useState<DataAnalysis>();
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
   const [showAlert, toggleShowAlert] = useReducer(state => !state, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
-  const [alertMessage, setAlertMessage] = useState<AlertMessageProps>({heading: '', body: '', variant: ''});
+  const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
@@ -41,11 +41,11 @@ const UploadVideo = () => {
       setMessage('Transcoding Complete');
       const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
       setFramesArray(newFramesArray);
-      const {links}: s3Links = await sendDataToBackEnd(newFramesArray, videoId);
+      const {links}: S3Links = await sendDataToBackEnd(newFramesArray, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
-        const analysisData = await getAnalysis(videoId);
-        console.log(analysisData); }// TODO pass analytics to helper functions and then to dashboard atm we're logging a string
+        const analysis: DataAnalysis = await getAnalysis(videoId);
+        setAnalysisData(analysis); }// TODO pass analytics to helper functions and then to dashboard atm we're logging a string
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
 
@@ -82,7 +82,7 @@ const UploadVideo = () => {
             <div className="my-3"><a className="btn btn-primary btn-lg me-2 dark-element" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
           </div>
-          {showAlert && <ActionAlert alertMessage={alertMessage} toggleShowAlert={toggleShowAlert}/>}
+          {showAlert && <ActionAlert analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>
