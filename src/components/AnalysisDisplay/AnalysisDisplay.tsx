@@ -1,9 +1,9 @@
 import React from 'react';
-import { createMultiBarData, createMultiLineData, createSingleBarData, createSingleLineData, mockRadarData } from '../../assets/mockDataProvider';
+import { createMultiBarData, createMultiLineData, mockRadarData } from '../../assets/mockDataProvider';
 import BarChart from './BarChart/BarChart';
 import ChartToggler from './ChartToggler/ChartToggler';
 import { colors } from './colors';
-import { ATTENTION, EMOTIONS, MOOD } from './constants';
+import { AGGREGATE, ATTENTION, EMOTIONS, MOOD } from './constants';
 import LineChart from './LineChart/LineChart';
 import MixedChart from './MixedChart/MixedChart';
 import RadarChart from './RadarChart/RadarChart';
@@ -12,6 +12,7 @@ const AnalysisDisplay = () => {
   return (
     <div>
       <MixedChart
+        type={AGGREGATE}
         color={colors.primaryDarkBlue}
       />
       <ChartToggler
@@ -39,7 +40,6 @@ const AnalysisDisplay = () => {
       <BarChart
         isMultibar={true}
         dataset={createMultiBarData()}
-        title={'Emotion indexes'}
       />
       {/* <LineChart
         isMultiline={false}

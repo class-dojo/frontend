@@ -5,11 +5,11 @@
 }
 
 .chart-type-btn {
-  width: 86px;
+ flex: 1;
 }
 
 .primary-chart-btn {
-  min-width: 125px;
+  flex: 1;
 }
 
 .selected {

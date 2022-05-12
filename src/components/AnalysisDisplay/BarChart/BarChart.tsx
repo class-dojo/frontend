@@ -52,57 +52,63 @@ interface BarDataset {
   } [];
   keys: string[];
   importantIndexes: number[];
+  samplePeriod: number
 }
 
 type BarChartProps = {
   isMultibar: boolean,
-  title: string
   dataset: BarDataset,
   isSecondary?: boolean,
   isThumbnail?: boolean,
   color?: string,
 }
 
-const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail = false, color}: BarChartProps) => {
+const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color}: BarChartProps) => {
 
   const mainContainerStyle: React.CSSProperties = {
-    marginTop: isThumbnail ? 0 : 110,
+    // marginTop: isThumbnail ? 0 : 110,
     textAlign: 'center',
     height: isThumbnail ? '300px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
     width: isThumbnail ? '100%' : 'auto',
-    padding: isThumbnail ? 10 : 'auto',
-    cursor: isThumbnail ? 'pointer' : 'auto'
+    // padding: isThumbnail ? 10 : 'auto',
   };
 
   const graphContainerStyle: React.CSSProperties = {
     padding: isThumbnail ? 'auto' : '0 20px', // TODO debate this padding
-    height: isThumbnail ? '300px' : '548.5px', // ?? TODO check why i have such big height differences between this and line chart
+    height: isThumbnail ? 310 : 548.5, // ?? TODO check why i have such big height differences between this and line chart
     position: 'relative',
     margin: '0 0 40px 0',
   };
 
   const displayBoxStyle: React.CSSProperties = {
     position: 'absolute',
-    height: isThumbnail ? '100%' : '479.5px', // ?? TODO check the same here
-    width: isThumbnail ? '100%' : 'calc(100% - 147.3px)',
-    top: isThumbnail ? 0 : 19.7,
-    left: isThumbnail ? 0 : 73.6,
+    height: isThumbnail ? 251 : '479.5px', // ?? TODO check the same here
+    width: isThumbnail ? 'calc(100% - 108.7px)' : 'calc(100% - 147.3px)',
+    top: isThumbnail ? 9.5 : 19.5,
+    left: isThumbnail ? 54 : 73.8,
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseEnter = (_: todoType, event: todoType) => {
+  const handleMouseEnter = (data: todoType, event: todoType) => {
     event.target.classList.add('animate');
     event.target.classList.add('hovered');
+    if (dataset.importantIndexes.includes(data.index)) {
+      event.target.classList.add('pointer');
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMouseLeave = (_: todoType, event: todoType) => {
+  const handleMouseLeave = (data: todoType, event: todoType) => {
     event.target.classList.remove('hovered');
+    if (dataset.importantIndexes.includes(data.index)) {
+      event.target.classList.remove('pointer');
+    }
   };
+
+  const indexes = dataset.data.map(datum => datum.Time).filter(time => time % 10 === 0 || time === 0);
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
-      { !isThumbnail && <h1 style={{ margin: 'unset' }}>{title}</h1>}
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>
@@ -113,10 +119,9 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail
           onMouseLeave={handleMouseLeave}
           data={dataset.data}
           keys={dataset.keys}
-          indexBy='Time'
           maxValue={10}
           padding={isMultibar ? 0.2 : 0.04}
-          margin={ isThumbnail ? {} : { top: 20, right: 55, bottom: 50, left: 55 }}
+          margin={{ top: isThumbnail ? 10 : 20, right: 55, bottom: 50, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}
           borderRadius={isMultibar ? 1 : 3}
           // borderWidth={1} // TODO debate
@@ -124,16 +129,21 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail
           enableLabel={false}
           enableGridY={false}
           enableGridX={isMultibar ? true : false}
+          indexScale={{
+            type: 'band',
+            round: false,
+          }}
           groupMode='grouped'
-          axisBottom={isThumbnail ? null : {
+          axisBottom={{
             tickSize: 0,
             tickPadding: 12,
             tickRotation: 0,
             legend: 'Time',
             legendPosition: 'middle',
             legendOffset: 40,
+            format: index => {return (index === 0 || indexes.find(vts => vts === index * dataset.samplePeriod)) ? index * 5 : '';} ,
           }}
-          axisLeft={isSecondary || isThumbnail ? null : {
+          axisLeft={isSecondary ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -141,7 +151,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail
             legendPosition: 'middle',
             legendOffset: -50
           }}
-          axisRight={isSecondary && !isThumbnail ? {
+          axisRight={isSecondary ? {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -184,7 +194,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail
           ]}
 
           tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return ( isThumbnail ? <></> :
+            return (/*  isThumbnail ? <></> : */
               <div
                 style={{
                   background: '#ececec',
@@ -195,6 +205,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail
                   gap: 20,
                   alignItems: 'center',
                   height: 180,
+                  zIndex: 100,
                   // TODO try make hover on important point less wonky
                 }}
               >
@@ -218,7 +229,6 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail
                     <strong>{id}: </strong>
                     <span style={{ fontWeight: 900 }}>{value}</span>
                   </div>
-
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',

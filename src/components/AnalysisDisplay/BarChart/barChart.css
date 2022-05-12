@@ -8,3 +8,7 @@
   transform: scaleX(1.1);
   filter: brightness(106%);
 }
+
+.pointer {
+  cursor: pointer;
+}

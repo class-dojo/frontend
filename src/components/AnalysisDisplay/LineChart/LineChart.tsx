@@ -29,27 +29,28 @@ type LineChartProps = {
 const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
 
   const mainContainerStyle: React.CSSProperties = {
-    marginTop: isThumbnail ? 0 : 110,
     textAlign: 'center',
     height: isThumbnail ? '300px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
     width: isThumbnail ? '100%' : 'auto',
-    padding: isThumbnail ? 10 : 'auto',
-    cursor: isThumbnail ? 'pointer' : 'auto'
+    // padding: isThumbnail ? 10 : 'auto',
+    // cursor: isThumbnail ? 'pointer' : 'auto'
+    // TODO have cursor on important slices
   };
 
   const graphContainerStyle: React.CSSProperties = {
     padding: isThumbnail ? 'auto' : '0 20px',
-    height: isThumbnail ? '300px' : '578.5px',
+    height: isThumbnail ? 310 : 578.5,
     position: 'relative',
-    margin: '0 0 40px 0',
+    // margin: '0 0 40px 0',
+    width: '100%'
   };
 
   const displayBoxStyle: React.CSSProperties = {
     position: 'absolute',
-    height: isThumbnail ? '100%' : '480px',
-    width: isThumbnail ? '100%' : 'calc(100% - 147.7px)',
-    top: isThumbnail ? 0 : 19.5,
-    left: isThumbnail ? 0 : 73.8,
+    height: isThumbnail ? 251 : '480px',
+    width: isThumbnail ? 'calc(100% - 108.7px)' : 'calc(100% - 147.7px)',
+    top: isThumbnail ? 9.5 : 19.5,
+    left: isThumbnail ? 54 : 73.8,
   };
 
   let hasLegend = false;
@@ -74,7 +75,6 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
-      { !isThumbnail && <h1 style={{ margin: 'unset' }}>{title}</h1>}
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>
@@ -83,7 +83,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
         <ResponsiveLine
           data={[...dataset]}
           colors={data => data.color}
-          margin={ isThumbnail ? {} : { top: 20, right: 55, bottom: 80, left: 55 }}
+          margin={{ top: isThumbnail ? 10 : 20, right: 55, bottom: isThumbnail ? 50 : 80, left: 55 }}
           xScale={{ type: 'linear' }}
           yScale={{
             type: 'linear',
@@ -118,8 +118,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
           pointLabelYOffset={0}
           enableGridY={hasGridX}
           enableGridX={hasGridY}
-          enableCrosshair={!isThumbnail}
-          axisBottom={isOverlayed || isThumbnail ? null : {
+          axisBottom={isOverlayed ? null : {
             tickSize: 0,
             tickPadding: 12,
             tickRotation: 0,
@@ -127,7 +126,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             legendPosition: 'middle',
             legendOffset: 40,
           }}
-          axisLeft={isSecondary || isThumbnail ? null : {
+          axisLeft={isSecondary ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -135,7 +134,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             legendPosition: 'middle',
             legendOffset: -50
           }}
-          axisRight={isSecondary && !isThumbnail ? {
+          axisRight={isSecondary ? {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -155,7 +154,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             { match: '*', id: 'gradientA' },
           ]}
           sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return ( isThumbnail ? <></> :
+            return (/*  isThumbnail ? <></> : */
               <div
                 style={{
                   background: '#ececec',
