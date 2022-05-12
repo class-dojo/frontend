@@ -1,5 +1,5 @@
-import React, {useEffect, useState, useRef, useReducer} from 'react';
-import {createFFmpeg} from '@ffmpeg/ffmpeg';
+import React, { useEffect, useState, useRef, useReducer } from 'react';
+import { createFFmpeg } from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource, Frame, S3Links, AlertMessageProps, DataAnalysis } from './types';
@@ -7,6 +7,7 @@ import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
+import { turnIntoRaw, parseLineChartData } from '../AnalysisDisplay/utils';
 
 const UploadVideo = () => {
 
@@ -45,7 +46,13 @@ const UploadVideo = () => {
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
-        setAnalysisData(analysis); }// TODO pass analytics to helper functions and then to dashboard atm we're logging a string
+        setAnalysisData(analysis);
+        const attentionLine = parseLineChartData(turnIntoRaw(analysis.framesArray, 'attentionScore'), accuracy.current);
+        const moodLine = parseLineChartData(turnIntoRaw(analysis.framesArray, 'moodScore'), accuracy.current);
+        const peopleLine = parseLineChartData(turnIntoRaw(analysis.framesArray, 'amountOfPeople'), accuracy.current);
+        console.log('at', attentionLine, '\nmo', moodLine, '\nppl', peopleLine);
+      }// TODO parse data to be passed to the dashboard and save that to state (or local storage?)
+
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
 
