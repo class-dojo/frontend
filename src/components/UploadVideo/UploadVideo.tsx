@@ -7,7 +7,6 @@ import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
-import { turnIntoRaw, parseLineChartData } from '../AnalysisDisplay/utils';
 
 const UploadVideo = () => {
 
@@ -47,10 +46,6 @@ const UploadVideo = () => {
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
         setAnalysisData(analysis);
-        const attentionLine = parseLineChartData(turnIntoRaw(analysis.framesArray, 'attentionScore'), accuracy.current);
-        const moodLine = parseLineChartData(turnIntoRaw(analysis.framesArray, 'moodScore'), accuracy.current);
-        const peopleLine = parseLineChartData(turnIntoRaw(analysis.framesArray, 'amountOfPeople'), accuracy.current);
-        console.log('at', attentionLine, '\nmo', moodLine, '\nppl', peopleLine);
       }// TODO parse data to be passed to the dashboard and save that to state (or local storage?)
 
       setAlertMessage(uploadSuccessful);
@@ -89,7 +84,7 @@ const UploadVideo = () => {
             <div className="my-3"><a className="btn btn-primary btn-lg me-2 dark-element" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
           </div>
-          {showAlert && <ActionAlert analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          {showAlert && <ActionAlert accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>

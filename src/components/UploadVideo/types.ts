@@ -12,7 +12,7 @@ export type AlertMessageProps = {
 
 export type DataToBackend = {
   videoId: string // uuid
-  frames?: string[] // Object.keys(Frame[])
+  frames?: string[] // Object.keys(Frame[]) // TODO send also the framerate?
 }
 
 export type S3Links = {

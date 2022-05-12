@@ -1,23 +1,45 @@
-
 import { SingleFramesLoose } from '../UploadVideo/types';
 
-export const turnIntoRaw = (arr: SingleFramesLoose[], key: string) => {
-  return arr.map(frame => frame[key]) as number[];
+// ALL IN ONE
+export const parseChartData = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, chart: string) => {
+  let importance = '';
+  switch (key) {
+    case 'attentionScore':
+      importance = 'isImportantAttention';
+      break;
+    case 'moodScore':
+      importance = 'isImportantMood';
+      break;
+    case 'amountOfPeople':
+      importance = 'isImportantPeople';
+      break;
+  }
+  if (chart === 'line') {
+    return parseLine(framesArray, key, samplePeriod, importance);
+  } else return parseBar(framesArray, key, samplePeriod, importance);
 };
 
-export const parseLineChartData = (rawData: number[], samplePeriod: number) => {
-  return rawData.map((value, i) => {
-    return { x: i * samplePeriod, y: value, isImportant: false };
+const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, importance: string) => {
+  const importantIndexes: number[] = [];
+  const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
+    if (frame[importance]) importantIndexes.push(i);
+    return { id: i, Time: i * samplePeriod, [key]: frame[key] };
   });
+  return { data, importantIndexes };
 };
 
-export interface BarDatum {
-  id: number,
-  Time: number,
-  [key: string]: number
-}
-//id: number // Index of the sample works fine for this
-//Time: number // index * samplePeriod
-// ??? Does this need a question mark? In some cases we need multiple key-value pairs
-//[key: string]: number // Mood, Attention... for Key. Value is the value of the data
-// Refer to parseBarChartData() function, you might be able to use it, but maybe it needs modifying
+const parseLine = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, importance: string) => {
+  const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
+    return { x: i * samplePeriod, y: frame[key], isImportant: frame[importance] };
+  });
+  return { data };
+};
+
+// const attentionLine = parseChartData(analysis.framesArray, 'attentionScore', accuracy.current, 'line');
+// const moodLine = parseChartData(analysis.framesArray, 'moodScore', accuracy.current, 'line');
+// const peopleLine = parseChartData(analysis.framesArray, 'amountOfPeople', accuracy.current, 'line');
+// const attentionBar = parseChartData(analysis.framesArray, 'attentionScore', accuracy.current, 'bar');
+// const moodBar = parseChartData(analysis.framesArray, 'moodScore', accuracy.current, 'bar');
+// const peopleBar = parseChartData(analysis.framesArray, 'amountOfPeople', accuracy.current, 'bar');
+
+// console.log('atL', attentionLine, '\nmoL', moodLine, '\npplL',  peopleLine, '\natB', attentionBar, '\nmoB', moodBar, '\npplB', peopleBar);
