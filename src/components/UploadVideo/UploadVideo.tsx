@@ -40,7 +40,6 @@ const UploadVideo = () => {
       const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
       setFramesArray(newFramesArray);
       const {links}: s3Links = await sendDataToBackEnd(newFramesArray, videoId);
-      console.log('LINKS FROM BE',links);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       isUploaded && getAnalysis(videoId); // TODO pass analytics to helper functions and then to dashboard atm we're logging a string
       setAlertMessage(uploadSuccessful);

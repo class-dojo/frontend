@@ -9,8 +9,7 @@ export const sendDataToBackEnd = (framesArray: Frame[], id: string) => {
     frames: keys
   };
   // TODO send data to the backend
-  console.log(process.env.REACT_APP_BASE_URL);
-  return fetch('http://localhost:4001/getlinks', {
+  return fetch(`${process.env.REACT_APP_BASE_URL}/getlinks`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dataToSend)
