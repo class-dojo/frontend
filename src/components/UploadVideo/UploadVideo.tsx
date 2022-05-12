@@ -1,5 +1,5 @@
-import React, {useEffect, useState, useRef, useReducer} from 'react';
-import {createFFmpeg} from '@ffmpeg/ffmpeg';
+import React, { useEffect, useState, useRef, useReducer } from 'react';
+import { createFFmpeg } from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource, Frame, S3Links, AlertMessageProps, DataAnalysis } from './types';
@@ -45,7 +45,9 @@ const UploadVideo = () => {
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
-        setAnalysisData(analysis); }// TODO pass analytics to helper functions and then to dashboard atm we're logging a string
+        setAnalysisData(analysis);
+      }// TODO parse data to be passed to the dashboard and save that to state (or local storage?)
+
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
 
@@ -82,7 +84,7 @@ const UploadVideo = () => {
             <div className="my-3"><a className="btn btn-primary btn-lg me-2 dark-element" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
             <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
           </div>
-          {showAlert && <ActionAlert analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          {showAlert && <ActionAlert accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>

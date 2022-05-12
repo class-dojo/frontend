@@ -12,7 +12,7 @@ export type AlertMessageProps = {
 
 export type DataToBackend = {
   videoId: string // uuid
-  frames?: string[] // Object.keys(Frame[])
+  frames?: string[] // Object.keys(Frame[]) // TODO send also the framerate?
 }
 
 export type S3Links = {
@@ -26,7 +26,7 @@ export type DataAnalysis = {
   averages: Averages
 }
 
-type SingleFrameAnalysis = {
+export type SingleFrameAnalysis = {
   attentionScore: number
   moodScore: number
   amountOfPeople: number
@@ -35,19 +35,24 @@ type SingleFrameAnalysis = {
   isImportantPeople: boolean
 }
 
-type Peaks = {
+export type SingleFramesLoose = {
+  [key: string]: number | boolean
+}
+
+
+export type Peaks = {
   moodPeak: number
   attentionPeak: number
   peoplePeak: number
 }
 
-type Valleys = {
+export type Valleys = {
   moodValley: number
   attentionValley: number
   peopleValley: number
 }
 
-type Averages = {
+export type Averages = {
   moodAverage: number
   attentionAverage: number
   peopleAverage: number

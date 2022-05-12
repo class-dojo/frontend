@@ -6,16 +6,17 @@ type AlertProps = {
   toggleShowAlert: (() => void)
   analysisData: DataAnalysis
   alertMessage: AlertMessageProps
+  accuracy: number
 }
 
-const ActionAlert = ({ toggleShowAlert, alertMessage, analysisData }: AlertProps) => {
+const ActionAlert = ({ toggleShowAlert, alertMessage, analysisData, accuracy }: AlertProps) => {
   return (
     <Alert variant={alertMessage.variant} onClose={toggleShowAlert} dismissible>
       <Alert.Heading>{alertMessage.heading}</Alert.Heading>
       <p>{alertMessage.body}</p>
       {alertMessage.variant === 'success' &&
       <div className="d-flex justify-content-end">
-        <Link to={'/analytics'} state={{data: analysisData}}> {/* TODO useLocation() in analytics */}
+        <Link to={'/dashboard'} state={{data: analysisData, accuracy: accuracy}}> {/* TODO useLocation() in analytics */}
           <Button onClick={toggleShowAlert} variant="outline-success">Lets go!</Button>
         </Link>
       </div>}
