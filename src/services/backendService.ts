@@ -1,4 +1,5 @@
 import { Frame, DataToBackend } from '../components/UploadVideo/types';
+import {API_URL} from '../consts';
 
 //import { firstRequest } from './mockdata';
 
@@ -8,8 +9,10 @@ export const sendDataToBackEnd = (framesArray: Frame[], id: string) => {
     videoId: id,
     frames: keys
   };
-  // TODO send data to the backend
-  return fetch(`${process.env.REACT_APP_BASE_URL}/getlinks`, {
+
+  console.log(API_URL);
+
+  return fetch(`${API_URL}getlinks`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dataToSend)
@@ -22,7 +25,7 @@ export const sendDataToBackEnd = (framesArray: Frame[], id: string) => {
 export const getAnalysis = (id: string) => {
   const ref: DataToBackend = { videoId: id };
   // console.log('DATA SENT TO BACKEND', ref); // TODO delete when connecting to be
-  return fetch(`${process.env.REACT_APP_BASE_URL}/analyze`, {
+  return fetch(`${API_URL}analyze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(ref)
