@@ -28,8 +28,8 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
   };
 
   return (
-    <div className='mt-2' style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
-      <div className={`row d-flex justify-content-between mt-3 ${isThumbnail ? 'ms-5 me-5' : 'ms-6 me-6'}`}>
+    <div style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
+      <div className={`row d-flex justify-content-between mt-3 ${isThumbnail ? 'ms-5 me-3' : 'ms-6 me-6'}`}>
         {isThumbnail ? <h4 className='chart-title text-left col-lg-7 mb-0'>{type}</h4> : <h1 className='chart-title text-center col-md-4 mb-0' style={{ margin: 'unset' }}>{type}</h1>}
         <div className={'toggle-btn-group col-md-5 d-flex flex-column justify-content-start'}>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2 chart-type-text' >Chart type</p>}

@@ -48,9 +48,10 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
   const displayBoxStyle: React.CSSProperties = {
     position: 'absolute',
     height: isThumbnail ? 251 : '480px',
-    width: isThumbnail ? 'calc(100% - 108.7px)' : 'calc(100% - 147.7px)',
+    width: isThumbnail ? (isOverlayed ? 'calc(100% - 108px)' : 'calc(100% - 78.2px)') : 'calc(100% - 147.7px)',
     top: isThumbnail ? 9.5 : 19.5,
     left: isThumbnail ? 54 : 73.8,
+    display: isSecondary ? 'none' : 'initial',
   };
 
   let hasLegend = false;
@@ -83,7 +84,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
         <ResponsiveLine
           data={[...dataset]}
           colors={data => data.color}
-          margin={{ top: isThumbnail ? 10 : 20, right: 55, bottom: isThumbnail ? 50 : 80, left: 55 }}
+          margin={{ top: isThumbnail ? 10 : 20, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: isThumbnail ? 50 : 80, left: 55 }}
           xScale={{ type: 'linear' }}
           yScale={{
             type: 'linear',
@@ -120,11 +121,11 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
           enableGridX={hasGridY}
           axisBottom={isOverlayed ? null : {
             tickSize: 0,
-            tickPadding: 12,
+            tickPadding: 5,
             tickRotation: 0,
             legend: 'Time',
             legendPosition: 'middle',
-            legendOffset: 40,
+            legendOffset: isThumbnail ? 30 : 40,
           }}
           axisLeft={isSecondary ? null : {
             tickSize: 10,
@@ -132,7 +133,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: -50
+            legendOffset: isThumbnail ? -40 : -50
           }}
           axisRight={isSecondary ? {
             tickSize: 10,
@@ -140,7 +141,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: 50
+            legendOffset: isThumbnail ? 40 : 50
           } : null}
           defs={[
             linearGradientDef('gradientA', [
@@ -157,7 +158,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             return (/*  isThumbnail ? <></> : */
               <div
                 style={{
-                  background: '#ececec',
+                  background: '#f7fafb',
                   padding: '0 15px',
                   border: '1px solid black',
                   borderRadius: 6,
@@ -215,38 +216,6 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
               </div>
             );
           }}
-          // tooltip={({ point }: { point: todoType }) => {
-          //   return (
-          //     <div
-          //       style={{
-          //         background: 'white',
-          //         padding: 15,
-          //         border: '1px solid #ccc',
-          //         borderRadius: 10,
-          //       }}
-          //     >
-          //       <div
-          //         key={point.id}
-          //       >
-          //         {point.data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
-          //         <div>
-          //           <div
-          //             style={{
-          //               color: point.serieColor,
-          //             }}
-          //           >
-          //             <strong>{point.serieId}: </strong>
-          //             <span style={{ fontWeight: 900 }}>[{point.data.yFormatted}]</span>
-          //           </div>
-          //           <div>
-          //             <strong>Time: </strong>
-          //             <span style={{ fontWeight: 900 }}>[{point.data.x} sec]</span>
-          //           </div>
-          //         </div>
-          //       </div>
-          //     </div>
-          //   );
-          // }}
           legends={hasLegend ? [
             {
               anchor: 'bottom-right',

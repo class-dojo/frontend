@@ -61,9 +61,10 @@ type BarChartProps = {
   isSecondary?: boolean,
   isThumbnail?: boolean,
   color?: string,
+  isOverlayed?: boolean,
 }
 
-const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color}: BarChartProps) => {
+const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed}: BarChartProps) => {
 
   const mainContainerStyle: React.CSSProperties = {
     // marginTop: isThumbnail ? 0 : 110,
@@ -83,9 +84,10 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
   const displayBoxStyle: React.CSSProperties = {
     position: 'absolute',
     height: isThumbnail ? 251 : '479.5px', // ?? TODO check the same here
-    width: isThumbnail ? 'calc(100% - 108.7px)' : 'calc(100% - 147.3px)',
+    width: isThumbnail ? (isOverlayed ? 'calc(100% - 108px)' : 'calc(100% - 78.2px)') : 'calc(100% - 147.3px)',
     top: isThumbnail ? 9.5 : 19.5,
     left: isThumbnail ? 54 : 73.8,
+    display: isSecondary ? 'none' : 'initial',
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -121,7 +123,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           keys={dataset.keys}
           maxValue={10}
           padding={isMultibar ? 0.2 : 0.04}
-          margin={{ top: isThumbnail ? 10 : 20, right: 55, bottom: 50, left: 55 }}
+          margin={{ top: isThumbnail ? 10 : 20, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 50, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}
           borderRadius={isMultibar ? 1 : 3}
           // borderWidth={1} // TODO debate
@@ -136,11 +138,11 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           groupMode='grouped'
           axisBottom={{
             tickSize: 0,
-            tickPadding: 12,
+            tickPadding: 5,
             tickRotation: 0,
             legend: 'Time',
             legendPosition: 'middle',
-            legendOffset: 40,
+            legendOffset: isThumbnail ? 30 : 40,
             format: index => {return (index === 0 || indexes.find(vts => vts === index * dataset.samplePeriod)) ? index * 5 : '';} ,
           }}
           axisLeft={isSecondary ? null : {
@@ -149,7 +151,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickRotation: 0,
             legend: 'Attention Level',
             legendPosition: 'middle',
-            legendOffset: -50
+            legendOffset: isThumbnail ? -40 : -50
           }}
           axisRight={isSecondary ? {
             tickSize: 10,
@@ -157,17 +159,13 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickRotation: 0,
             legend: 'Attention Level',
             legendPosition: 'middle',
-            legendOffset: 50
+            legendOffset: isThumbnail ? 40 : 50
           } : null}
           defs={[
             linearGradientDef('gradientA', [
               { offset: 0, color: 'inherit', opacity: isMultibar ? 0.6 : 0.5 },
               { offset: 100, color: 'inherit', opacity: 1 },
             ]),
-            // linearGradientDef('gradientImportant', [
-            //   { offset: 0, color: 'inherit', opacity: 1 },
-            //   { offset: 100, color: 'inherit', opacity: 1 },
-            // ]),
             patternSquaresDef('patternSquare', {
               'size': 1,
               'padding': 3,
@@ -197,7 +195,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             return (/*  isThumbnail ? <></> : */
               <div
                 style={{
-                  background: '#ececec',
+                  background: '#f7fafb',
                   padding: '0 15px',
                   border: '1px solid black',
                   borderRadius: 6,
