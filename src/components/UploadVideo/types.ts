@@ -14,3 +14,7 @@ export type dataToBackend = {
   videoId: string, // uuid
   frames?: string[] // Object.keys(Frame[])
 }
+
+export type s3Links = {
+  links: string[]
+}

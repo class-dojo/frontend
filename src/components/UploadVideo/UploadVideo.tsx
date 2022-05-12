@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef, useReducer} from 'react';
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
-import { VideoSource, Frame, AlertMessageProps } from './types';
+import { VideoSource, Frame, s3Links, AlertMessageProps } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/Alert';
@@ -39,8 +39,9 @@ const UploadVideo = () => {
       setMessage('Transcoding Complete');
       const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
       setFramesArray(newFramesArray);
-      const urls: string[] = sendDataToBackEnd(newFramesArray, videoId); // TODO it's gonna be async
-      const isUploaded = await uploadImgToBucket(filesArray, urls);
+      const {links}: s3Links = await sendDataToBackEnd(newFramesArray, videoId);
+      console.log('LINKS FROM BE',links);
+      const isUploaded = await uploadImgToBucket(filesArray, links);
       isUploaded && getAnalysis(videoId); // TODO pass analytics to helper functions and then to dashboard atm we're logging a string
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
