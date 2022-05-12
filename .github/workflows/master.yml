@@ -12,9 +12,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Git describe
-        run: git describe --tags --match="v*"
-
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -40,11 +37,11 @@ jobs:
           name: classdojo-frontend # double zipping issue: https://github.com/actions/upload-artifact/issues/39
           path: production/release/classdojo-frontend.zip
 
-      - name: Deploy
-        run: |
-          curl \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
-          --data '{"ref": "refs/heads/master"}' \
-          https://api.github.com/repos/class-dojo/infrastructure/actions/workflows/frontend.yml/dispatches
+#      - name: Deploy
+#        run: |
+#          curl \
+#          -X POST \
+#          -H "Accept: application/vnd.github.v3+json" \
+#          -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+#          --data '{"ref": "refs/heads/master"}' \
+#          https://api.github.com/repos/class-dojo/infrastructure/actions/workflows/frontend.yml/dispatches
