@@ -1,0 +1,20 @@
+.btn-group {
+  display: flex;
+  gap: 2px;
+  z-index: 40;
+}
+
+.chart-type-btn {
+  width: 86px;
+}
+
+.primary-chart-btn {
+  min-width: 125px;
+}
+
+.selected {
+  filter: brightness(110%);
+}
+.not-selected {
+  opacity: 0.6;
+}

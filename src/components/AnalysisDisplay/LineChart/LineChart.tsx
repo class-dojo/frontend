@@ -31,17 +31,17 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
   const mainContainerStyle: React.CSSProperties = {
     marginTop: isThumbnail ? 0 : 110,
     textAlign: 'center',
-    height: isThumbnail ? '230px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
+    height: isThumbnail ? '300px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
     width: isThumbnail ? '100%' : 'auto',
     padding: isThumbnail ? 10 : 'auto',
+    cursor: isThumbnail ? 'pointer' : 'auto'
   };
 
   const graphContainerStyle: React.CSSProperties = {
     padding: isThumbnail ? 'auto' : '0 20px',
-    height: isThumbnail ? '230px' : '578.5px',
+    height: isThumbnail ? '300px' : '578.5px',
     position: 'relative',
     margin: '0 0 40px 0',
-    // width: isThumbnail ? '100%' : 'auto',
   };
 
   const displayBoxStyle: React.CSSProperties = {
@@ -113,11 +113,12 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
               renderedPoint
             );
           }}
-          lineWidth={2}
+          lineWidth={isOverlayed ? 4 : 2}
           useMesh={true}
           pointLabelYOffset={0}
           enableGridY={hasGridX}
           enableGridX={hasGridY}
+          enableCrosshair={!isThumbnail}
           axisBottom={isOverlayed || isThumbnail ? null : {
             tickSize: 0,
             tickPadding: 12,
@@ -148,24 +149,23 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
               { offset: 20, color: 'inherit', opacity: 0.2 },
               { offset: 80, color: 'inherit', opacity: 0.15 },
               { offset: 100, color: 'inherit', opacity: 0.05 },
-
             ]),
           ]}
           fill={[
             { match: '*', id: 'gradientA' },
           ]}
           sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (
+            return ( isThumbnail ? <></> :
               <div
                 style={{
-                  background: 'white',
+                  background: '#ececec',
                   padding: '0 15px',
                   border: '1px solid black',
-                  borderRadius: 10,
+                  borderRadius: 6,
                   display: 'flex',
                   gap: 20,
                   alignItems: 'center',
-                  height: 200,
+                  height: 180,
                   // TODO try make hover on important point less wonky
                 }}
               >
@@ -207,8 +207,8 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
                 {slice.points[0].data.isImportant &&
                 <img src={testImage}
                   style={{
-                    height: 200,
-                    borderRadius: '2px 10px 10px 2px',
+                    height: 180,
+                    borderRadius: '2px 6px 6px 2px',
                     marginRight: -15,
                   }}
                 />
@@ -216,38 +216,38 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
               </div>
             );
           }}
-          tooltip={({ point }: { point: todoType }) => {
-            return (
-              <div
-                style={{
-                  background: 'white',
-                  padding: 15,
-                  border: '1px solid #ccc',
-                  borderRadius: 10,
-                }}
-              >
-                <div
-                  key={point.id}
-                >
-                  {point.data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
-                  <div>
-                    <div
-                      style={{
-                        color: point.serieColor,
-                      }}
-                    >
-                      <strong>{point.serieId}: </strong>
-                      <span style={{ fontWeight: 900 }}>[{point.data.yFormatted}]</span>
-                    </div>
-                    <div>
-                      <strong>Time: </strong>
-                      <span style={{ fontWeight: 900 }}>[{point.data.x} sec]</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          }}
+          // tooltip={({ point }: { point: todoType }) => {
+          //   return (
+          //     <div
+          //       style={{
+          //         background: 'white',
+          //         padding: 15,
+          //         border: '1px solid #ccc',
+          //         borderRadius: 10,
+          //       }}
+          //     >
+          //       <div
+          //         key={point.id}
+          //       >
+          //         {point.data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
+          //         <div>
+          //           <div
+          //             style={{
+          //               color: point.serieColor,
+          //             }}
+          //           >
+          //             <strong>{point.serieId}: </strong>
+          //             <span style={{ fontWeight: 900 }}>[{point.data.yFormatted}]</span>
+          //           </div>
+          //           <div>
+          //             <strong>Time: </strong>
+          //             <span style={{ fontWeight: 900 }}>[{point.data.x} sec]</span>
+          //           </div>
+          //         </div>
+          //       </div>
+          //     </div>
+          //   );
+          // }}
           legends={hasLegend ? [
             {
               anchor: 'bottom-right',
