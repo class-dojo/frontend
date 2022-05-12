@@ -7,28 +7,6 @@ import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 import { colors } from '../colors';
 
-const mainContainerStyle: React.CSSProperties = {
-  marginTop: 100,
-  fontFamily: 'sans-serif',
-  textAlign: 'center',
-  height: 'calc(100vh - 133px)'
-};
-
-const graphContainerStyle: React.CSSProperties = {
-  padding: '0 20px',
-  height: '548.5px',
-  position: 'relative',
-  margin: '10px 0 40px 0',
-};
-
-const displayBoxStyle: React.CSSProperties = {
-  position: 'absolute',
-  height: '479.5px',
-  width: 'calc(100% - 147.3px)',
-  top: 19.7,
-  left: 73.6,
-};
-
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
   zIndex: -10
@@ -40,7 +18,7 @@ const displayBoxFrameStyle: React.CSSProperties = {
   pointerEvents: 'none'
 };
 
-const setBarColor = (id: string, isSecondary: boolean) => {
+const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | undefined) => {
   switch (id) {
   case 'Happiness':
     return colors.happiness;
@@ -55,8 +33,9 @@ const setBarColor = (id: string, isSecondary: boolean) => {
     return colors.confusion;
     break;
   default:
-    if (isSecondary) return colors.disabled;
-    return colors.primary;
+    if (isSecondary) return '#3a4f637a';
+    if (colorOverride) return colorOverride;
+    return colors.primaryGreen;
     break;
   }
 };
@@ -80,9 +59,35 @@ type BarChartProps = {
   title: string
   dataset: BarDataset,
   isSecondary?: boolean,
+  isThumbnail?: boolean,
+  color?: string,
 }
 
-const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartProps) => {
+const BarChart = ({ isMultibar, dataset, title, isSecondary = false, isThumbnail = false, color}: BarChartProps) => {
+
+  const mainContainerStyle: React.CSSProperties = {
+    marginTop: isThumbnail ? 0 : 110,
+    textAlign: 'center',
+    height: isThumbnail ? '300px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
+    width: isThumbnail ? '100%' : 'auto',
+    padding: isThumbnail ? 10 : 'auto',
+    cursor: isThumbnail ? 'pointer' : 'auto'
+  };
+
+  const graphContainerStyle: React.CSSProperties = {
+    padding: isThumbnail ? 'auto' : '0 20px', // TODO debate this padding
+    height: isThumbnail ? '300px' : '548.5px', // ?? TODO check why i have such big height differences between this and line chart
+    position: 'relative',
+    margin: '0 0 40px 0',
+  };
+
+  const displayBoxStyle: React.CSSProperties = {
+    position: 'absolute',
+    height: isThumbnail ? '100%' : '479.5px', // ?? TODO check the same here
+    width: isThumbnail ? '100%' : 'calc(100% - 147.3px)',
+    top: isThumbnail ? 0 : 19.7,
+    left: isThumbnail ? 0 : 73.6,
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseEnter = (_: todoType, event: todoType) => {
@@ -97,7 +102,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
-      <h1>{title}</h1>
+      { !isThumbnail && <h1 style={{ margin: 'unset' }}>{title}</h1>}
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>
@@ -111,8 +116,8 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
           indexBy='Time'
           maxValue={10}
           padding={isMultibar ? 0.2 : 0.04}
-          margin={{ top: 20, right: 55, bottom: 50, left: 55 }}
-          colors={({ id }) => setBarColor(id as string, isSecondary)}
+          margin={ isThumbnail ? {} : { top: 20, right: 55, bottom: 50, left: 55 }}
+          colors={({ id }) => setBarColor(id as string, isSecondary, color)}
           borderRadius={isMultibar ? 1 : 3}
           // borderWidth={1} // TODO debate
           borderColor='black'
@@ -120,7 +125,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
           enableGridY={false}
           enableGridX={isMultibar ? true : false}
           groupMode='grouped'
-          axisBottom={{
+          axisBottom={isThumbnail ? null : {
             tickSize: 0,
             tickPadding: 12,
             tickRotation: 0,
@@ -128,7 +133,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
             legendPosition: 'middle',
             legendOffset: 40,
           }}
-          axisLeft={isSecondary ? null : {
+          axisLeft={isSecondary || isThumbnail ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -136,7 +141,7 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
             legendPosition: 'middle',
             legendOffset: -50
           }}
-          axisRight={isSecondary ? {
+          axisRight={isSecondary && !isThumbnail ? {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -179,17 +184,17 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
           ]}
 
           tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (
+            return ( isThumbnail ? <></> :
               <div
                 style={{
-                  background: 'white',
+                  background: '#ececec',
                   padding: '0 15px',
                   border: '1px solid black',
-                  borderRadius: 10,
+                  borderRadius: 6,
                   display: 'flex',
                   gap: 20,
                   alignItems: 'center',
-                  height: 200,
+                  height: 180,
                   // TODO try make hover on important point less wonky
                 }}
               >
@@ -228,8 +233,8 @@ const BarChart = ({ isMultibar, dataset, title, isSecondary = false }: BarChartP
                 {dataset.importantIndexes.includes(index) &&
                 <img src={testImage}
                   style={{
-                    height: 200,
-                    borderRadius: '2px 10px 10px 2px',
+                    height: 180,
+                    borderRadius: '2px 6px 6px 2px',
                     marginRight: -15,
                   }}
                 />
