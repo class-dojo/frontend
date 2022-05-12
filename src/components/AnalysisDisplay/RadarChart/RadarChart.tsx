@@ -48,7 +48,7 @@ const RadarChart = ({ data, title }: { data: todoType, title: string }) => {
         </div>
         <ResponsiveRadar
           data={data}
-          colors={colors.primary}
+          colors={colors.primaryPurple}
           keys={['value' ]}
           indexBy='emotion'
           maxValue={10}
@@ -101,7 +101,7 @@ const RadarChart = ({ data, title }: { data: todoType, title: string }) => {
                   }}
                 >
                   <strong>{index} </strong>
-                  <span style={{ fontWeight: 900, color: colors.primary }}>{data[0].value}</span>
+                  <span style={{ fontWeight: 900, color: colors.primaryGreen }}>{data[0].value}</span>
                 </div>
               </div>
 

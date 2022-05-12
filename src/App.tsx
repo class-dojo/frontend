@@ -4,6 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import UploadVideo from './components/UploadVideo/UploadVideo';
 import Landing from './components/Landing/Landing';
 import AnalysisDisplay from './components/AnalysisDisplay/AnalysisDisplay';
+import Dashboard from './components/AnalysisDisplay/Dashboard';
 
 function App () {
   return (
@@ -13,6 +14,7 @@ function App () {
         <Route path='/' element={<Landing/>}/>
         <Route path='/upload' element={<UploadVideo/>}/>
         <Route path='/analytics' element={<AnalysisDisplay/>}/>
+        <Route path='/dashboard' element={<Dashboard/>}/>
       </Routes>
     </main>
   );

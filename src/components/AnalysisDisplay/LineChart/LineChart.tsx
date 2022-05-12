@@ -5,28 +5,6 @@ import { linearGradientDef } from '@nivo/core';
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 
-const mainContainerStyle: React.CSSProperties = {
-  marginTop: 100,
-  fontFamily: 'sans-serif',
-  textAlign: 'center',
-  height: 'calc(100vh - 133px)'
-};
-
-const graphContainerStyle: React.CSSProperties = {
-  padding: '0 20px',
-  height: '578.5px',
-  position: 'relative',
-  margin: '10px 0 40px 0',
-};
-
-const displayBoxStyle: React.CSSProperties = {
-  position: 'absolute',
-  height: '480px',
-  width: 'calc(100% - 147.7px)',
-  top: 19.5,
-  left: 73.8,
-};
-
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
   zIndex: -10
@@ -45,9 +23,34 @@ type LineChartProps = {
   yAxisName: string,
   isOverlayed?: boolean,
   isSecondary?: boolean,
+  isThumbnail?: boolean,
 }
 
-const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false }: LineChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
+
+  const mainContainerStyle: React.CSSProperties = {
+    marginTop: isThumbnail ? 0 : 110,
+    textAlign: 'center',
+    height: isThumbnail ? '300px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
+    width: isThumbnail ? '100%' : 'auto',
+    padding: isThumbnail ? 10 : 'auto',
+    cursor: isThumbnail ? 'pointer' : 'auto'
+  };
+
+  const graphContainerStyle: React.CSSProperties = {
+    padding: isThumbnail ? 'auto' : '0 20px',
+    height: isThumbnail ? '300px' : '578.5px',
+    position: 'relative',
+    margin: '0 0 40px 0',
+  };
+
+  const displayBoxStyle: React.CSSProperties = {
+    position: 'absolute',
+    height: isThumbnail ? '100%' : '480px',
+    width: isThumbnail ? '100%' : 'calc(100% - 147.7px)',
+    top: isThumbnail ? 0 : 19.5,
+    left: isThumbnail ? 0 : 73.8,
+  };
 
   let hasLegend = false;
   let hasFill = true;
@@ -71,7 +74,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
-      <h1>{title}</h1>
+      { !isThumbnail && <h1 style={{ margin: 'unset' }}>{title}</h1>}
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>
@@ -80,7 +83,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
         <ResponsiveLine
           data={[...dataset]}
           colors={data => data.color}
-          margin={{ top: 20, right: 55, bottom: 80, left: 55 }}
+          margin={ isThumbnail ? {} : { top: 20, right: 55, bottom: 80, left: 55 }}
           xScale={{ type: 'linear' }}
           yScale={{
             type: 'linear',
@@ -110,12 +113,13 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
               renderedPoint
             );
           }}
-          lineWidth={2}
+          lineWidth={isOverlayed ? 4 : 2}
           useMesh={true}
           pointLabelYOffset={0}
           enableGridY={hasGridX}
           enableGridX={hasGridY}
-          axisBottom={isOverlayed ? null : {
+          enableCrosshair={!isThumbnail}
+          axisBottom={isOverlayed || isThumbnail ? null : {
             tickSize: 0,
             tickPadding: 12,
             tickRotation: 0,
@@ -123,7 +127,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             legendPosition: 'middle',
             legendOffset: 40,
           }}
-          axisLeft={isSecondary ? null : {
+          axisLeft={isSecondary || isThumbnail ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -131,7 +135,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
             legendPosition: 'middle',
             legendOffset: -50
           }}
-          axisRight={isSecondary ? {
+          axisRight={isSecondary && !isThumbnail ? {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
@@ -145,24 +149,23 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
               { offset: 20, color: 'inherit', opacity: 0.2 },
               { offset: 80, color: 'inherit', opacity: 0.15 },
               { offset: 100, color: 'inherit', opacity: 0.05 },
-
             ]),
           ]}
           fill={[
             { match: '*', id: 'gradientA' },
           ]}
           sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (
+            return ( isThumbnail ? <></> :
               <div
                 style={{
-                  background: 'white',
+                  background: '#ececec',
                   padding: '0 15px',
                   border: '1px solid black',
-                  borderRadius: 10,
+                  borderRadius: 6,
                   display: 'flex',
                   gap: 20,
                   alignItems: 'center',
-                  height: 200,
+                  height: 180,
                   // TODO try make hover on important point less wonky
                 }}
               >
@@ -204,8 +207,8 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
                 {slice.points[0].data.isImportant &&
                 <img src={testImage}
                   style={{
-                    height: 200,
-                    borderRadius: '2px 10px 10px 2px',
+                    height: 180,
+                    borderRadius: '2px 6px 6px 2px',
                     marginRight: -15,
                   }}
                 />
@@ -213,38 +216,38 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
               </div>
             );
           }}
-          tooltip={({ point }: { point: todoType }) => {
-            return (
-              <div
-                style={{
-                  background: 'white',
-                  padding: 15,
-                  border: '1px solid #ccc',
-                  borderRadius: 10,
-                }}
-              >
-                <div
-                  key={point.id}
-                >
-                  {point.data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
-                  <div>
-                    <div
-                      style={{
-                        color: point.serieColor,
-                      }}
-                    >
-                      <strong>{point.serieId}: </strong>
-                      <span style={{ fontWeight: 900 }}>[{point.data.yFormatted}]</span>
-                    </div>
-                    <div>
-                      <strong>Time: </strong>
-                      <span style={{ fontWeight: 900 }}>[{point.data.x} sec]</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          }}
+          // tooltip={({ point }: { point: todoType }) => {
+          //   return (
+          //     <div
+          //       style={{
+          //         background: 'white',
+          //         padding: 15,
+          //         border: '1px solid #ccc',
+          //         borderRadius: 10,
+          //       }}
+          //     >
+          //       <div
+          //         key={point.id}
+          //       >
+          //         {point.data.isImportant && <img src={testImage} style={{height: 200, borderRadius: 10,}}/>}
+          //         <div>
+          //           <div
+          //             style={{
+          //               color: point.serieColor,
+          //             }}
+          //           >
+          //             <strong>{point.serieId}: </strong>
+          //             <span style={{ fontWeight: 900 }}>[{point.data.yFormatted}]</span>
+          //           </div>
+          //           <div>
+          //             <strong>Time: </strong>
+          //             <span style={{ fontWeight: 900 }}>[{point.data.x} sec]</span>
+          //           </div>
+          //         </div>
+          //       </div>
+          //     </div>
+          //   );
+          // }}
           legends={hasLegend ? [
             {
               anchor: 'bottom-right',
