@@ -100,140 +100,153 @@ components:
       properties:
         framesArray:
           type: array
+          items:
+            type: object
+            properties:
+              attentionScore:
+                type: number
+              moodScore:
+                type: number
+              amountOfPeople:
+                type: number
+              isImportantAttention:
+                type: boolean
+              isImportantMood:
+                type: boolean
+              isImportantPeople:
+                type: boolean
+          example:
+            - attentionScore: 0.46
+              moodScore: 0.47
+              amountOfPeople: 1
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.78
+              moodScore: 0.3
+              amountOfPeople: 5
+              isImportantAttention: false
+              isImportantMood: true
+              isImportantPeople: true
+            - attentionScore: 0.79
+              moodScore: 0.58
+              amountOfPeople: 7
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.74
+              moodScore: 0.12
+              amountOfPeople: 10
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.27
+              moodScore: 0.99
+              amountOfPeople: 0
+              isImportantAttention: false
+              isImportantMood: true
+              isImportantPeople: true
+            - attentionScore: 0.3
+              moodScore: 0.45
+              amountOfPeople: 8
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.12
+              moodScore: 0.06
+              amountOfPeople: 3
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.86
+              moodScore: 0.24
+              amountOfPeople: 3
+              isImportantAttention: true
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.16
+              moodScore: 0.68
+              amountOfPeople: 10
+              isImportantAttention: true
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.96
+              moodScore: 0.29
+              amountOfPeople: 2
+              isImportantAttention: false
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.31
+              moodScore: 0.25
+              amountOfPeople: 6
+              isImportantAttention: false
+              isImportantMood: true
+              isImportantPeople: true
+            - attentionScore: 0.67
+              moodScore: 0.09
+              amountOfPeople: 4
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: true
+            - attentionScore: 0.03
+              moodScore: 0.26
+              amountOfPeople: 1
+              isImportantAttention: false
+              isImportantMood: true
+              isImportantPeople: true
+            - attentionScore: 0.18
+              moodScore: 0.63
+              amountOfPeople: 8
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: true
+            - attentionScore: 0.85
+              moodScore: 0.04
+              amountOfPeople: 7
+              isImportantAttention: false
+              isImportantMood: true
+              isImportantPeople: false
         peaks:
           type: object
+          properties:
+            moodPeak:
+              type: number
+            attentionPeak:
+              type: number
+            peoplePeak:
+              type: number
+          example:
+            moodPeak: 0.99
+            attentionPeak: 0.96
+            peoplePeak: 10
         valleys:
           type: object
+          properties:
+            moodValley:
+              type: number
+            attentionValley:
+              type: number
+            peopleValley:
+              type: number
+          example:
+            moodValley: 0.04
+            attentionValley: 0.03
+            peopleValley: 0
         averages:
           type: object
+          properties:
+            moodAverage:
+              type: number
+            attentionAverage:
+              type: number
+            peopleAverage:
+              type: number
+          example:
+            moodAverage: 0.36
+            attentionAverage: 0.5
+            peopleAverage: 5
         required:
-          - frameInfo
+          - framesArray
           - peaks
           - valleys
           - averages
-        example:
-          framesArray: [
-                        {
-                          attentionScore: 0.71,
-                          moodScore: 0.25,
-                          amountOfPeople: 8,
-                          isImportantAttention: true,
-                          isImportantMood: false,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.6,
-                          moodScore: 0.44,
-                          amountOfPeople: 10,
-                          isImportantAttention: false,
-                          isImportantMood: false,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.32,
-                          moodScore: 0.19,
-                          amountOfPeople: 3,
-                          isImportantAttention: true,
-                          isImportantMood: true,
-                          isImportantPeople: true
-                        },
-                        {
-                          attentionScore: 0.06,
-                          moodScore: 0.51,
-                          amountOfPeople: 5,
-                          isImportantAttention: false,
-                          isImportantMood: true,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.28,
-                          moodScore: 0.27,
-                          amountOfPeople: 2,
-                          isImportantAttention: false,
-                          isImportantMood: true,
-                          isImportantPeople: true
-                        },
-                        {
-                          attentionScore: 0.5,
-                          moodScore: 0.33,
-                          amountOfPeople: 4,
-                          isImportantAttention: true,
-                          isImportantMood: false,
-                          isImportantPeople: true
-                        },
-                        {
-                          attentionScore: 0.34,
-                          moodScore: 0.51,
-                          amountOfPeople: 2,
-                          isImportantAttention: false,
-                          isImportantMood: true,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.19,
-                          moodScore: 0.9,
-                          amountOfPeople: 0,
-                          isImportantAttention: true,
-                          isImportantMood: false,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.57,
-                          moodScore: 0.14,
-                          amountOfPeople: 3,
-                          isImportantAttention: false,
-                          isImportantMood: true,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.49,
-                          moodScore: 0.98,
-                          amountOfPeople: 7,
-                          isImportantAttention: false,
-                          isImportantMood: true,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.85,
-                          moodScore: 0.83,
-                          amountOfPeople: 6,
-                          isImportantAttention: false,
-                          isImportantMood: false,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.84,
-                          moodScore: 0.1,
-                          amountOfPeople: 9,
-                          isImportantAttention: false,
-                          isImportantMood: false,
-                          isImportantPeople: true
-                        },
-                        {
-                          attentionScore: 0.36,
-                          moodScore: 0.88,
-                          amountOfPeople: 10,
-                          isImportantAttention: false,
-                          isImportantMood: false,
-                          isImportantPeople: false
-                        },
-                        {
-                          attentionScore: 0.42,
-                          moodScore: 0.47,
-                          amountOfPeople: 3,
-                          isImportantAttention: false,
-                          isImportantMood: false,
-                          isImportantPeople: true
-                        },
-                        {
-                          attentionScore: 0.26,
-                          moodScore: 0.39,
-                          amountOfPeople: 3,
-                          isImportantAttention: true,
-                          isImportantMood: true,
-                          isImportantPeople: true
-                        }
-                      ]
-          peaks: { moodPeak: 0.98, attentionPeak: 0.85, peoplePeak: 10 }
-          valleys: { moodValley: 0.98, attentionValley: 0.85, peopleValley: 10 }
-          averages : { moodAverage: 0.48, attentionAverage: 0.45, peopleAverage: 5 }

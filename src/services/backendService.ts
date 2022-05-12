@@ -21,13 +21,13 @@ export const sendDataToBackEnd = (framesArray: Frame[], id: string) => {
 
 export const getAnalysis = (id: string) => {
   const ref: dataToBackend = { videoId: id };
-  console.log('DATA SENT TO BACKEND', ref); // TODO delete when connecting to be
-  // return fetch(`${process.env.REACT_APP_BASE_URL}/analyze`, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(ref)
-  // })
-  //   .then(res => res.status < 400 ? res : Promise.reject(res))
-  //   .then(res => res.json())
-  //   .catch(err => console.error(err));
+  // console.log('DATA SENT TO BACKEND', ref); // TODO delete when connecting to be
+  return fetch(`${process.env.REACT_APP_BASE_URL}/analyze`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(ref)
+  })
+    .then(res => res.status < 400 ? res : Promise.reject(res))
+    .then(res => res.json())
+    .catch(err => console.error(err));
 };

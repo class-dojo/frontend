@@ -41,7 +41,9 @@ const UploadVideo = () => {
       setFramesArray(newFramesArray);
       const {links}: s3Links = await sendDataToBackEnd(newFramesArray, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
-      isUploaded && getAnalysis(videoId); // TODO pass analytics to helper functions and then to dashboard atm we're logging a string
+      if (isUploaded) {
+        const analysisData = await getAnalysis(videoId);
+        console.log(analysisData); }// TODO pass analytics to helper functions and then to dashboard atm we're logging a string
       setAlertMessage(uploadSuccessful);
       toggleShowAlert();
 
