@@ -10,11 +10,11 @@ import './mixedChart.css';
 
 type MixedChartProps = {
   isThumbnail?: boolean,
-  isInModal?: boolean,
   color: string,
+  type: string,
 }
 
-const MixedChart = ({ isThumbnail, color, isInModal }: MixedChartProps) => {
+const MixedChart = ({ isThumbnail, color, type }: MixedChartProps) => {
 
   const [isBarPrimary, setIsBarPrimary] = useState(true);
   const [isAttentionPrimary, setIsAttentionPrimary] = useState(true);
@@ -55,25 +55,27 @@ const MixedChart = ({ isThumbnail, color, isInModal }: MixedChartProps) => {
   };
 
   return (
-    <div style={{position: 'relative', height: 'calc(100vh - 133px)', marginTop: isInModal ? 0 : 20}}>
-      {isThumbnail ? <></> : <div style={{ position: 'absolute', top: 95, left: 75 }}>
-        <p className='mb-2'>Select primary chart</p>
-        <div className="btn-group mr-2" >
-          <button className={`btn btn-primary primary-chart-btn shadow-none ${isAttentionPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{background: color}}>Attention</button>
-          <button className={`btn btn-primary primary-chart-btn shadow-none ${isAttentionPrimary ? 'not-selected' : 'selected'}`} onClick={toggleMainChart} type="button" style={{background: color}}>Mood</button>
+    <div className='mt-2' style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
+      <div className={`row d-flex justify-content-between mt-3 ${isThumbnail ? 'ms-5 me-5' : 'ms-6 me-6'}` }>
+        <div className={`toggle-btn-group col-md-3 ${isThumbnail ? 'thumbnail-toggle-btn-group-margins' : ''}` }>
+          {isThumbnail ? <></> : <p className='text-nowrap mb-2'>Select primary chart</p>}
+          <div className="btn-group d-flex mr-2 ">
+            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isAttentionPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Attention</button>
+            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isAttentionPrimary ? 'not-selected' : 'selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Mood</button>
+          </div>
         </div>
-      </div>}
-      {isThumbnail ? <></> : <div style={{ position: 'absolute', top: 95, right: 75 }}>
-        <p className='mb-2' style={{textAlign: 'right'}}>Primary chart type</p>
-        <div className="btn-group mr-2" >
-          <button className={`btn btn-primary chart-type-btn shadow-none ${isBarPrimary ? 'selected' : 'not-selected'}`} onClick={togglePrimaryChartType} type="button" style={{background: color}}>Bars</button>
-          <button className={`btn btn-primary chart-type-btn shadow-none ${isBarPrimary ? 'not-selected' : 'selected'}`} onClick={togglePrimaryChartType} type="button" style={{background: color}}>Lines</button>
+        {isThumbnail ? <h4 className='chart-title text-center col-md-4 mb-0'>{type}</h4> : <h1 className='chart-title text-center col-md-4 mb-0' style={{ margin: 'unset' }}>{type}</h1>}
+        <div className={'toggle-btn-group col-md-3 d-flex flex-column justify-content-start'}>
+          {isThumbnail ? <></> : <p className='text-nowrap mb-2 chart-type-text' >Primary chart type</p>}
+          <div className="btn-group d-flex mr-2" >
+            <button className={`p-1 py-2 mb-0 btn btn-primary shadow-none ${isBarPrimary ? 'selected' : 'not-selected'} `} onClick={togglePrimaryChartType} type="button" style={{background: color}}>Bars</button>
+            <button className={`p-1 py-2 mb-0 btn btn-primary shadow-none ${isBarPrimary ? 'not-selected' : 'selected'} `} onClick={togglePrimaryChartType} type="button" style={{background: color}}>Lines</button>
+          </div>
         </div>
-      </div>}
+      </div>
       <div style={{ position: 'absolute', width: '100%' }} >
         <BarChart
           isMultibar={false}
-          title={'Aggregate'}
           dataset={createSingleBarData()}
           isSecondary={!isBarPrimary}
           isThumbnail={isThumbnail}

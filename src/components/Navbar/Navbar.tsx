@@ -6,7 +6,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className='navbar fixed-top navbar-dark navbar-expand-md bg-dark py-3' style={{height: 73}}>
+      <nav className='navbar sticky-top navbar-dark navbar-expand-md bg-dark py-3' style={{height: 73}}>
         <div className="container"><a className="navbar-brand d-flex align-items-center " href="#">
           <span className="dark-element bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="33px" height="33px" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-karate">

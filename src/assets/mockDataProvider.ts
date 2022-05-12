@@ -42,10 +42,12 @@ export const createSingleBarData = () => {
   const data = getRandomBarData(21, 'Attention Level');
   const keys = ['Attention Level'];
   const importantIndexes = [3, 12];
+  const samplePeriod = 5;
   return {
     data,
     keys,
-    importantIndexes
+    importantIndexes,
+    samplePeriod
   };
 };
 
@@ -56,6 +58,7 @@ export const createMultiBarData = () => {
   const data4 = getRandomBarData(21, 'Confusion');
   const keys = ['Happiness', 'Sadness', 'Calmness', 'Confusion'];
   const importantIndexes = [10, 19];
+  const samplePeriod = 5;
   const data = [];
   for (let i = 0; i < data1.length; i++) {
     data.push(Object.assign({}, data1[i], data2[i], data3[i], data4[i]));
@@ -63,7 +66,8 @@ export const createMultiBarData = () => {
   return {
     data,
     keys,
-    importantIndexes
+    importantIndexes,
+    samplePeriod
   };
 };
 

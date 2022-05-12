@@ -4,17 +4,37 @@
   z-index: 40;
 }
 
-.chart-type-btn {
-  width: 86px;
-}
-
-.primary-chart-btn {
-  min-width: 125px;
-}
-
 .selected {
   filter: brightness(110%);
 }
 .not-selected {
   opacity: 0.6;
 }
+
+.chart-type-text {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .chart-title {
+    order: -1;
+  }
+  .toggle-btn-group {
+    text-align: center;
+  }
+  .thumbnail-toggle-btn-group-margins {
+    margin: 4px 0 10px;
+  }
+}
+
+/* @media (min-width: 992px) {
+  .toggle-btn-group {
+
+  }
+}
+
+@media (min-width: 1200px) {
+  .toggle-btn-group {
+
+  }
+} */
