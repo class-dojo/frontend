@@ -20,11 +20,13 @@ const UploadVideo = () => {
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
+
   const load = async () => {
     setMessage('Loading transcoder');
     await ffmpeg.current.load();
     setMessage('Start transcoding');
   };
+
   useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
