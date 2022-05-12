@@ -20,23 +20,23 @@ const displayBoxFrameStyle: React.CSSProperties = {
 
 const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | undefined) => {
   switch (id) {
-  case 'Happiness':
-    return colors.happiness;
-    break;
-  case 'Sadness':
-    return colors.sadness;
-    break;
-  case 'Calmness':
-    return colors.calmness;
-    break;
-  case 'Confusion':
-    return colors.confusion;
-    break;
-  default:
-    if (isSecondary) return '#3a4f637a';
-    if (colorOverride) return colorOverride;
-    return colors.primaryGreen;
-    break;
+    case 'Happiness':
+      return colors.happiness;
+      break;
+    case 'Sadness':
+      return colors.sadness;
+      break;
+    case 'Calmness':
+      return colors.calmness;
+      break;
+    case 'Confusion':
+      return colors.confusion;
+      break;
+    default:
+      if (isSecondary) return '#3a4f637a';
+      if (colorOverride) return colorOverride;
+      return colors.primaryGreen;
+      break;
   }
 };
 
