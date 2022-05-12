@@ -10,8 +10,6 @@ export const sendDataToBackEnd = (framesArray: Frame[], id: string) => {
     frames: keys
   };
 
-  console.log(API_URL);
-
   return fetch(`${API_URL}getlinks`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
