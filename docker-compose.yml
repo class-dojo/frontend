@@ -10,6 +10,10 @@ services:
 
   api-mock:
     image: "stoplight/prism:4"
+    environment:
+      REACT_APP_BASE_URL: 'http://localhost:4001'
+      REACT_APP_VERSION: 'v0.0.1'
+      ENV: dev
     command: 'mock --port 4001 --host 0.0.0.0 /tmp/openapi.yml'
     volumes:
       - ./openapi.yml:/tmp/openapi.yml:ro
