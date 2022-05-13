@@ -40,6 +40,10 @@ body {
   pointer-events: none;
 }
 
+.modal-dialog, .modal-content {
+  background-color: #ffffff00;
+}
+
 .unselectable-text {
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
