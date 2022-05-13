@@ -16,9 +16,10 @@ type MixedChartProps = {
   type: string,
   accuracy: number,
   data: SingleFrameAnalysis[]
+  frames: string[]
 }
 
-const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProps) => {
+const MixedChart = ({ isThumbnail, color, type, accuracy, data, frames }: MixedChartProps) => {
 
   const [isBarPrimary, setIsBarPrimary] = useState(true);
   const [isAttentionPrimary, setIsAttentionPrimary] = useState(true);
@@ -56,6 +57,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
       </div>
       <div style={{ position: 'absolute', width: '100%' }} >
         <BarChart
+          frames={frames}
           isMultibar={false}
           accuracy={accuracy}
           dataset={parseChartData(data, isAttentionPrimary === isBarPrimary ? 'attentionScore' : 'moodScore', accuracy, 'bar') as BarDataset}

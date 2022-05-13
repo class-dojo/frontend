@@ -12,7 +12,7 @@ const promiseMaker = (fileArr: File[], urlArr: string[]) => {
         'Content-Type': type,
       },
       body: fileArr[i],
-    }));
+    }).then(res => res.status <= 400 ? res : Promise.reject(res)));
   }
   return payload;
 };

@@ -51,9 +51,10 @@ type BarChartProps = {
   isOverlayed?: boolean,
   accuracy: number,
   yAxisName: string,
+  frames: string[]
 }
 
-const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName}: BarChartProps) => {
+const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName, frames}: BarChartProps) => {
 
   const mainContainerStyle: React.CSSProperties = {
     // marginTop: isThumbnail ? 0 : 110,
@@ -228,7 +229,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                   </div>
                 </div>
                 {dataset.importantIndexes.includes(index) &&
-                <img src={testImage}
+                <img src={frames[index]}
                   style={{
                     height: 180,
                     borderRadius: '2px 6px 6px 2px',
