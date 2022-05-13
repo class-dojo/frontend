@@ -40,7 +40,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         {isThumbnail ? <h4 className='chart-title text-left col-lg-7 mb-0'>{type}</h4> : <h1 className='chart-title text-center col-md-4 mb-0' style={{ margin: 'unset' }}>{type}</h1>}
         <div className={'toggle-btn-group col-md-5 d-flex flex-column justify-content-start'}>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2 chart-type-text' >Chart type</p>}
-          <div className="btn-group d-flex mr-2" >
+          <div className="btn-group d-flex mr-2" style={{ zIndex: 1 }}>
             <button className={`p-1 py-2 mb-0 btn btn-primary shadow-none ${isBarChart ? 'selected' : 'not-selected'}`} onClick={togglePrimaryChartType} type="button" style={{background: color}}>Bars</button>
             <button className={`p-1 py-2 mb-0 btn btn-primary shadow-none ${isBarChart ? 'not-selected' : 'selected'}`} onClick={togglePrimaryChartType} type="button" style={{background: color}}>Lines</button>
           </div>
