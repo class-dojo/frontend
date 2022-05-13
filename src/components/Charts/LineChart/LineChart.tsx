@@ -58,7 +58,6 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
 
   let hasLegend = false;
   let hasFill = true;
-  let enableSlices = true;
   let hasPoints = false;
   let hasGridX = false;
   let hasGridY = false;
@@ -66,7 +65,6 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
   if (isMultiline) {
     hasLegend = true;
     hasFill = false;
-    enableSlices = true;
     hasPoints = false;
     hasGridX = true;
     hasGridY = true;
@@ -75,6 +73,28 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
   if (isOverlayed) {
     hasFill = false;
   }
+
+  const handleMouseEnter = (point: todoType, event: todoType) => {
+    if (point.data.isImportant) {
+      event.target.style.cursor = 'pointer';
+    }
+  };
+
+  const handleMouseLeave = (point: todoType, event: todoType) => {
+    if (point.data.isImportant) {
+      event.target.style.cursor = 'auto';
+    } else {
+      event.target.style.cursor = 'auto';
+    }
+  };
+
+  const handleMouseMove = (point: todoType, event: todoType) => {
+    if (point.data.isImportant) {
+      event.target.style.cursor = 'pointer';
+    } else {
+      event.target.style.cursor = 'auto';
+    }
+  };
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
@@ -96,7 +116,10 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
             reverse: false
           }}
           curve="catmullRom"
-          enableSlices={enableSlices ? 'x' : false}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+          // enableSlices={'x'}
           enableArea={hasFill}
           areaOpacity={0.8}
           enablePoints={true}
@@ -157,7 +180,7 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
             { match: '*', id: 'gradientA' },
           ]}
           sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (/*  isThumbnail ? <></> : */
+            return (
               <div
                 className='unselectable-text'
                 style={{
@@ -215,6 +238,68 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
                     marginRight: -15,
                   }}
                 />
+                }
+              </div>
+            );
+          }}
+          tooltip={({point}: todoType) => {
+            return (
+              <div
+                className='unselectable-text'
+                style={{
+                  cursor: 'pointer',
+                  background: '#f7fafb',
+                  padding: '0 15px',
+                  border: '1px solid black',
+                  borderRadius: 6,
+                  display: 'flex',
+                  gap: 20,
+                  alignItems: 'center',
+                  height: 180,
+                // TODO try make hover on important point less wonky
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-evenly',
+                    height: '100%'
+                  }}
+                >
+                  <div key={point.id}>
+                    <div
+                      style={{
+                        color: point.serieColor,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        flexDirection: isMultiline ? 'row' : 'column',
+                        gap: isMultiline ? 20 : 10
+                      }}
+                    >
+                      <strong>{point.serieId}: </strong>
+                      <span style={{ fontWeight: 900 }}>{point.data.yFormatted}</span>
+                    </div>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexDirection: isMultiline ? 'row' : 'column',
+                    gap: isMultiline ? 20 : 10
+                  }}
+                  >
+                    <strong>Time: </strong>
+                    <span style={{ fontWeight: 900 }}>{point.data.x} sec</span>
+                  </div>
+                </div>
+                {point.data.isImportant &&
+              <img src={testImage}
+                style={{
+                  height: 180,
+                  borderRadius: '2px 6px 6px 2px',
+                  marginRight: -15,
+                }}
+              />
                 }
               </div>
             );
