@@ -57,6 +57,8 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
       />}
       {!isBarChart && <LineChart
+        frames={frames}
+        accuracy={accuracy}
         isMultiline={false}
         dataset={[{
           ...parseChartData(data, dataType, accuracy, 'line') as LineDataset,

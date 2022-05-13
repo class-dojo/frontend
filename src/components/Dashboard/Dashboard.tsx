@@ -16,7 +16,7 @@ const Dashboard = () => {
   const { accuracy, data, frames }: todoType = location.state;
 
   const toggleView = () => {
-    navigate('/detailed', { state:{ accuracy, data }});
+    navigate('/detailed', { state:{ accuracy, data, frames }});
   };
 
   return (
