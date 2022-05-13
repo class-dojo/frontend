@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createSingleBarData, createSingleLineData } from '../../../assets/mockDataProvider';
 import { todoType } from '../../../types';
+import { SingleFrameAnalysis } from '../../UploadVideo/types';
 import BarChart from '../BarChart/BarChart';
-import { colors } from '../colors';
+import { colors } from '../../../colors';
+import { ATTENTION, MOOD } from '../../../constants';
+import { BarDataset, LineDataset } from '../../../interfaces';
 import LineChart from '../LineChart/LineChart';
+import { parseChartData } from '../utils';
 import './mixedChart.css';
-
-// TODO polish margins for this component
 
 type MixedChartProps = {
   isThumbnail?: boolean,
   color: string,
   type: string,
+  accuracy: number,
+  data: SingleFrameAnalysis[]
 }
 
-const MixedChart = ({ isThumbnail, color, type }: MixedChartProps) => {
+const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProps) => {
 
   const [isBarPrimary, setIsBarPrimary] = useState(true);
   const [isAttentionPrimary, setIsAttentionPrimary] = useState(true);
@@ -28,29 +32,6 @@ const MixedChart = ({ isThumbnail, color, type }: MixedChartProps) => {
   const toggleMainChart = (event: todoType) => {
     if (!event.target.className.split(' ').includes('selected')) {
       setIsAttentionPrimary(!isAttentionPrimary);
-    }
-  };
-
-  // TODO make buttons responsive
-  // TODO create dataset mapper
-
-  const mapBarData = () => {
-    if (isAttentionPrimary && isBarPrimary) {
-      // attention data
-    } else if (!isAttentionPrimary && !isBarPrimary) {
-      // attention data
-    } else {
-      // mood data
-    }
-  };
-
-  const mapLineData = () => {
-    if (isAttentionPrimary && isBarPrimary) {
-      // mood data
-    } else if (!isAttentionPrimary && !isBarPrimary) {
-      // mood data
-    } else {
-      // attention data
     }
   };
 
@@ -76,19 +57,25 @@ const MixedChart = ({ isThumbnail, color, type }: MixedChartProps) => {
       <div style={{ position: 'absolute', width: '100%' }} >
         <BarChart
           isMultibar={false}
-          dataset={createSingleBarData()}
+          accuracy={accuracy}
+          dataset={parseChartData(data, isAttentionPrimary === isBarPrimary ? 'attentionScore' : 'moodScore', accuracy, 'bar') as BarDataset}
           isOverlayed={true}
           isSecondary={!isBarPrimary}
           isThumbnail={isThumbnail}
           color={color}
+          yAxisName={'Mood and Attention'}
         />
       </div>
       <div style={{ position: 'absolute', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
         <LineChart
           isMultiline={false}
-          dataset={createSingleLineData(isBarPrimary ? '#b2280185' : '#dd4c0a')}
           title={'Aggregate'}
-          yAxisName={'Mood Index'}
+          dataset={[{
+            ...parseChartData(data, isAttentionPrimary === isBarPrimary ? 'moodScore' : 'attentionScore', accuracy, 'line') as LineDataset,
+            id: isAttentionPrimary === isBarPrimary ? MOOD : ATTENTION,
+            color: isBarPrimary ? '#b2280185' : '#dd4c0a',
+          }]}
+          yAxisName={''}
           isOverlayed={true}
           isSecondary={isBarPrimary}
           isThumbnail={isThumbnail}

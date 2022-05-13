@@ -4,6 +4,8 @@ import { linearGradientDef } from '@nivo/core';
 
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
+import { LineDataset } from '../../../interfaces';
+import { HEADCOUNT } from '../../../constants';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -18,7 +20,7 @@ const displayBoxFrameStyle: React.CSSProperties = {
 
 type LineChartProps = {
   isMultiline: boolean,
-  dataset: todoType,
+  dataset: LineDataset[],
   title: string,
   yAxisName: string,
   isOverlayed?: boolean,
@@ -26,7 +28,7 @@ type LineChartProps = {
   isThumbnail?: boolean,
 }
 
-const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
 
   const mainContainerStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -89,7 +91,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
           yScale={{
             type: 'linear',
             min: 0,
-            max: 10,
+            max: yAxisName === HEADCOUNT ? 'auto' : 10,
             stacked: false,
             reverse: false
           }}
@@ -157,6 +159,7 @@ const LineChart = ({ isMultiline, dataset, title, yAxisName, isOverlayed = false
           sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return (/*  isThumbnail ? <></> : */
               <div
+                className='unselectable-text'
                 style={{
                   background: '#f7fafb',
                   padding: '0 15px',

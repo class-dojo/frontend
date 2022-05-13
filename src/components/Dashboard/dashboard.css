@@ -6,3 +6,7 @@
 .chart-small {
   height: 350px;
 }
+
+.toggle-view-btn {
+  min-width: 90px;
+}

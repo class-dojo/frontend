@@ -1,11 +1,9 @@
 .mainScreen {
   display: flex;
-  height: 100vh;
-  width: 100vw;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10vh, 10vw
+  min-height: calc(100vh - 73px);
 }
 
 .text {

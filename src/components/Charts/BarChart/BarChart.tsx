@@ -5,7 +5,9 @@ import { linearGradientDef, patternLinesDef, patternSquaresDef } from '@nivo/cor
 import './barChart.css';
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
-import { colors } from '../colors';
+import { colors } from '../../../colors';
+import { BarDataset } from '../../../interfaces';
+import { HEADCOUNT } from '../../../constants';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -40,21 +42,6 @@ const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | u
   }
 };
 
-interface BarDataset {
-  data: {
-    id: number;
-    Time: number;
-    'Attention Level'?: number;
-    Happiness?: number; // TODO Make camelcase and handle capitalization somewhere else
-    Sadness?: number;
-    Confusion?: number;
-    Calmness?: number;
-  } [];
-  keys: string[];
-  importantIndexes: number[];
-  samplePeriod: number
-}
-
 type BarChartProps = {
   isMultibar: boolean,
   dataset: BarDataset,
@@ -62,9 +49,11 @@ type BarChartProps = {
   isThumbnail?: boolean,
   color?: string,
   isOverlayed?: boolean,
+  accuracy: number,
+  yAxisName: string,
 }
 
-const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed}: BarChartProps) => {
+const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName}: BarChartProps) => {
 
   const mainContainerStyle: React.CSSProperties = {
     // marginTop: isThumbnail ? 0 : 110,
@@ -119,9 +108,10 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
         <ResponsiveBar
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          motionConfig={'stiff'}
           data={dataset.data}
           keys={dataset.keys}
-          maxValue={10}
+          maxValue={yAxisName === HEADCOUNT ? 'auto' : 10}
           padding={isMultibar ? 0.2 : 0.04}
           margin={{ top: isThumbnail ? 10 : 20, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 50, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}
@@ -143,13 +133,13 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             legend: 'Time',
             legendPosition: 'middle',
             legendOffset: isThumbnail ? 30 : 40,
-            format: index => {return (index === 0 || indexes.find(vts => vts === index * dataset.samplePeriod)) ? index * 5 : '';} ,
+            format: index => {return (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '';} ,
           }}
           axisLeft={isSecondary ? null : {
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
-            legend: 'Attention Level',
+            legend: yAxisName,
             legendPosition: 'middle',
             legendOffset: isThumbnail ? -40 : -50
           }}
@@ -157,7 +147,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickSize: 10,
             tickPadding: 10,
             tickRotation: 0,
-            legend: 'Attention Level',
+            legend: yAxisName,
             legendPosition: 'middle',
             legendOffset: isThumbnail ? 40 : 50
           } : null}
@@ -194,6 +184,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return (/*  isThumbnail ? <></> : */
               <div
+                className='unselectable-text'
                 style={{
                   background: '#f7fafb',
                   padding: '0 15px',
