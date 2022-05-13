@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { linearGradientDef, patternLinesDef, patternSquaresDef } from '@nivo/core';
 
@@ -8,6 +8,7 @@ import { todoType } from '../../../types';
 import { colors } from '../../../colors';
 import { BarDataset } from '../../../interfaces';
 import { HEADCOUNT } from '../../../constants';
+import { Modal } from 'react-bootstrap';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -56,6 +57,9 @@ type BarChartProps = {
 
 const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName, frames}: BarChartProps) => {
 
+  const [show, setShow] = useState(false);
+  const [modalImgIndex, setModalImgIndex] = useState(0);
+
   const mainContainerStyle: React.CSSProperties = {
     // marginTop: isThumbnail ? 0 : 110,
     textAlign: 'center',
@@ -95,6 +99,16 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
     }
   };
 
+  const handleClick = (data: todoType, event: todoType) => {
+    if (dataset.importantIndexes.includes(data.index)) {
+      setModalImgIndex(data.index);
+      handleShow();
+    }
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const indexes = dataset.data.map(datum => datum.Time).filter(time => time % 10 === 0 || time === 0);
 
   return (
@@ -107,6 +121,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
         <ResponsiveBar
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
           motionConfig={'stiff'}
           data={dataset.data}
           keys={dataset.keys}
@@ -180,7 +195,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             { match: '*', id: 'gradientA' },
           ]}
 
-          tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
+          tooltip={({ id, value, color, indexValue, index, data }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return (/*  isThumbnail ? <></> : */
               <div
                 className='unselectable-text'
@@ -225,7 +240,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                   }}
                   >
                     <strong>Time: </strong>
-                    <span style={{ fontWeight: 900 }}>{indexValue} sec</span>
+                    <span style={{ fontWeight: 900 }}>{indexValue * accuracy} sec</span>
                   </div>
                 </div>
                 {dataset.importantIndexes.includes(index) &&
@@ -242,6 +257,18 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           }}
         />
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <div className="modal-dialog-lg modal-dialog-centered modal-lg my-0 d-flex justify-content-center" style={{backgroundColor: 'transparent', margin: 'auto', width: 800 }}>
+          <img src={frames[modalImgIndex]}
+            style={{
+              maxHeight: '60vh',
+              maxWidth: '60vw',
+              borderRadius: 8,
+            }}
+          />
+        </div>
+      </Modal>
     </div>
   );
 };
