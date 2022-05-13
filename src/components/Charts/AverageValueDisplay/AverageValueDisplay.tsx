@@ -1,7 +1,7 @@
 import React from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { colors } from '../colors';
+import { colors } from '../../../colors';
 
 const getColor = (percentage: number) => {
   if (percentage <= 30) {

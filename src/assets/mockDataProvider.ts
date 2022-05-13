@@ -1,4 +1,4 @@
-import { colors } from '../components/AnalysisDisplay/colors';
+import { colors } from '../colors';
 
 export const createMultiLineData = () => {
   const dataset1 = getRandomLineData(21);

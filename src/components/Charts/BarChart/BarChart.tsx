@@ -5,9 +5,9 @@ import { linearGradientDef, patternLinesDef, patternSquaresDef } from '@nivo/cor
 import './barChart.css';
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
-import { colors } from '../colors';
-import { BarDataset } from '../interfaces';
-import { HEADCOUNT } from '../constants';
+import { colors } from '../../../colors';
+import { BarDataset } from '../../../interfaces';
+import { HEADCOUNT } from '../../../constants';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -184,6 +184,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return (/*  isThumbnail ? <></> : */
               <div
+                className='unselectable-text'
                 style={{
                   background: '#f7fafb',
                   padding: '0 15px',

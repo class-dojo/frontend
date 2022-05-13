@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { todoType } from '../../../types';
 import { SingleFrameAnalysis } from '../../UploadVideo/types';
 import BarChart from '../BarChart/BarChart';
-import { colors } from '../colors';
+import { colors } from '../../../colors';
 import LineChart from '../LineChart/LineChart';
 import './chartToggler.css';
 import {parseChartData} from  '../utils';
-import { BarDataset, LineDataset } from '../interfaces';
-import { ATTENTION, MOOD } from '../constants';
+import { BarDataset, LineDataset } from '../../../interfaces';
+import { ATTENTION, MOOD } from '../../../constants';
 
 type ChartTogglerProps = {
   isThumbnail?: boolean,
@@ -58,7 +58,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         isMultiline={false}
         dataset={[{
           ...parseChartData(data, dataType, accuracy, 'line') as LineDataset,
-          id: 'Attention Level',
+          id: type,
           color
         }]}
         yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}

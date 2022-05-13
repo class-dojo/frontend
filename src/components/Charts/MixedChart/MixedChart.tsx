@@ -3,8 +3,9 @@ import { createSingleBarData, createSingleLineData } from '../../../assets/mockD
 import { todoType } from '../../../types';
 import { SingleFrameAnalysis } from '../../UploadVideo/types';
 import BarChart from '../BarChart/BarChart';
-import { colors } from '../colors';
-import { BarDataset, LineDataset } from '../interfaces';
+import { colors } from '../../../colors';
+import { ATTENTION, MOOD } from '../../../constants';
+import { BarDataset, LineDataset } from '../../../interfaces';
 import LineChart from '../LineChart/LineChart';
 import { parseChartData } from '../utils';
 import './mixedChart.css';
@@ -71,7 +72,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
           title={'Aggregate'}
           dataset={[{
             ...parseChartData(data, isAttentionPrimary === isBarPrimary ? 'moodScore' : 'attentionScore', accuracy, 'line') as LineDataset,
-            id: 'Attention Level',
+            id: isAttentionPrimary === isBarPrimary ? MOOD : ATTENTION,
             color: isBarPrimary ? '#b2280185' : '#dd4c0a',
           }]}
           yAxisName={''}

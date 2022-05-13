@@ -2,7 +2,7 @@ import React from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
 
 import { todoType } from '../../../types';
-import { colors } from '../colors';
+import { colors } from '../../../colors';
 
 const mainContainerStyle: React.CSSProperties = {
   marginTop: 100,

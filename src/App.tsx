@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import UploadVideo from './components/UploadVideo/UploadVideo';
 import Landing from './components/Landing/Landing';
-import AnalysisDisplay from './components/AnalysisDisplay/AnalysisDisplay';
-import Dashboard from './components/AnalysisDisplay/Dashboard';
+import AnalysisDisplay from './components/DetailedView/DetailedView';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App () {
   return (

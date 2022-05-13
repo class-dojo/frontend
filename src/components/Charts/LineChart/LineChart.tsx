@@ -4,8 +4,8 @@ import { linearGradientDef } from '@nivo/core';
 
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
-import { LineDataset } from '../interfaces';
-import { HEADCOUNT } from '../constants';
+import { LineDataset } from '../../../interfaces';
+import { HEADCOUNT } from '../../../constants';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -159,6 +159,7 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
           sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return (/*  isThumbnail ? <></> : */
               <div
+                className='unselectable-text'
                 style={{
                   background: '#f7fafb',
                   padding: '0 15px',
