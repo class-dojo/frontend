@@ -137,7 +137,7 @@ components:
             - attentionScore: 0.46
               moodScore: 0.36
               amountOfPeople: 18
-              isImportantAttention: true
+              isImportantAttention: false
               isImportantMood: false
               isImportantPeople: true
             - attentionScore: 0.54
@@ -198,7 +198,7 @@ components:
               moodScore: 0.46
               amountOfPeople: 16
               isImportantAttention: false
-              isImportantMood: false
+              isImportantMood: true
               isImportantPeople: false
             - attentionScore: 0.10
               moodScore: 0.30
