@@ -10,10 +10,10 @@ const AnalysisDisplay = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { accuracy, data }: todoType = location.state;
+  const { accuracy, data, frames }: todoType = location.state;
 
   const toggleView = () => {
-    navigate('/dashboard', {state:{ accuracy, data }});
+    navigate('/dashboard', {state:{ accuracy, data, frames }});
   };
 
   return (
@@ -28,12 +28,14 @@ const AnalysisDisplay = () => {
           </div>
         </div>
         <MixedChart
+          frames={frames}
           type={AGGREGATE}
           color={colors.primaryDarkBlue}
           accuracy={accuracy}
           data={data.framesArray}
         />
         <ChartToggler
+          frames={frames}
           dataType={'attentionScore'}
           data={data.framesArray}
           accuracy={accuracy}
@@ -42,6 +44,7 @@ const AnalysisDisplay = () => {
           color={colors.primaryRed}
         />
         <ChartToggler
+          frames={frames}
           dataType={'moodScore'}
           data={data.framesArray}
           accuracy={accuracy}
@@ -50,6 +53,7 @@ const AnalysisDisplay = () => {
           type={MOOD}
         />
         <ChartToggler
+          frames={frames}
           dataType={'amountOfPeople'}
           data={data.framesArray}
           accuracy={accuracy}

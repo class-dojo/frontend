@@ -37,6 +37,7 @@ const Dashboard = () => {
         <div className='col-sm-8 col-md-9 col-lg-10'>
           <div className='card chart-small'>
             <MixedChart
+              frames={frames}
               data={data.framesArray}
               accuracy={accuracy}
               isThumbnail={true}
@@ -58,6 +59,7 @@ const Dashboard = () => {
         <div className='col-sm-4 col-md-5 col-lg-5'>
           <div className='card chart-small'>
             {data && < ChartToggler
+              frames={frames}
               dataType={'attentionScore'}
               data={data.framesArray}
               accuracy={accuracy}
@@ -71,6 +73,7 @@ const Dashboard = () => {
         <div className='col-sm-4 col-md-5 col-lg-5'>
           <div className='card chart-small'>
             {data && <ChartToggler
+              frames={frames}
               dataType={'moodScore'}
               data={data.framesArray}
               accuracy={accuracy}
