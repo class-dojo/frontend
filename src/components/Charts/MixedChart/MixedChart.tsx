@@ -21,7 +21,15 @@ type MixedChartProps = {
 const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProps) => {
 
   const [isBarPrimary, setIsBarPrimary] = useState(true);
-  const [isAttentionPrimary, setIsAttentionPrimary] = useState(true);
+  const [isMultiPrimary, setIsAttentionPrimary] = useState(true);
+  const [lineData, setLineData] = useState(getMultiLineData());
+
+  useEffect(() => {
+    if (isMultiPrimary === isBarPrimary) {
+      setLineData(getMultiLineData);
+    }
+
+  }, [isMultiPrimary, isBarPrimary]);
 
   const togglePrimaryChartType = (event: todoType) => {
     if (!event.target.className.split(' ').includes('selected')) {
@@ -31,9 +39,22 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
 
   const toggleMainChart = (event: todoType) => {
     if (!event.target.className.split(' ').includes('selected')) {
-      setIsAttentionPrimary(!isAttentionPrimary);
+      setIsAttentionPrimary(!isMultiPrimary);
     }
   };
+
+  function getMultiLineData () {
+    return [[{
+      ...parseChartData(data, 'attentionScore', accuracy, 'line') as LineDataset,
+      id: ATTENTION,
+      color: isBarPrimary ? '#b2280185' : '#dd4c0a',
+    }],
+    [{
+      ...parseChartData(data,'moodScore', accuracy, 'line') as LineDataset,
+      id: MOOD,
+      color: isBarPrimary ? '#b2280185' : '#dd4c0a',
+    }]];
+  }
 
   return (
     <div style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
@@ -41,8 +62,8 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
         <div className={`toggle-btn-group col-md-3 ${isThumbnail ? 'thumbnail-toggle-btn-group-margins' : ''}` }>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2'>Select primary chart</p>}
           <div className="btn-group d-flex mr-2 " style={{ zIndex: 1 }}>
-            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isAttentionPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Attention</button>
-            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isAttentionPrimary ? 'not-selected' : 'selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Mood</button>
+            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Attention</button>
+            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'not-selected' : 'selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Mood</button>
           </div>
         </div>
         {isThumbnail ? <h4 className='chart-title text-center col-md-4 mb-0'>{type}</h4> : <h1 className='chart-title text-center col-md-4 mb-0' style={{ margin: 'unset' }}>{type}</h1>}
@@ -58,7 +79,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
         <BarChart
           isMultibar={false}
           accuracy={accuracy}
-          dataset={parseChartData(data, isAttentionPrimary === isBarPrimary ? 'attentionScore' : 'moodScore', accuracy, 'bar') as BarDataset}
+          dataset={parseChartData(data, isMultiPrimary === isBarPrimary ? 'attentionScore' : 'moodScore', accuracy, 'bar') as BarDataset}
           isOverlayed={true}
           isSecondary={!isBarPrimary}
           isThumbnail={isThumbnail}
@@ -68,13 +89,9 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
       </div>
       <div style={{ position: 'absolute', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
         <LineChart
-          isMultiline={false}
+          isMultiline={true}
           title={'Aggregate'}
-          dataset={[{
-            ...parseChartData(data, isAttentionPrimary === isBarPrimary ? 'moodScore' : 'attentionScore', accuracy, 'line') as LineDataset,
-            id: isAttentionPrimary === isBarPrimary ? MOOD : ATTENTION,
-            color: isBarPrimary ? '#b2280185' : '#dd4c0a',
-          }]}
+          dataset={lineData}
           yAxisName={''}
           isOverlayed={true}
           isSecondary={isBarPrimary}
