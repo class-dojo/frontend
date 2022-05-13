@@ -30,7 +30,7 @@
   --bs-gray-900: #212529;
   --bs-primary: #8fbaab;
   --bs-secondary: #8392AB;
-  --bs-success: #82d616;
+  --bs-success: #355609;
   --bs-info: #17c1e8;
   --bs-warning: #fbcf33;
   --bs-danger: #ea0606;
@@ -3677,8 +3677,8 @@ fieldset:disabled .btn {
 
 .btn-success {
   color: #000;
-  background-color: #82d616;
-  border-color: #82d616;
+  background-color: #355609;
+  border-color: #355609;
 }
 
 .btn-success:hover {
@@ -3716,8 +3716,8 @@ fieldset:disabled .btn {
 .btn-success:disabled,
 .btn-success.disabled {
   color: #000;
-  background-color: #82d616;
-  border-color: #82d616;
+  background-color: #355609;
+  border-color: #355609;
 }
 
 .btn-info {
@@ -4071,14 +4071,14 @@ fieldset:disabled .btn {
 }
 
 .btn-outline-success {
-  color: #82d616;
-  border-color: #82d616;
+  color: #355609;
+  border-color: #355609;
 }
 
 .btn-outline-success:hover {
   color: #000;
-  background-color: #82d616;
-  border-color: #82d616;
+  background-color: #355609;
+  border-color: #355609;
 }
 
 .btn-check:focus+.btn-outline-success,
@@ -4092,8 +4092,8 @@ fieldset:disabled .btn {
 .btn-outline-success.active,
 .btn-outline-success.dropdown-toggle.show {
   color: #000;
-  background-color: #82d616;
-  border-color: #82d616;
+  background-color: #355609;
+  border-color: #355609;
 }
 
 .btn-check:checked+.btn-outline-success:focus,
@@ -4106,7 +4106,7 @@ fieldset:disabled .btn {
 
 .btn-outline-success:disabled,
 .btn-outline-success.disabled {
-  color: #82d616;
+  color: #355609;
   background-color: transparent;
 }
 
@@ -6067,7 +6067,7 @@ fieldset:disabled .btn {
 
 .alert-success {
   color: #345609;
-  background-color: #e6f7d0;
+  background-color: #6fb099;
   border-color: #daf3b9;
 }
 
@@ -6096,8 +6096,8 @@ fieldset:disabled .btn {
 }
 
 .alert-danger {
-  color: #8c0404;
-  background-color: #fbcdcd;
+  color: #7a0c0c;
+  background-color: #d86952;
   border-color: #f9b4b4;
 }
 
@@ -7755,7 +7755,7 @@ fieldset:disabled .btn {
 }
 
 .link-success {
-  color: #82d616;
+  color: #355609;
 }
 
 .link-success:hover,
@@ -8419,7 +8419,7 @@ fieldset:disabled .btn {
 }
 
 .border-success {
-  border-color: #82d616 !important;
+  border-color: #355609 !important;
 }
 
 .border-info {
@@ -10208,7 +10208,7 @@ fieldset:disabled .btn {
 }
 
 .text-success {
-  color: #82d616 !important;
+  color: #355609 !important;
 }
 
 .text-info {
@@ -10280,7 +10280,7 @@ fieldset:disabled .btn {
 }
 
 .bg-success {
-  background-color: #82d616 !important;
+  background-color: #355609 !important;
 }
 
 .bg-info {
@@ -19939,7 +19939,7 @@ fieldset:disabled .btn {
 }
 
 .badge.bg-success {
-  background: #82d616;
+  background: #355609;
 }
 
 .badge.bg-info {
@@ -20162,13 +20162,13 @@ fieldset:disabled .btn {
 
 .btn-success:hover,
 .btn.bg-gradient-success:hover {
-  background-color: #82d616;
-  border-color: #82d616;
+  background-color: #355609;
+  border-color: #355609;
 }
 
 .btn-success .btn.bg-outline-success,
 .btn.bg-gradient-success .btn.bg-outline-success {
-  border: 1px solid #82d616;
+  border: 1px solid #355609;
 }
 
 .btn-success:not(:disabled):not(.disabled).active,
@@ -20177,8 +20177,8 @@ fieldset:disabled .btn {
 .btn.bg-gradient-success:not(:disabled):not(.disabled).active,
 .btn.bg-gradient-success:not(:disabled):not(.disabled):active,
 .show>.btn.bg-gradient-success.dropdown-toggle {
-  color: color-yiq(#82d616);
-  background-color: #82d616;
+  color: color-yiq(#355609);
+  background-color: #355609;
 }
 
 .btn-success.focus,
@@ -20196,7 +20196,7 @@ fieldset:disabled .btn {
   background-color: transparent;
   opacity: .75;
   box-shadow: none;
-  color: #82d616;
+  color: #355609;
 }
 
 .btn-info:hover,
@@ -21427,7 +21427,7 @@ label,
 }
 
 .bg-gradient-faded-success-vertical {
-  background-image: radial-gradient(200px circle at 50% 70%, rgba(130, 214, 22, 0.3) 0, #82d616 100%);
+  background-image: radial-gradient(200px circle at 50% 70%, rgba(130, 214, 22, 0.3) 0, #355609 100%);
 }
 
 .bg-gradient-faded-info-vertical {
@@ -22774,7 +22774,7 @@ hr.horizontal.gray-light {
 }
 
 .sidenav[data-color="success"] .navbar-nav>.nav-item>.nav-link.active .icon {
-  background-image: linear-gradient(310deg, #82d616 0%, #82d616 100%);
+  background-image: linear-gradient(310deg, #355609 0%, #355609 100%);
 }
 
 .sidenav[data-color="info"] .navbar-nav>.nav-item>.nav-link.active .icon {

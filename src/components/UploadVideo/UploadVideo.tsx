@@ -30,6 +30,7 @@ const UploadVideo = () => {
   useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);
 
   const handleTranscodeClick = async (): Promise<void> => {
+    if (isTranscoding) return;
     if (showAlert) toggleShowAlert();
     if (ffmpeg.current.isLoaded() && source.current) {
       toggleIsTranscoding();
@@ -67,24 +68,34 @@ const UploadVideo = () => {
   };
 
   return (
-    <section className="py-4 py-xl-5 mt-5">
-      <div className="container my-5">
-        <div className="text-white bg-dark border rounded border-0 p-4 p-md-5">
-          <h2 className="fw-bold text-white mb-3">analyze video</h2><small></small>
-          <p className="mb-4">Upload a video and ClassDojo will analyze it</p><small>Select analysis quality&nbsp;</small>
-          <select defaultValue={5} onChange={handleAccuracyChange}>
-            <optgroup label="Parsing Accuracy">
-              <option value={20}>Low</option>
-              <option value={10}>Medium</option>
-              <option value={5}>High</option>
-            </optgroup>
-          </select>
-          <div className='my-3'>
-            <input type="file" accept="video/*" onChange={handleFileInputChange}/>
-            <div className="my-3"><a className="btn btn-primary btn-lg me-2 dark-element" role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
-            <div>{ isTranscoding ? <ProgressBar animated now={barProgress}/> : <p>{message}</p>}</div>
+    <section className="py-4 py-xl-5 ">
+      <div className="container my-5 mt-2">
+        <div className="text-white text-center bg-dark border rounded border-0 p-3 p-md-4 d-flex flex-column aling-items-center">
+          <h1 className="fw-bold text-white mb-3">analyze video</h1><small></small>
+          <p className="mb-4">Upload a video and ClassDojo will analyze it</p>
+          <div className='mt-4'>
+            <small className='me-3'>Select analysis quality</small>
+            <select style={{maxWidth: 200}} defaultValue={5} onChange={handleAccuracyChange}>
+              <optgroup label="Quality">
+                <option value={20}>Low</option>
+                <option value={10}>Medium</option>
+                <option value={5}>High</option>
+              </optgroup>
+            </select>
           </div>
-          {showAlert && <ActionAlert accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          <div className='my-3'>
+            <div className='px-9'>
+              <label htmlFor="formFileLg" className="form-label notranslate mt-3"></label>
+              <input className="form-control form-control-lg notranslate" id="formFileLg" type="file" translate='no' accept="video/*" onChange={handleFileInputChange}/>
+            </div>
+            {/* <input type="file" accept="video/*" onChange={handleFileInputChange}/> */}
+            <div className="my-3"><a className={`btn btn-primary btn-lg me-2 dark-element ${isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
+            <div className='mt-4'>{ isTranscoding ? <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/> : <p style={{ marginBottom: 0, marginTop: 0 }}>{message}</p>}</div>
+          </div>
+        </div>
+        <div className='mt-2'>
+          {showAlert &&
+          <ActionAlert accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>

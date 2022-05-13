@@ -34,6 +34,12 @@ body {
   left: 0;
 }
 
+.upload-btn-disabled {
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+}
+
 .unselectable-text {
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
