@@ -130,7 +130,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickSize: 0,
             tickPadding: 5,
             tickRotation: 0,
-            legend: yAxisName,
+            legend: 'Time',
             legendPosition: 'middle',
             legendOffset: isThumbnail ? 30 : 40,
             format: index => {return (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '';} ,

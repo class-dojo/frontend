@@ -5,7 +5,6 @@ import ChartToggler from './ChartToggler/ChartToggler';
 import { colors } from './colors';
 import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from './constants';
 import MixedChart from './MixedChart/MixedChart';
-import RadarChart from './RadarChart/RadarChart';
 
 const AnalysisDisplay = () => {
 
