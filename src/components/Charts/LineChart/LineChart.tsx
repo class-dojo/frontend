@@ -26,9 +26,11 @@ type LineChartProps = {
   isOverlayed?: boolean,
   isSecondary?: boolean,
   isThumbnail?: boolean,
+  frames: string[]
+  accuracy: number
 }
 
-const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
+const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
 
   const mainContainerStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -95,6 +97,8 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
       event.target.style.cursor = 'auto';
     }
   };
+
+
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
@@ -179,69 +183,69 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
           fill={[
             { match: '*', id: 'gradientA' },
           ]}
-          sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (
-              <div
-                className='unselectable-text'
-                style={{
-                  background: '#f7fafb',
-                  padding: '0 15px',
-                  border: '1px solid black',
-                  borderRadius: 6,
-                  display: 'flex',
-                  gap: 20,
-                  alignItems: 'center',
-                  height: 180,
-                  // TODO try make hover on important point less wonky
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                    height: '100%'
-                  }}
-                >
-                  {slice.points.map((point: todoType ) => (
-                    <div key={point.id}>
-                      <div
-                        style={{
-                          color: point.serieColor,
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          flexDirection: isMultiline ? 'row' : 'column',
-                          gap: isMultiline ? 20 : 10
-                        }}
-                      >
-                        <strong>{point.serieId}: </strong>
-                        <span style={{ fontWeight: 900 }}>{point.data.yFormatted}</span>
-                      </div>
-                    </div>
-                  ))}
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    flexDirection: isMultiline ? 'row' : 'column',
-                    gap: isMultiline ? 20 : 10
-                  }}
-                  >
-                    <strong>Time: </strong>
-                    <span style={{ fontWeight: 900 }}>{slice.points[0].data.x} sec</span>
-                  </div>
-                </div>
-                {slice.points[0].data.isImportant &&
-                <img src={testImage}
-                  style={{
-                    height: 180,
-                    borderRadius: '2px 6px 6px 2px',
-                    marginRight: -15,
-                  }}
-                />
-                }
-              </div>
-            );
-          }}
+          // sliceTooltip={({ slice }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
+          //   return (
+          //     <div
+          //       className='unselectable-text'
+          //       style={{
+          //         background: '#f7fafb',
+          //         padding: '0 15px',
+          //         border: '1px solid black',
+          //         borderRadius: 6,
+          //         display: 'flex',
+          //         gap: 20,
+          //         alignItems: 'center',
+          //         height: 180,
+          //         // TODO try make hover on important point less wonky
+          //       }}
+          //     >
+          //       <div
+          //         style={{
+          //           display: 'flex',
+          //           flexDirection: 'column',
+          //           justifyContent: 'space-evenly',
+          //           height: '100%'
+          //         }}
+          //       >
+          //         {slice.points.map((point: todoType ) => (
+          //           <div key={point.id}>
+          //             <div
+          //               style={{
+          //                 color: point.serieColor,
+          //                 display: 'flex',
+          //                 justifyContent: 'space-between',
+          //                 flexDirection: isMultiline ? 'row' : 'column',
+          //                 gap: isMultiline ? 20 : 10
+          //               }}
+          //             >
+          //               <strong>{point.serieId}: </strong>
+          //               <span style={{ fontWeight: 900 }}>{point.data.yFormatted}</span>
+          //             </div>
+          //           </div>
+          //         ))}
+          //         <div style={{
+          //           display: 'flex',
+          //           justifyContent: 'space-between',
+          //           flexDirection: isMultiline ? 'row' : 'column',
+          //           gap: isMultiline ? 20 : 10
+          //         }}
+          //         >
+          //           <strong>Time: </strong>
+          //           <span style={{ fontWeight: 900 }}>{slice.points[0].data.x} sec</span>
+          //         </div>
+          //       </div>
+          //       {slice.points[0].data.isImportant &&
+          //       <img src={testImage}
+          //         style={{
+          //           height: 180,
+          //           borderRadius: '2px 6px 6px 2px',
+          //           marginRight: -15,
+          //         }}
+          //       />
+          //       }
+          //     </div>
+          //   );
+          // }}
           tooltip={({point}: todoType) => {
             return (
               <div
@@ -293,7 +297,7 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
                   </div>
                 </div>
                 {point.data.isImportant &&
-              <img src={testImage}
+              <img src={frames[point.data.x/accuracy]}
                 style={{
                   height: 180,
                   borderRadius: '2px 6px 6px 2px',

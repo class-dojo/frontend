@@ -70,6 +70,8 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data, frames }: MixedC
       </div>
       <div style={{ position: 'absolute', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
         <LineChart
+          frames={frames}
+          accuracy={accuracy}
           isMultiline={false}
           title={'Aggregate'}
           dataset={[{
