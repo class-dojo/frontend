@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { accuracy, data }: todoType = location.state;
+  const { accuracy, data, frames }: todoType = location.state;
 
   const toggleView = () => {
     navigate('/detailed', { state:{ accuracy, data }});
