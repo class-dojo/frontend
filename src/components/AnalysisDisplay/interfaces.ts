@@ -13,7 +13,7 @@ export interface BarDatum {
 export interface LineDataset {
   data: LineDatum[];
   color?: string; // Yes, the line chart needs to get its color from the data. We will pass this as param into the parser function
-  id?: string // Attention, Mood... we will pass manually into the parser function
+  id: string; // Attention, Mood... we will pass manually into the parser function
 }
 
 export interface LineDatum {

@@ -1,4 +1,4 @@
-import { SingleFramesLoose } from '../UploadVideo/types';
+import { SingleFrameAnalysis, SingleFramesLoose } from '../UploadVideo/types';
 
 // ALL IN ONE
 export const parseChartData = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, chart: string) => {
@@ -20,17 +20,34 @@ export const parseChartData = (framesArray: SingleFramesLoose[], key: string, sa
 };
 
 const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, importance: string) => {
+  let goodKeyName = '';
+  switch (key) {
+    case 'attentionScore':
+      goodKeyName = 'Attention';
+      break;
+    case 'moodScore':
+      goodKeyName = 'Mood';
+      break;
+    case 'amountOfPeople':
+      goodKeyName = 'People';
+      break;
+  }
   const importantIndexes: number[] = [];
   const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
     if (frame[importance]) importantIndexes.push(i);
-    return { id: i, Time: i * samplePeriod, [key]: frame[key] };
+    return { id: i, Time: i * samplePeriod, [goodKeyName]: Math.round(Number(frame[key]) * 10 * 10) / 10 };
   });
-  return { data, importantIndexes };
+
+  return { data, importantIndexes, keys: [goodKeyName] };
 };
 
 const parseLine = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, importance: string) => {
   const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
-    return { x: i * samplePeriod, y: frame[key], isImportant: frame[importance] };
+    return {
+      x: i * samplePeriod,
+      y: Math.round(Number(frame[key]) * 10 * 10) / 10,
+      isImportant: frame[importance] as boolean
+    };
   });
   return { data };
 };

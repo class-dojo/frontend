@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { createMultiBarData, createSingleBarData, createSingleLineData } from '../../../assets/mockDataProvider';
+
 import { todoType } from '../../../types';
+import { SingleFrameAnalysis } from '../../UploadVideo/types';
 import BarChart from '../BarChart/BarChart';
 import { colors } from '../colors';
 import LineChart from '../LineChart/LineChart';
 import './chartToggler.css';
+import {parseChartData} from  '../utils';
+import { BarDataset, LineDataset } from '../interfaces';
 
 type ChartTogglerProps = {
   isThumbnail?: boolean,
   isBarChartOnInit: boolean,
   type: string,
   color?: string,
+  data: SingleFrameAnalysis[],
+  accuracy: number,
+  dataType: string
 }
 
-const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.primaryGreen }: ChartTogglerProps) => { // TODO has to take data and parse it here
+const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.primaryGreen, data, accuracy, dataType }: ChartTogglerProps) => { // TODO has to take data and parse it here
 
   const [isBarChart, setIsBarChart] = useState(true);
 
@@ -40,14 +46,20 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         </div>
       </div>
       {isBarChart && <BarChart
+        accuracy={accuracy}
         isMultibar={false}
-        dataset={createSingleBarData()}
+        dataset={parseChartData(data, dataType, accuracy, 'bar') as BarDataset}
         color={color}
         isThumbnail={isThumbnail}
+        yAxisName={`${type} index`}
       />}
       {!isBarChart && <LineChart
         isMultiline={false}
-        dataset={createSingleLineData(color)}
+        dataset={[{
+          ...parseChartData(data, dataType, accuracy, 'line') as LineDataset,
+          id: 'Attention Level',
+          color
+        }]}
         yAxisName={`${type} index`}
         title={type}
         isThumbnail={isThumbnail}

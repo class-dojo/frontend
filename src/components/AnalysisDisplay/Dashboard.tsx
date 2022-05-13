@@ -6,8 +6,14 @@ import { colors } from './colors';
 import AverageValueDisplay from './AverageValueDisplay/AverageValueDisplay';
 import { AGGREGATE, ATTENTION, MOOD } from './constants';
 import ChartToggler from './ChartToggler/ChartToggler';
+import { useLocation } from 'react-router-dom';
+import { todoType } from '../../types';
 
 const Dashboard = () => {
+
+  const location = useLocation();
+  const { accuracy, data }: todoType = location.state;
+
   return (
     <div className='container-fluid px-4 mt-3 '>  {/* FLUID? */}
       <div className='row d-flex' style={{ height: 'calc(50vh - 50px)', maxHeight: 500 }}>
@@ -22,6 +28,8 @@ const Dashboard = () => {
         <div className='col-sm-8 col-md-9 col-lg-10'>
           <div className='card chart-small'>
             <MixedChart
+              data={data.framesArray}
+              accuracy={accuracy}
               isThumbnail={true}
               color={colors.primaryDarkBlue}
               type={AGGREGATE}
@@ -40,22 +48,28 @@ const Dashboard = () => {
         </div>
         <div className='col-sm-4 col-md-5 col-lg-5'>
           <div className='card chart-small'>
-            <ChartToggler
+            {data && < ChartToggler
+              dataType={'attentionScore'}
+              data={data.framesArray}
+              accuracy={accuracy}
               isBarChartOnInit={true}
               type={ATTENTION}
               color={colors.primaryRed}
               isThumbnail={true}
-            />
+            />}
           </div>
         </div>
         <div className='col-sm-4 col-md-5 col-lg-5'>
           <div className='card chart-small'>
-            <ChartToggler
+            {data && <ChartToggler
+              dataType={'moodScore'}
+              data={data.framesArray}
+              accuracy={accuracy}
               isBarChartOnInit={false}
               type={MOOD}
               color={colors.primaryGreen}
               isThumbnail={true}
-            />
+            />}
           </div>
         </div>
       </div>
