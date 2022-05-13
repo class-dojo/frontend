@@ -8,6 +8,7 @@ import LineChart from '../LineChart/LineChart';
 import './chartToggler.css';
 import {parseChartData} from  '../utils';
 import { BarDataset, LineDataset } from '../interfaces';
+import { ATTENTION, MOOD } from '../constants';
 
 type ChartTogglerProps = {
   isThumbnail?: boolean,
@@ -51,7 +52,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         dataset={parseChartData(data, dataType, accuracy, 'bar') as BarDataset}
         color={color}
         isThumbnail={isThumbnail}
-        yAxisName={`${type} index`}
+        yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
       />}
       {!isBarChart && <LineChart
         isMultiline={false}
@@ -60,7 +61,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
           id: 'Attention Level',
           color
         }]}
-        yAxisName={`${type} index`}
+        yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
         title={type}
         isThumbnail={isThumbnail}
       />}

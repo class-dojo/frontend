@@ -7,6 +7,7 @@ import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 import { colors } from '../colors';
 import { BarDataset } from '../interfaces';
+import { HEADCOUNT } from '../constants';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -110,7 +111,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           motionConfig={'stiff'}
           data={dataset.data}
           keys={dataset.keys}
-          maxValue={10}
+          maxValue={yAxisName === HEADCOUNT ? 'auto' : 10}
           padding={isMultibar ? 0.2 : 0.04}
           margin={{ top: isThumbnail ? 10 : 20, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 50, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}

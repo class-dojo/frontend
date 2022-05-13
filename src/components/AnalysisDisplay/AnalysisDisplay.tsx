@@ -1,27 +1,37 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { createMultiBarData, createMultiLineData, mockRadarData } from '../../assets/mockDataProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { todoType } from '../../types';
-import BarChart from './BarChart/BarChart';
 import ChartToggler from './ChartToggler/ChartToggler';
 import { colors } from './colors';
-import { AGGREGATE, ATTENTION, EMOTIONS, MOOD } from './constants';
-import LineChart from './LineChart/LineChart';
+import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from './constants';
 import MixedChart from './MixedChart/MixedChart';
 import RadarChart from './RadarChart/RadarChart';
 
 const AnalysisDisplay = () => {
 
+  const navigate = useNavigate();
   const location = useLocation();
   const { accuracy, data }: todoType = location.state;
 
+  const toggleView = () => {
+    navigate('/dashboard', {state:{ accuracy, data }});
+  };
+
   return (
     <div>
+      <div className='container mt-5 mb-5'>
+        <div className='row d-flex flex-direction-column justify-content-center'>
+          <div className="btn-group d-flex mb-2 col-8" >
+            <button className={'p-1 py-2 mb-0 btn btn-primary shadow-none toggle-view-btn'} onClick={toggleView} type="button" style={{background: colors.headers}}>Dashboard</button>
+            <button className={'p-1 py-2 mb-0 btn btn-primary shadow-none toggle-view-btn'} type="button" style={{background: colors.headers}}>Detailed</button>
+          </div>
+        </div>
+      </div>
       <MixedChart
         type={AGGREGATE}
         color={colors.primaryDarkBlue}
         accuracy={accuracy}
-        data={data}
+        data={data.framesArray}
       />
       <ChartToggler
         dataType={'attentionScore'}
@@ -38,6 +48,14 @@ const AnalysisDisplay = () => {
         isBarChartOnInit={false}
         color={colors.primaryGreen}
         type={MOOD}
+      />
+      <ChartToggler
+        dataType={'amountOfPeople'}
+        data={data.framesArray}
+        accuracy={accuracy}
+        isBarChartOnInit={true}
+        color={colors.primaryPurple}
+        type={HEADCOUNT}
       />
       {/* <ChartToggler
         isBarChartOnInit={false}
@@ -67,10 +85,10 @@ const AnalysisDisplay = () => {
         yAxisName='Emotion score'
         title={'Emotion indexes'}
       /> */}
-      <RadarChart
+      {/* <RadarChart
         data={mockRadarData}
         title={'Average emotions'}
-      />
+      /> */}
     </div>
   );
 };

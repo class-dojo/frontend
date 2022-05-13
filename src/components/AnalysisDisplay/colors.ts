@@ -11,7 +11,8 @@ export const colors = {
   primaryLightBlue: '#619eed',
   primaryBlue: '#377fdf',
   secondaryBlue: '#1f6ad1',
-  primaryPurple: '#cd9fca',
+  primaryPurple: '#904b8a',
+  secondaryPurple: '#cd9fca',
   extra: '#b2e8e7', // Light blue
   headers: '#314d64',
   // disabled: '#757472', // Dark grey

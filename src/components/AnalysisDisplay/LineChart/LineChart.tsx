@@ -5,6 +5,7 @@ import { linearGradientDef } from '@nivo/core';
 import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 import { LineDataset } from '../interfaces';
+import { HEADCOUNT } from '../constants';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -90,7 +91,7 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
           yScale={{
             type: 'linear',
             min: 0,
-            max: 10,
+            max: yAxisName === HEADCOUNT ? 'auto' : 10,
             stacked: false,
             reverse: false
           }}

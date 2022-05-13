@@ -34,16 +34,6 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
     }
   };
 
-  const mapLineData = () => {
-    if (isAttentionPrimary && isBarPrimary) {
-      // mood data
-    } else if (!isAttentionPrimary && !isBarPrimary) {
-      // mood data
-    } else {
-      // attention data
-    }
-  };
-
   return (
     <div style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
       <div className={`row d-flex justify-content-between mt-3 ${isThumbnail ? 'ms-5 me-5' : 'ms-6 me-6'}` }>
