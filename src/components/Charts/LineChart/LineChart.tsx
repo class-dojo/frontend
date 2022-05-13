@@ -56,18 +56,14 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
     display: isSecondary ? 'none' : 'initial',
   };
 
-  let hasLegend = false;
   let hasFill = true;
   let hasPoints = false;
-  let hasGridX = false;
-  let hasGridY = false;
+  const hasGridX = false;
+  const hasGridY = false;
 
   if (isMultiline) {
-    hasLegend = true;
     hasFill = false;
     hasPoints = false;
-    hasGridX = true;
-    hasGridY = true;
   }
 
   if (isOverlayed) {
@@ -304,12 +300,12 @@ const LineChart = ({ isMultiline, dataset, yAxisName, isOverlayed = false, isSec
               </div>
             );
           }}
-          legends={hasLegend ? [
+          legends={isMultiline && !isThumbnail ? [
             {
               anchor: 'bottom-right',
               direction: 'row',
               justify: false,
-              translateY: 70,
+              translateY: 45,
               itemWidth: 100,
               itemHeight: 10,
               itemsSpacing: 6,

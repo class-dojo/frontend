@@ -26,9 +26,16 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
 
   useEffect(() => {
     if (isMultiPrimary === isBarPrimary) {
-      setLineData(getMultiLineData);
+      const multiLineData = getMultiLineData();
+      console.log(multiLineData);
+      setLineData(multiLineData);
+    } else {
+      setLineData([{
+        ...parseChartData(data, 'amountOfPeople', accuracy, 'line') as LineDataset,
+        id: type,
+        color
+      }]);
     }
-
   }, [isMultiPrimary, isBarPrimary]);
 
   const togglePrimaryChartType = (event: todoType) => {
@@ -44,16 +51,16 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
   };
 
   function getMultiLineData () {
-    return [[{
+    return [{
       ...parseChartData(data, 'attentionScore', accuracy, 'line') as LineDataset,
       id: ATTENTION,
-      color: isBarPrimary ? '#b2280185' : '#dd4c0a',
-    }],
-    [{
+      color: isBarPrimary ? colors.primaryRedTransparent : colors.primaryRedStrong,
+    },
+    {
       ...parseChartData(data,'moodScore', accuracy, 'line') as LineDataset,
       id: MOOD,
-      color: isBarPrimary ? '#b2280185' : '#dd4c0a',
-    }]];
+      color: isBarPrimary ? colors.primaryGreen : '#dd4c0a',
+    }];
   }
 
   return (
