@@ -11,7 +11,7 @@ const Navbar = () => {
 
         <div className="container">
           <Link to={'/'}>
-            <a className="navbar-brand d-flex align-items-center">
+            <span className="navbar-brand d-flex align-items-center">
               <span className="dark-element bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="33px" height="33px" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-karate">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -22,7 +22,7 @@ const Navbar = () => {
                 </svg>
               </span>
               <span className='fs-4'>Classdojo</span>
-            </a>
+            </span>
           </Link>
           <button data-bs-toggle="collapse" className="navbar-toggler" data-bs-target="#navcol-5"><span className="visually-hidden">Toggle navigation</span><span className="navbar-toggler-icon"></span></button>
           <div className="collapse navbar-collapse" id="navcol-5">

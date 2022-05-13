@@ -79,7 +79,6 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
     display: isSecondary ? 'none' : 'initial',
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseEnter = (data: todoType, event: todoType) => {
     event.target.classList.add('animate');
     event.target.classList.add('hovered');
@@ -88,7 +87,6 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseLeave = (data: todoType, event: todoType) => {
     event.target.classList.remove('hovered');
     if (dataset.importantIndexes.includes(data.index)) {
