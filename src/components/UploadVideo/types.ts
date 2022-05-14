@@ -33,10 +33,11 @@ export type SingleFrameAnalysis = {
   isImportantAttention: boolean
   isImportantMood: boolean
   isImportantPeople: boolean
+  importantFrame?: string
 }
 
 export type SingleFramesLoose = {
-  [key: string]: number | boolean
+  [key: string]: number | boolean | string
 }
 
 

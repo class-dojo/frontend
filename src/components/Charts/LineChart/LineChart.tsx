@@ -6,6 +6,7 @@ import { todoType } from '../../../types';
 import { LineDataset } from '../../../interfaces';
 import { HEADCOUNT } from '../../../constants';
 import { Modal } from 'react-bootstrap';
+import { Frame } from '../../UploadVideo/types';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -26,7 +27,7 @@ type LineChartProps = {
   isOverlayed?: boolean,
   isSecondary?: boolean,
   isThumbnail?: boolean,
-  frames: string[]
+  frames: Frame
   accuracy: number
 }
 

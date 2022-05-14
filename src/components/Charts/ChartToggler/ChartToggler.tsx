@@ -6,7 +6,7 @@ import BarChart from '../BarChart/BarChart';
 import { colors } from '../../../colors';
 import LineChart from '../LineChart/LineChart';
 import './chartToggler.css';
-import {parseChartData} from  '../utils';
+import {getImportantFrames, parseChartData} from  '../utils';
 import { BarDataset, LineDataset } from '../../../interfaces';
 import { ATTENTION, MOOD } from '../../../constants';
 
@@ -48,7 +48,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         </div>
       </div>
       {isBarChart && <BarChart
-        frames={frames}
+        frames={getImportantFrames(data)}
         accuracy={accuracy}
         isMultibar={false}
         dataset={parseChartData(data, dataType, accuracy, 'bar') as BarDataset}
@@ -57,7 +57,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
       />}
       {!isBarChart && <LineChart
-        frames={frames}
+        frames={getImportantFrames(data)}
         accuracy={accuracy}
         isMultiline={false}
         dataset={[{

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { createFFmpeg } from '@ffmpeg/ffmpeg';
-import { getStillsFromVideo, transformRawFrameData } from './utils';
+import { getStillsFromVideo, transformRawFrameData, attachFramesToAnalysis } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource, Frame, S3Links, AlertMessageProps, DataAnalysis } from './types';
 import { ProgressBar } from 'react-bootstrap';
@@ -45,16 +45,17 @@ const UploadVideo = () => {
       const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
       const urls = newFramesArray.flatMap(frame => Object.values(frame));
       setFramesUrl(urls);
-      //setFramesArray(newFramesArray); TODO post MVP: see what we want to store/pass/read
+      setFramesArray(newFramesArray); // TODO post MVP: see what we want to store/pass/read
       const {links}: S3Links = await sendDataToBackEnd(newFramesArray, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
-        setAnalysisData(analysis);
-      }// TODO parse data to be passed to the dashboard and save that to state (or local storage?)
+        const analysisWithFrames = attachFramesToAnalysis(newFramesArray, analysis);
+        setAnalysisData(analysisWithFrames);
+        setAlertMessage(uploadSuccessful);
+        toggleShowAlert();
+      }// TODO add an else block to handle upload/analysis errors
 
-      setAlertMessage(uploadSuccessful);
-      toggleShowAlert();
 
     } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
       toggleShowAlert();

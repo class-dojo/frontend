@@ -1,5 +1,5 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
-import { VideoSource, Frame } from './types';
+import { VideoSource, Frame, DataAnalysis } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
 export const getStillsFromVideo = async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
@@ -43,4 +43,12 @@ export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
     filesArray.push(imgFile);
   });
   return { filesArray, newFramesArray, videoId };
+};
+
+export const attachFramesToAnalysis = (frames: Frame[], analysis: DataAnalysis) => {
+  const framesArrayWithPics = analysis.framesArray.map((singleFrameAnalysis, i) => {
+    return singleFrameAnalysis.isImportantAttention || singleFrameAnalysis.isImportantMood || singleFrameAnalysis.isImportantPeople ?
+      singleFrameAnalysis = { ...singleFrameAnalysis, importantFrame: Object.values(frames[i])[0] } : singleFrameAnalysis;
+  });
+  return { ...analysis, framesArray: framesArrayWithPics };
 };
