@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { createFFmpeg } from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData, attachFramesToAnalysis } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
-import { VideoSource, Frame, S3Links, AlertMessageProps, DataAnalysis } from './types';
+import { VideoSource, S3Links, AlertMessageProps, DataAnalysis } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
@@ -10,9 +10,6 @@ import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
 
 const UploadVideo = () => {
 
-  const [framesUrl, setFramesUrl] = useState<string[]>([]); // TODO probably not needed after mvp, either this or frames array
-
-  const [framesArray, setFramesArray] = useState<Frame[]>([]);
   const [analysisData, setAnalysisData] = useState<DataAnalysis>();
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
@@ -42,10 +39,7 @@ const UploadVideo = () => {
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
-      const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
-      const urls = newFramesArray.flatMap(frame => Object.values(frame));
-      setFramesUrl(urls);
-      setFramesArray(newFramesArray); // TODO post MVP: see what we want to store/pass/read
+      const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray);
       const {links}: S3Links = await sendDataToBackEnd(newFramesArray, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
@@ -55,7 +49,6 @@ const UploadVideo = () => {
         setAlertMessage(uploadSuccessful);
         toggleShowAlert();
       }// TODO add an else block to handle upload/analysis errors
-
 
     } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
       toggleShowAlert();
@@ -100,12 +93,11 @@ const UploadVideo = () => {
         </div>
         <div className='mt-2'>
           {showAlert &&
-          <ActionAlert frames={framesUrl} accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          <ActionAlert accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>
   );
 };
-
 
 export default UploadVideo;

@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { createSingleBarData, createSingleLineData } from '../../../assets/mockDataProvider';
+import React, { useState } from 'react';
 import { todoType } from '../../../types';
-import { Frame, SingleFrameAnalysis } from '../../UploadVideo/types';
+import { SingleFrameAnalysis } from '../../UploadVideo/types';
 import BarChart from '../BarChart/BarChart';
-import { colors } from '../../../colors';
 import { ATTENTION, MOOD } from '../../../constants';
 import { BarDataset, LineDataset } from '../../../interfaces';
 import LineChart from '../LineChart/LineChart';
@@ -16,10 +14,9 @@ type MixedChartProps = {
   type: string,
   accuracy: number,
   data: SingleFrameAnalysis[]
-  frames: Frame
 }
 
-const MixedChart = ({ isThumbnail, color, type, accuracy, data, frames }: MixedChartProps) => {
+const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProps) => {
 
   const [isBarPrimary, setIsBarPrimary] = useState(true);
   const [isAttentionPrimary, setIsAttentionPrimary] = useState(true);

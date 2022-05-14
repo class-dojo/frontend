@@ -37,5 +37,3 @@ export const uploadImgToBucket = async (files: File[], urls: string[], accuracy 
   }).every(batch => batch === true);
   return responses;
 };
-
-// TODO once received successful response from s3 bucket, send POST request to backend to /analyze to receive the data to show
