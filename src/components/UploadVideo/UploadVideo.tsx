@@ -50,7 +50,7 @@ const UploadVideo = () => {
       setFramesUrl(urls);
       //setFramesArray(newFramesArray); TODO post MVP: see what we want to store/pass/read
       const {links}: S3Links = await sendDataToBackEnd(newFramesArray, videoId);
-      const isUploaded = await uploadImgToBucket(filesArray, links, videoId);
+      const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
         setAnalysisData(analysis);
