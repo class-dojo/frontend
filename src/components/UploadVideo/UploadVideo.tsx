@@ -21,10 +21,7 @@ const UploadVideo = () => {
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
-  const ffmpeg = useRef(createFFmpeg({
-    corePath: '/static/js/ffmpeg-core.js',
-    log: true,
-  }));
+  const ffmpeg = useRef(createFFmpeg({ log: true }));
 
   const load = async () => {
     setMessage('Loading transcoder');
