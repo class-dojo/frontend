@@ -1,0 +1,12 @@
+.analysis-tab-container {
+  display: flex;
+}
+
+.analysis-tab-container > button {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.tab-button:hover {
+  transform: scaleY(1.1) !important
+}

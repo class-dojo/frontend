@@ -1,32 +1,15 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { todoType } from '../../types';
 import ChartToggler from '../Charts/ChartToggler/ChartToggler';
 import { colors } from '../../colors';
 import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from '../../constants';
 import MixedChart from '../Charts/MixedChart/MixedChart';
 
-const AnalysisDisplay = () => {
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { accuracy, data, frames }: todoType = location.state;
-
-  const toggleView = () => {
-    navigate('/dashboard', {state:{ accuracy, data, frames }});
-  };
+const AnalysisDisplay = ({accuracy, data, frames}: todoType) => {
 
   return (
     <div>
-      <div className='mt-3'>
-        <div className='row d-flex mb-5 ms-1 pe-4'>
-          <div className='d-flex flex-column align-items-center col-sm-4 col-md-3 col-lg-2' >
-            <div className="btn-group d-flex mb-2 col-8" >
-              <button className={'p-1 py-2 mb-0 btn btn-primary shadow-none toggle-view-btn not-selected'} onClick={toggleView} type="button" style={{background: colors.headers}}>Dashboard</button>
-              <button className={'p-1 py-2 mb-0 btn btn-primary shadow-none toggle-view-btn'} type="button" style={{background: colors.headers}}>Detailed</button>
-            </div>
-          </div>
-        </div>
+      <div >
         <MixedChart
           frames={frames}
           type={AGGREGATE}

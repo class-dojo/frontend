@@ -6,24 +6,15 @@ import { colors } from '../../colors';
 import AverageValueDisplay from '../Charts/AverageValueDisplay/AverageValueDisplay';
 import { AGGREGATE, ATTENTION, MOOD } from '../../constants';
 import ChartToggler from '../Charts/ChartToggler/ChartToggler';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { todoType } from '../../types';
 import TimeIcon from '../../assets/icons/TimeIcon.svg';
 import VideoIcon from '../../assets/icons/VideoIcon.svg';
 import CalendarIcon from '../../assets/icons/CalendarIcon.svg';
 
-const Dashboard = () => {
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { accuracy, data, frames }: todoType = location.state;
-
-  const toggleView = () => {
-    navigate('/detailed', { state:{ accuracy, data, frames }});
-  };
+const Dashboard = ({accuracy, data, frames}: todoType) => {
 
   return (
-    <div className='container-fluid px-4 mt-3 pe-5'>
+    <div className='container-fluid px-4 mt-3'>
       <div className='row d-flex justify-content-between mb-3'>
         <div className='col-4 d-flex justify-content-center gap-3'>
           <img src={VideoIcon} className='dashboard-icon'/>
@@ -40,10 +31,6 @@ const Dashboard = () => {
       </div>
       <div className='row d-flex' style={{ height: 'calc(50vh - 50px)', maxHeight: 500 }}>
         <div className='d-flex flex-column align-items-center col-sm-4 col-md-3 col-lg-2' >
-          <div className="btn-group d-flex mb-2" >
-            <button className={'p-1 py-2 mb-0 btn btn-primary shadow-none toggle-view-btn'} type="button" style={{background: colors.headers}}>Dashboard</button>
-            <button className={'p-1 py-2 mb-0 btn btn-primary shadow-none toggle-view-btn not-selected'} onClick={toggleView} type="button" style={{background: colors.headers}}>Detailed</button>
-          </div>
           <div className='card p-3 py-4 mt-4'>
             <h4 className='text-center '>Average<br/>attention</h4>
             <AverageValueDisplay
