@@ -39,6 +39,7 @@ app: npm build
 
 	@(printf "${BG}Copying app to build directory${NC}")
 		cp -r $(root_project)/build/* $(build)/
+		cp -r $(root_project)/node_modules/@ffmpeg/core/dist/* $(build)/static/js/
 
 .PHONY: package
 package: app

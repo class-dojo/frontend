@@ -21,7 +21,10 @@ const UploadVideo = () => {
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
-  const ffmpeg = useRef(createFFmpeg({ log: true }));
+  const ffmpeg = useRef(createFFmpeg({
+    corePath: '/static/js/ffmpeg-core.js',
+    log: true,
+  }));
 
   const load = async () => {
     setMessage('Loading transcoder');
@@ -47,7 +50,7 @@ const UploadVideo = () => {
       setFramesUrl(urls);
       //setFramesArray(newFramesArray); TODO post MVP: see what we want to store/pass/read
       const {links}: S3Links = await sendDataToBackEnd(newFramesArray, videoId);
-      const isUploaded = await uploadImgToBucket(filesArray, links);
+      const isUploaded = await uploadImgToBucket(filesArray, links, videoId);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
         setAnalysisData(analysis);
