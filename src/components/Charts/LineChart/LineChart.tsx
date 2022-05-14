@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { linearGradientDef } from '@nivo/core';
 
-import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 import { LineDataset } from '../../../interfaces';
 import { HEADCOUNT } from '../../../constants';
+import { Modal } from 'react-bootstrap';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -31,6 +31,9 @@ type LineChartProps = {
 }
 
 const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverlayed = false, isSecondary = false, isThumbnail = false }: LineChartProps): JSX.Element => {
+
+  const [showModal, setShow] = useState(false);
+  const [modalImgIndex, setModalImgIndex] = useState(0);
 
   const mainContainerStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -98,7 +101,16 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
     }
   };
 
+  const handleClick = (point: todoType) => {
+    console.log(point);
+    if (point.data.isImportant) {
+      setModalImgIndex(point.index);
+      handleShow();
+    }
+  };
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
@@ -123,6 +135,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onMouseMove={handleMouseMove}
+          onClick={handleClick}
           // enableSlices={'x'}
           enableArea={hasFill}
           areaOpacity={0.8}
@@ -260,7 +273,6 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
                   gap: 20,
                   alignItems: 'center',
                   height: 180,
-                // TODO try make hover on important point less wonky
                 }}
               >
                 <div
@@ -334,6 +346,22 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           ] : undefined}
         />
       </div>
+      <Modal centered show={showModal} onHide={handleClose}>
+        <div
+          className="modal-dialog-centered d-flex justify-content-center align-items-center"
+          style={{
+            backgroundColor: 'transparent',
+          }}
+        >
+          <img
+            src={frames[modalImgIndex]}
+            style={{
+              height: 500,
+              borderRadius: 8,
+            }}
+          />
+        </div>
+      </Modal>
     </div>
   );
 };

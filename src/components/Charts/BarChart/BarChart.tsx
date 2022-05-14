@@ -57,7 +57,7 @@ type BarChartProps = {
 
 const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName, frames}: BarChartProps) => {
 
-  const [show, setShow] = useState(false);
+  const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
   const mainContainerStyle: React.CSSProperties = {
@@ -99,7 +99,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
     }
   };
 
-  const handleClick = (data: todoType, event: todoType) => {
+  const handleClick = (data: todoType) => {
     if (dataset.importantIndexes.includes(data.index)) {
       setModalImgIndex(data.index);
       handleShow();
@@ -196,7 +196,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           ]}
 
           tooltip={({ id, value, color, indexValue, index, data }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (/*  isThumbnail ? <></> : */
+            return (
               <div
                 className='unselectable-text'
                 style={{
@@ -258,7 +258,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
         />
       </div>
 
-      <Modal centered show={show} onHide={handleClose}>
+      <Modal centered show={showModal} onHide={handleClose}>
         <div
           className="modal-dialog-centered d-flex justify-content-center align-items-center"
           style={{
