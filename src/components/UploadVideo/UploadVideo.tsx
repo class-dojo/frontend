@@ -7,6 +7,7 @@ import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
+import {VERSION} from '../../consts';
 
 const UploadVideo = () => {
 
@@ -21,7 +22,14 @@ const UploadVideo = () => {
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
-  const ffmpeg = useRef(createFFmpeg({ log: true }));
+
+  const config: any = {log: true};
+
+  if (VERSION[0] === 'v') {
+    config['corePath'] = '/static/js/ffmpeg-core.js';
+  }
+
+  const ffmpeg = useRef(createFFmpeg(config));
 
   const load = async () => {
     setMessage('Loading transcoder');
