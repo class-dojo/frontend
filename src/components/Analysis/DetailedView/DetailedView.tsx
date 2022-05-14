@@ -1,9 +1,9 @@
 import React from 'react';
-import { todoType } from '../../types';
-import ChartToggler from '../Charts/ChartToggler/ChartToggler';
-import { colors } from '../../colors';
-import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from '../../constants';
-import MixedChart from '../Charts/MixedChart/MixedChart';
+import { todoType } from '../../../types';
+import ChartToggler from '../../Charts/ChartToggler/ChartToggler';
+import { colors } from '../../../colors';
+import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from '../../../constants';
+import MixedChart from '../../Charts/MixedChart/MixedChart';
 
 const AnalysisDisplay = ({accuracy, data, frames}: todoType) => {
 

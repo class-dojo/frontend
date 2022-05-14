@@ -1,15 +1,14 @@
 import React from 'react';
 
-import './dashboard.css';
-import MixedChart from '../Charts/MixedChart/MixedChart';
-import { colors } from '../../colors';
-import AverageValueDisplay from '../Charts/AverageValueDisplay/AverageValueDisplay';
-import { AGGREGATE, ATTENTION, MOOD } from '../../constants';
-import ChartToggler from '../Charts/ChartToggler/ChartToggler';
-import { todoType } from '../../types';
-import TimeIcon from '../../assets/icons/TimeIcon.svg';
-import VideoIcon from '../../assets/icons/VideoIcon.svg';
-import CalendarIcon from '../../assets/icons/CalendarIcon.svg';
+import MixedChart from '../../Charts/MixedChart/MixedChart';
+import { colors } from '../../../colors';
+import AverageValueDisplay from '../../Charts/AverageValueDisplay/AverageValueDisplay';
+import { AGGREGATE, ATTENTION, MOOD } from '../../../constants';
+import ChartToggler from '../../Charts/ChartToggler/ChartToggler';
+import { todoType } from '../../../types';
+import TimeIcon from '../../../assets/icons/TimeIcon.svg';
+import VideoIcon from '../../../assets/icons/VideoIcon.svg';
+import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 
 const Dashboard = ({accuracy, data, frames}: todoType) => {
 

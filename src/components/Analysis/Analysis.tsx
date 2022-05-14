@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { colors } from '../../colors';
 import { todoType } from '../../types';
-import Dashboard from '../Dashboard/Dashboard';
-import DetailedView from '../DetailedView/DetailedView';
+import Dashboard from './Dashboard/Dashboard';
+import DetailedView from './DetailedView/DetailedView';
 import './analysis.css';
 
 const Analysis = () => {
@@ -14,8 +14,10 @@ const Analysis = () => {
 
   const [isInDashboard, setIsInDashboard] = useState(true);
 
-  const toggleView = () => {
-    setIsInDashboard(!isInDashboard);
+  const toggleView = (event: todoType) => {
+    if (!event.target.className.split(' ').includes('selected')) {
+      setIsInDashboard(!isInDashboard);
+    }
   };
 
   return (
