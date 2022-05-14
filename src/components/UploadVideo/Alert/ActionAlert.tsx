@@ -17,7 +17,7 @@ const ActionAlert = ({ toggleShowAlert, alertMessage, analysisData, accuracy, fr
       <p>{alertMessage.body}</p>
       {alertMessage.variant === 'success' &&
       <div className="d-flex justify-content-end">
-        <Link to={'/dashboard'} state={{data: analysisData, accuracy: accuracy, frames: frames}}> {/* TODO useLocation() in analytics */}
+        <Link to={'/analysis'} state={{data: analysisData, accuracy: accuracy, frames: frames}}> {/* TODO useLocation() in analytics */}
           <Button onClick={toggleShowAlert} variant="outline-success">Lets go!</Button>
         </Link>
       </div>}

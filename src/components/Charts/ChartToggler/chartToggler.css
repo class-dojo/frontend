@@ -1,20 +1,7 @@
-.btn-group {
-  display: flex;
-  gap: 2px;
-  z-index: 40;
-}
-
 .chart-type-btn {
  flex: 1;
 }
 
 .primary-chart-btn {
   flex: 1;
-}
-
-.selected {
-  filter: brightness(110%);
-}
-.not-selected {
-  opacity: 0.6;
 }

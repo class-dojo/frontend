@@ -1,0 +1,30 @@
+/* TABS */
+.analysis-tab-container {
+  display: flex;
+}
+
+.analysis-tab-container > button {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.tab-button:hover {
+  transform: scaleY(1.1) !important
+}
+
+/* DASHBOARD */
+.card {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background: #e0e0e0;
+  box-shadow:  10px 10px 19px #c7c7c79f, -10px -10px 19px #f9f9f9b0;
+}
+
+.chart-small {
+  height: 350px;
+}
+
+.dashboard-icon {
+  width: 30px;
+  height: 30px;
+}

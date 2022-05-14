@@ -12,12 +12,12 @@ import { Frame } from '../../UploadVideo/types';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
-  zIndex: -10
+  zIndex: -1
 };
 
 const displayBoxFrameStyle: React.CSSProperties = {
   border: '1px solid black',
-  zIndex: 10,
+  zIndex: 1,
   pointerEvents: 'none'
 };
 
@@ -57,7 +57,7 @@ type BarChartProps = {
 
 const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName, frames}: BarChartProps) => {
 
-  const [show, setShow] = useState(false);
+  const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
   const mainContainerStyle: React.CSSProperties = {
@@ -99,7 +99,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
     }
   };
 
-  const handleClick = (data: todoType, event: todoType) => {
+  const handleClick = (data: todoType) => {
     if (dataset.importantIndexes.includes(data.index)) {
       setModalImgIndex(data.index);
       handleShow();
@@ -258,12 +258,17 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
         />
       </div>
 
-      <Modal show={show} onHide={handleClose}>
-        <div className="modal-dialog-lg modal-dialog-centered modal-lg my-0 d-flex justify-content-center" style={{backgroundColor: 'transparent', margin: 'auto', width: 800 }}>
-          <img src={frames[modalImgIndex]}
+      <Modal centered show={showModal} onHide={handleClose}>
+        <div
+          className="modal-dialog-centered d-flex justify-content-center align-items-center"
+          style={{
+            backgroundColor: 'transparent',
+          }}
+        >
+          <img
+            src={frames[modalImgIndex]}
             style={{
-              maxHeight: '60vh',
-              maxWidth: '60vw',
+              height: 500,
               borderRadius: 8,
             }}
           />
