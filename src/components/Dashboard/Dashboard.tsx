@@ -8,6 +8,9 @@ import { AGGREGATE, ATTENTION, MOOD } from '../../constants';
 import ChartToggler from '../Charts/ChartToggler/ChartToggler';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { todoType } from '../../types';
+import TimeIcon from '../../assets/icons/TimeIcon.svg';
+import VideoIcon from '../../assets/icons/VideoIcon.svg';
+import CalendarIcon from '../../assets/icons/CalendarIcon.svg';
 
 const Dashboard = () => {
 
@@ -21,6 +24,20 @@ const Dashboard = () => {
 
   return (
     <div className='container-fluid px-4 mt-3 pe-5'>
+      <div className='row d-flex justify-content-between mb-3'>
+        <div className='col-4 d-flex justify-content-center gap-3'>
+          <img src={VideoIcon} className='dashboard-icon'/>
+          <span>My cool video</span>
+        </div>
+        <div className='col-4 d-flex justify-content-center gap-3'>
+          <img src={TimeIcon} className='dashboard-icon'/>
+          <span>12 min</span>
+        </div>
+        <div className='col-4 d-flex justify-content-center gap-3'>
+          <img src={CalendarIcon} className='dashboard-icon'/>
+          <span>14 may, 2022</span>
+        </div>
+      </div>
       <div className='row d-flex' style={{ height: 'calc(50vh - 50px)', maxHeight: 500 }}>
         <div className='d-flex flex-column align-items-center col-sm-4 col-md-3 col-lg-2' >
           <div className="btn-group d-flex mb-2" >
@@ -56,7 +73,7 @@ const Dashboard = () => {
             />
           </div>
         </div>
-        <div className='col-sm-4 col-md-5 col-lg-5' /* style={{ zIndex: 10 }} */>
+        <div className='col-sm-4 col-md-5 col-lg-5'>
           <div className='card chart-small'>
             {data && < ChartToggler
               frames={frames}

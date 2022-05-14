@@ -58,7 +58,7 @@
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #67748e;
-  --bs-body-bg: rgb(237, 237, 237);
+  --bs-body-bg: rgba(228, 234, 246, 0.671);
 }
 
 *,
