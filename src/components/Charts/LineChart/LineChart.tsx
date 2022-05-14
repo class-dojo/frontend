@@ -102,7 +102,6 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   };
 
   const handleClick = (point: todoType) => {
-    console.log(point);
     if (point.data.isImportant) {
       setModalImgIndex(point.index);
       handleShow();

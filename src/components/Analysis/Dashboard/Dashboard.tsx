@@ -14,30 +14,16 @@ const Dashboard = ({accuracy, data, frames}: todoType) => {
 
   return (
     <div className='container-fluid px-4 mt-3'>
-      <div className='row d-flex justify-content-between mb-3'>
-        <div className='col-4 d-flex justify-content-center gap-3'>
-          <img src={VideoIcon} className='dashboard-icon'/>
-          <span>My cool video</span>
-        </div>
-        <div className='col-4 d-flex justify-content-center gap-3'>
-          <img src={TimeIcon} className='dashboard-icon'/>
-          <span>12 min</span>
-        </div>
-        <div className='col-4 d-flex justify-content-center gap-3'>
-          <img src={CalendarIcon} className='dashboard-icon'/>
-          <span>14 may, 2022</span>
-        </div>
-      </div>
       <div className='row d-flex' style={{ height: 'calc(50vh - 50px)', maxHeight: 500 }}>
-        <div className='d-flex flex-column align-items-center col-sm-4 col-md-3 col-lg-2' >
+        {/* <div className='d-flex flex-column align-items-center col-sm-4 col-md-3 col-lg-2' >
           <div className='card p-3 py-4 mt-4'>
             <h4 className='text-center '>Average<br/>attention</h4>
             <AverageValueDisplay
               percentage={Math.floor(Math.random() * 101)}
             />
           </div>
-        </div>
-        <div className='col-sm-8 col-md-9 col-lg-10'>
+        </div> */}
+        <div className='col-sm-7 col-md-8 col-lg-9'>
           <div className='card chart-small'>
             <MixedChart
               frames={frames}
@@ -47,6 +33,20 @@ const Dashboard = ({accuracy, data, frames}: todoType) => {
               color={colors.primaryDarkBlue}
               type={AGGREGATE}
             />
+          </div>
+        </div>
+        <div className='col-sm-5 col-md-4 col-lg-3 d-flex flex-column justify-content-around pb-4'>
+          <div className='d-flex gap-3'>
+            <img src={VideoIcon} className='dashboard-icon'/>
+            <span>My cool video</span>
+          </div>
+          <div className='d-flex gap-3'>
+            <img src={TimeIcon} className='dashboard-icon'/>
+            <span>12 min</span>
+          </div>
+          <div className='d-flex gap-3'>
+            <img src={CalendarIcon} className='dashboard-icon'/>
+            <span>14 may, 2022</span>
           </div>
         </div>
       </div>
