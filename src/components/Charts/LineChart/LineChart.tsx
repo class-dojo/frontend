@@ -9,12 +9,12 @@ import { HEADCOUNT } from '../../../constants';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
-  zIndex: -10
+  zIndex: -1
 };
 
 const displayBoxFrameStyle: React.CSSProperties = {
   border: '1px solid black',
-  zIndex: 10,
+  zIndex: 1,
   pointerEvents: 'none'
 };
 

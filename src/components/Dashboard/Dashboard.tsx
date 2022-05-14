@@ -56,7 +56,7 @@ const Dashboard = () => {
             />
           </div>
         </div>
-        <div className='col-sm-4 col-md-5 col-lg-5'>
+        <div className='col-sm-4 col-md-5 col-lg-5' /* style={{ zIndex: 10 }} */>
           <div className='card chart-small'>
             {data && < ChartToggler
               frames={frames}
@@ -70,7 +70,7 @@ const Dashboard = () => {
             />}
           </div>
         </div>
-        <div className='col-sm-4 col-md-5 col-lg-5'>
+        <div className='col-sm-4 col-md-5 col-lg-5 '>
           <div className='card chart-small'>
             {data && <ChartToggler
               frames={frames}
