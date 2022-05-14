@@ -37,7 +37,7 @@ export type SingleFrameAnalysis = {
 }
 
 export type SingleFramesLoose = {
-  [key: string]: number | boolean
+  [key: string]: number | boolean | string
 }
 
 
