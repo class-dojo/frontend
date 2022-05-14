@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createSingleBarData, createSingleLineData } from '../../../assets/mockDataProvider';
 import { todoType } from '../../../types';
-import { SingleFrameAnalysis } from '../../UploadVideo/types';
+import { Frame, SingleFrameAnalysis } from '../../UploadVideo/types';
 import BarChart from '../BarChart/BarChart';
 import { colors } from '../../../colors';
 import { ATTENTION, MOOD } from '../../../constants';
 import { BarDataset, LineDataset } from '../../../interfaces';
 import LineChart from '../LineChart/LineChart';
-import { parseChartData } from '../utils';
+import { getImportantFrames, parseChartData } from '../utils';
 import './mixedChart.css';
 
 type MixedChartProps = {
@@ -16,7 +16,7 @@ type MixedChartProps = {
   type: string,
   accuracy: number,
   data: SingleFrameAnalysis[]
-  frames: string[]
+  frames: Frame
 }
 
 const MixedChart = ({ isThumbnail, color, type, accuracy, data, frames }: MixedChartProps) => {
@@ -57,7 +57,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data, frames }: MixedC
       </div>
       <div style={{ position: 'absolute', width: '100%' }} >
         <BarChart
-          frames={frames}
+          frames={getImportantFrames(data)}
           isMultibar={false}
           accuracy={accuracy}
           dataset={parseChartData(data, isAttentionPrimary === isBarPrimary ? 'attentionScore' : 'moodScore', accuracy, 'bar') as BarDataset}
@@ -70,7 +70,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data, frames }: MixedC
       </div>
       <div style={{ position: 'absolute', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
         <LineChart
-          frames={frames}
+          frames={getImportantFrames(data)}
           accuracy={accuracy}
           isMultiline={false}
           title={'Aggregate'}

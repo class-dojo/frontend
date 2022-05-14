@@ -3,12 +3,12 @@ import { ResponsiveBar } from '@nivo/bar';
 import { linearGradientDef, patternLinesDef, patternSquaresDef } from '@nivo/core';
 
 import './barChart.css';
-import testImage from '../../../assets/images/test.jpg';
 import { todoType } from '../../../types';
 import { colors } from '../../../colors';
 import { BarDataset } from '../../../interfaces';
 import { HEADCOUNT } from '../../../constants';
 import { Modal } from 'react-bootstrap';
+import { Frame } from '../../UploadVideo/types';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -52,7 +52,7 @@ type BarChartProps = {
   isOverlayed?: boolean,
   accuracy: number,
   yAxisName: string,
-  frames: string[]
+  frames: Frame
 }
 
 const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName, frames}: BarChartProps) => {
@@ -195,7 +195,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             { match: '*', id: 'gradientA' },
           ]}
 
-          tooltip={({ id, value, color, indexValue, index, data }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
+          tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return (/*  isThumbnail ? <></> : */
               <div
                 className='unselectable-text'

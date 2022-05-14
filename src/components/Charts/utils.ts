@@ -1,4 +1,4 @@
-import { SingleFrameAnalysis, SingleFramesLoose } from '../UploadVideo/types';
+import { Frame, SingleFrameAnalysis, SingleFramesLoose } from '../UploadVideo/types';
 
 // ALL IN ONE
 export const parseChartData = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, chart: string) => {
@@ -39,6 +39,12 @@ const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: n
   });
 
   return { data, importantIndexes, keys: [goodKeyName] };
+};
+
+export const getImportantFrames = (data: SingleFrameAnalysis[]) => {
+  const frames: Frame = {};
+  data.forEach((singleFrameData, i) => singleFrameData.importantFrame && (frames[i] = singleFrameData.importantFrame));
+  return frames;
 };
 
 const parseLine = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, importance: string) => {
