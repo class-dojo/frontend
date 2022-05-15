@@ -23,11 +23,12 @@ const UploadVideo = () => {
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const source = useRef<VideoSource>('');
 
-  const config: any = {log: true};
+  const config: any = {
+    log: true,
+    corePath: '/static/js/ffmpeg-core.js',
+  };
 
-  if (VERSION[0] === 'v') {
-    config['corePath'] = '/static/js/ffmpeg-core.js';
-  }
+  console.log(VERSION);
 
   const ffmpeg = useRef(createFFmpeg(config));
 
