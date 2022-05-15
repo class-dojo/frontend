@@ -17,6 +17,7 @@ const UploadVideo = () => {
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
+  const videoName = useRef<string>('');
   const source = useRef<VideoSource>('');
   const ffmpeg = useRef(createFFmpeg({ log: true }));
 
@@ -58,6 +59,7 @@ const UploadVideo = () => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       source.current = event.target.files[0];
+      videoName.current = event.target.files[0].name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
     }
   };
 
@@ -93,7 +95,7 @@ const UploadVideo = () => {
         </div>
         <div className='mt-2'>
           {showAlert &&
-          <ActionAlert accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          <ActionAlert videoName={videoName.current} accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>
