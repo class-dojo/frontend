@@ -12,7 +12,7 @@ export type AlertMessageProps = {
 
 export type DataToBackend = {
   videoId: string // uuid
-  frames?: string[] // Object.keys(Frame[]) // TODO send also the framerate?
+  frames?: string[] // TODO send also the framerate?
 }
 
 export type S3Links = {
@@ -33,11 +33,11 @@ export type SingleFrameAnalysis = {
   isImportantAttention: boolean
   isImportantMood: boolean
   isImportantPeople: boolean
-  importantFrame?: string
+  importantFrame?: string | Uint8Array // for rawdata
 }
 
 export type SingleFramesLoose = {
-  [key: string]: number | boolean | string
+  [key: string]: number | boolean | string | Uint8Array
 }
 
 

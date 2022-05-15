@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { createFFmpeg } from '@ffmpeg/ffmpeg';
-import { getStillsFromVideo, transformRawFrameData, attachFramesToAnalysis } from './utils';
+import { getStillsFromVideo, transformRawFrameData, attachRawFramesToAnalysis } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
-import { VideoSource, Frame, S3Links, AlertMessageProps, DataAnalysis } from './types';
+import { VideoSource, S3Links, AlertMessageProps, DataAnalysis } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
@@ -11,9 +11,6 @@ import {VERSION} from '../../consts';
 
 const UploadVideo = () => {
 
-  const [framesUrl, setFramesUrl] = useState<string[]>([]); // TODO probably not needed after mvp, either this or frames array
-
-  const [framesArray, setFramesArray] = useState<Frame[]>([]);
   const [analysisData, setAnalysisData] = useState<DataAnalysis>();
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
@@ -21,6 +18,7 @@ const UploadVideo = () => {
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
+  const videoName = useRef<string>('');
   const source = useRef<VideoSource>('');
 
   const config: any = {
@@ -33,7 +31,7 @@ const UploadVideo = () => {
   const ffmpeg = useRef(createFFmpeg(config));
 
   const load = async () => {
-    setMessage('Loading transcoder');
+    setMessage('Loading transcoder...');
     await ffmpeg.current.load();
     setMessage('Start transcoding');
   };
@@ -51,20 +49,16 @@ const UploadVideo = () => {
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
-      const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray); // TODO refactor so we can access images from the dashboard (useContext?) and trigger the request to be, s3 and be again one after another.
-      const urls = newFramesArray.flatMap(frame => Object.values(frame));
-      setFramesUrl(urls);
-      setFramesArray(newFramesArray); // TODO post MVP: see what we want to store/pass/read
-      const {links}: S3Links = await sendDataToBackEnd(newFramesArray, videoId);
+      const {filesArray, newFramesNames, videoId} = transformRawFrameData(rawFrameDataArray); // TODO update and transform only filesarray and videoid
+      const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
-        const analysisWithFrames = attachFramesToAnalysis(newFramesArray, analysis);
-        setAnalysisData(analysisWithFrames);
+        const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+        setAnalysisData(analysisWithRawFrames);
         setAlertMessage(uploadSuccessful);
         toggleShowAlert();
       }// TODO add an else block to handle upload/analysis errors
-
 
     } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
       toggleShowAlert();
@@ -74,6 +68,7 @@ const UploadVideo = () => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       source.current = event.target.files[0];
+      videoName.current = event.target.files[0].name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
     }
   };
 
@@ -109,12 +104,11 @@ const UploadVideo = () => {
         </div>
         <div className='mt-2'>
           {showAlert &&
-          <ActionAlert frames={framesUrl} accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          <ActionAlert videoName={videoName.current} accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>
   );
 };
-
 
 export default UploadVideo;
