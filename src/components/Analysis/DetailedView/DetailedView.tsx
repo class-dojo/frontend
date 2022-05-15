@@ -9,13 +9,15 @@ const AnalysisDisplay = ({accuracy, data}: todoType) => {
 
   return (
     <div>
-      <div >
+      <div className='big-chart-container'>
         <MixedChart
           type={AGGREGATE}
           color={colors.primaryDarkBlue}
           accuracy={accuracy}
           data={data.framesArray}
         />
+      </div>
+      <div className='big-chart-container'>
         <ChartToggler
           dataType={'attentionScore'}
           data={data.framesArray}
@@ -24,6 +26,8 @@ const AnalysisDisplay = ({accuracy, data}: todoType) => {
           type={ATTENTION}
           color={colors.primaryRed}
         />
+      </div>
+      <div className='big-chart-container'>
         <ChartToggler
           dataType={'moodScore'}
           data={data.framesArray}
@@ -32,6 +36,8 @@ const AnalysisDisplay = ({accuracy, data}: todoType) => {
           color={colors.primaryGreen}
           type={MOOD}
         />
+      </div>
+      <div className='big-chart-container'>
         <ChartToggler
           dataType={'amountOfPeople'}
           data={data.framesArray}
@@ -40,39 +46,40 @@ const AnalysisDisplay = ({accuracy, data}: todoType) => {
           color={colors.primaryPurple}
           type={HEADCOUNT}
         />
-        {/* <ChartToggler
+      </div>
+      {/* <ChartToggler
         isBarChartOnInit={false}
         type={EMOTIONS}
       /> */}
 
-        {
-          // TODO MAKE PRINTABLE VERSION
-          /* <BarChart
+      {
+        // TODO MAKE PRINTABLE VERSION
+        /* <BarChart
         isMultibar={false}
         dataset={createSingleBarData()}
         title={'Attention index'}
       /> */}
-        {/* <BarChart
+      {/* <BarChart
         isMultibar={true}
         dataset={createMultiBarData()}
       /> */}
-        {/* <LineChart
+      {/* <LineChart
         isMultiline={false}
         dataset={createSingleLineData(colors.primary)}
         yAxisName='Attention'
         title={'Attention index'}
       /> */}
-        {/* <LineChart
+      {/* <LineChart
         isMultiline={true}
         dataset={createMultiLineData()}
         yAxisName='Emotion score'
         title={'Emotion indexes'}
       /> */}
-        {/* <RadarChart
+      {/* <RadarChart
         data={mockRadarData}
         title={'Average emotions'}
       /> */}
-      </div>
+
     </div>
   );
 };

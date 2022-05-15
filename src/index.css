@@ -21,6 +21,10 @@ body {
 
 /* STYLING - Move into other files */
 
+.fill-height {
+  height: 100%;
+}
+
 .dark-element {
   background-color: #183043 !important;
 }

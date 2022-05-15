@@ -34,7 +34,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
   };
 
   return (
-    <div style={{position: 'relative', height: isThumbnail ? 'auto' : 'calc(100vh - 133px)'}}>
+    <div style={{position: 'relative', height: '100%'}}>
       <div className={`row d-flex justify-content-between mt-3 ${isThumbnail ? 'ms-5 me-5' : 'ms-6 me-6'}` }>
         <div className={`toggle-btn-group col-md-3 ${isThumbnail ? 'thumbnail-toggle-btn-group-margins' : ''}` }>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2'>Select primary chart</p>}
@@ -52,7 +52,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
           </div>
         </div>
       </div>
-      <div style={{ position: 'absolute', width: '100%' }} >
+      <div style={{position: 'absolute', width: '100%', height: '100%' }} >
         <BarChart
           frames={getImportantFrames(data)}
           isMultibar={false}
@@ -65,7 +65,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
           yAxisName={'Mood and Attention'}
         />
       </div>
-      <div style={{ position: 'absolute', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
+      <div style={{position: 'absolute', height: '100%', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
         <LineChart
           frames={getImportantFrames(data)}
           accuracy={accuracy}

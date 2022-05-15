@@ -61,26 +61,22 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
   const mainContainerStyle: React.CSSProperties = {
-    // marginTop: isThumbnail ? 0 : 110,
-    textAlign: 'center',
-    height: isThumbnail ? '300px' : 'calc(100vh - 133px)', // TODO see how this fits in dashboard
-    width: isThumbnail ? '100%' : 'auto',
-    // padding: isThumbnail ? 10 : 'auto',
+    height: '100%',
+    width: '100%',
   };
 
   const graphContainerStyle: React.CSSProperties = {
-    padding: isThumbnail ? 'auto' : '0 20px', // TODO debate this padding
-    height: isThumbnail ? 310 : 548.5, // ?? TODO check why i have such big height differences between this and line chart
     position: 'relative',
-    margin: '0 0 40px 0',
+    width: '100%',
+    height: '100%',
   };
 
   const displayBoxStyle: React.CSSProperties = {
     position: 'absolute',
-    height: isThumbnail ? 251 : '479.5px', // ?? TODO check the same here
-    width: isThumbnail ? (isOverlayed ? 'calc(100% - 108px)' : 'calc(100% - 78.2px)') : 'calc(100% - 147.3px)',
-    top: isThumbnail ? 9.5 : 19.5,
-    left: isThumbnail ? 54 : 73.8,
+    height: 'calc(100% - 49px)',
+    width: isThumbnail ? (isOverlayed ? 'calc(100% - 108px)' : 'calc(100% - 78.2px)') : 'calc(100% - 108px)',
+    top: 9.5,
+    left: 54,
     display: isSecondary ? 'none' : 'initial',
   };
 
@@ -127,7 +123,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           keys={dataset.keys}
           maxValue={yAxisName === HEADCOUNT ? 'auto' : 10}
           padding={isMultibar ? 0.2 : 0.04}
-          margin={{ top: isThumbnail ? 10 : 20, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 50, left: 55 }}
+          margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 40, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}
           borderRadius={isMultibar ? 1 : 3}
           // borderWidth={1} // TODO debate
@@ -146,7 +142,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickRotation: 0,
             legend: 'Time',
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? 30 : 40,
+            legendOffset: 30,
             format: index => {return (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '';} ,
           }}
           axisLeft={isSecondary ? null : {
