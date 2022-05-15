@@ -69,7 +69,6 @@ const Dashboard = ({accuracy, data}: todoType) => {
             </div>
             <div className='chart-small'>
               {data && < ChartToggler
-                frames={frames}
                 dataType={'attentionScore'}
                 data={data.framesArray}
                 accuracy={accuracy}
@@ -101,7 +100,6 @@ const Dashboard = ({accuracy, data}: todoType) => {
             </div>
             <div className='chart-small'>
               {data && <ChartToggler
-                frames={frames}
                 dataType={'moodScore'}
                 data={data.framesArray}
                 accuracy={accuracy}
