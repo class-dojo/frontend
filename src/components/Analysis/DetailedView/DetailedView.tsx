@@ -5,20 +5,18 @@ import { colors } from '../../../colors';
 import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from '../../../constants';
 import MixedChart from '../../Charts/MixedChart/MixedChart';
 
-const AnalysisDisplay = ({accuracy, data, frames}: todoType) => {
+const AnalysisDisplay = ({accuracy, data}: todoType) => {
 
   return (
     <div>
       <div >
         <MixedChart
-          frames={frames}
           type={AGGREGATE}
           color={colors.primaryDarkBlue}
           accuracy={accuracy}
           data={data.framesArray}
         />
         <ChartToggler
-          frames={frames}
           dataType={'attentionScore'}
           data={data.framesArray}
           accuracy={accuracy}
@@ -27,7 +25,6 @@ const AnalysisDisplay = ({accuracy, data, frames}: todoType) => {
           color={colors.primaryRed}
         />
         <ChartToggler
-          frames={frames}
           dataType={'moodScore'}
           data={data.framesArray}
           accuracy={accuracy}
@@ -36,7 +33,6 @@ const AnalysisDisplay = ({accuracy, data, frames}: todoType) => {
           type={MOOD}
         />
         <ChartToggler
-          frames={frames}
           dataType={'amountOfPeople'}
           data={data.framesArray}
           accuracy={accuracy}

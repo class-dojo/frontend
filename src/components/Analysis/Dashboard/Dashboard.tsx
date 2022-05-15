@@ -10,7 +10,7 @@ import TimeIcon from '../../../assets/icons/TimeIcon.svg';
 import VideoIcon from '../../../assets/icons/VideoIcon.svg';
 import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 
-const Dashboard = ({accuracy, data, frames}: todoType) => {
+const Dashboard = ({accuracy, data}: todoType) => {
 
   return (
     <div className='container-fluid px-4 mt-3'>
@@ -26,7 +26,6 @@ const Dashboard = ({accuracy, data, frames}: todoType) => {
         <div className='col-sm-7 col-md-8 col-lg-9'>
           <div className='card chart-small'>
             <MixedChart
-              frames={frames}
               data={data.framesArray}
               accuracy={accuracy}
               isThumbnail={true}
@@ -62,7 +61,6 @@ const Dashboard = ({accuracy, data, frames}: todoType) => {
         <div className='col-sm-4 col-md-5 col-lg-5'>
           <div className='card chart-small'>
             {data && < ChartToggler
-              frames={frames}
               dataType={'attentionScore'}
               data={data.framesArray}
               accuracy={accuracy}
@@ -76,7 +74,6 @@ const Dashboard = ({accuracy, data, frames}: todoType) => {
         <div className='col-sm-4 col-md-5 col-lg-5 '>
           <div className='card chart-small'>
             {data && <ChartToggler
-              frames={frames}
               dataType={'moodScore'}
               data={data.framesArray}
               accuracy={accuracy}
