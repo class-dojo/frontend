@@ -60,9 +60,12 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
   const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
+  const yOffsetThumnbail = 49;
+
   const mainContainerStyle: React.CSSProperties = {
-    height: '100%',
+    height: isThumbnail ? `calc(100% - ${yOffsetThumnbail}px)` : '100%',
     width: '100%',
+    zIndex: isSecondary ? -1 : 1,
   };
 
   const graphContainerStyle: React.CSSProperties = {
@@ -108,7 +111,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
   const indexes = dataset.data.map(datum => datum.Time).filter(time => time % 10 === 0 || time === 0);
 
   return (
-    <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
+    <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>

@@ -52,35 +52,37 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
           </div>
         </div>
       </div>
-      <div style={{position: 'absolute', width: '100%', height: '100%' }} >
-        <BarChart
-          frames={getImportantFrames(data)}
-          isMultibar={false}
-          accuracy={accuracy}
-          dataset={parseChartData(data, isAttentionPrimary === isBarPrimary ? 'attentionScore' : 'moodScore', accuracy, 'bar') as BarDataset}
-          isOverlayed={true}
-          isSecondary={!isBarPrimary}
-          isThumbnail={isThumbnail}
-          color={color}
-          yAxisName={'Mood and Attention'}
-        />
-      </div>
-      <div style={{position: 'absolute', height: '100%', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
-        <LineChart
-          frames={getImportantFrames(data)}
-          accuracy={accuracy}
-          isMultiline={false}
-          title={'Aggregate'}
-          dataset={[{
-            ...parseChartData(data, isAttentionPrimary === isBarPrimary ? 'moodScore' : 'attentionScore', accuracy, 'line') as LineDataset,
-            id: isAttentionPrimary === isBarPrimary ? MOOD : ATTENTION,
-            color: isBarPrimary ? '#b2280185' : '#dd4c0a',
-          }]}
-          yAxisName={''}
-          isOverlayed={true}
-          isSecondary={isBarPrimary}
-          isThumbnail={isThumbnail}
-        />
+      <div style={{ position: 'relative',  height: '100%' }}>
+        <div style={{position: 'absolute', width: '100%', height: '100%' }} >
+          <BarChart
+            frames={getImportantFrames(data)}
+            isMultibar={false}
+            accuracy={accuracy}
+            dataset={parseChartData(data, isAttentionPrimary === isBarPrimary ? 'attentionScore' : 'moodScore', accuracy, 'bar') as BarDataset}
+            isOverlayed={true}
+            isSecondary={!isBarPrimary}
+            isThumbnail={isThumbnail}
+            color={color}
+            yAxisName={'Mood and Attention'}
+          />
+        </div>
+        <div style={{position: 'relative', height: '100%', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
+          <LineChart
+            frames={getImportantFrames(data)}
+            accuracy={accuracy}
+            isMultiline={false}
+            title={'Aggregate'}
+            dataset={[{
+              ...parseChartData(data, isAttentionPrimary === isBarPrimary ? 'moodScore' : 'attentionScore', accuracy, 'line') as LineDataset,
+              id: isAttentionPrimary === isBarPrimary ? MOOD : ATTENTION,
+              color: isBarPrimary ? '#b2280185' : '#dd4c0a',
+            }]}
+            yAxisName={''}
+            isOverlayed={true}
+            isSecondary={isBarPrimary}
+            isThumbnail={isThumbnail}
+          />
+        </div>
       </div>
     </div>
   );

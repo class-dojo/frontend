@@ -20,7 +20,7 @@ type AverageValueDisplayProps = {
 const AverageValueDisplay = ({ percentage }: AverageValueDisplayProps) => {
 
   return (
-    <div style={{ /* maxHeight: 160, maxWidth: 160, minWidth: 140, minHeight: 140 */ height: 160, width: 160 }}>
+    <div>
       <CircularProgressbar
         value={percentage}
         text={`${percentage}%`}

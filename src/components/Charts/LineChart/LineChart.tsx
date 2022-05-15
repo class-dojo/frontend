@@ -36,9 +36,12 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
+  const yOffsetThumnbail = 49;
+
   const mainContainerStyle: React.CSSProperties = {
-    height: isThumbnail ? '100%' : '100%',
-    width: isThumbnail ? '100%' : '100%',
+    height: isThumbnail ? `calc(100% - ${yOffsetThumnbail}px)` : '100%',
+    width: '100%',
+    zIndex: isSecondary ? -1 : 1,
   };
 
   const graphContainerStyle: React.CSSProperties = {
@@ -107,7 +110,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   const handleShow = () => setShow(true);
 
   return (
-    <div style={{...mainContainerStyle, zIndex: isSecondary ? -1 : 1}}>
+    <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>
         <div style={{...displayBoxStyle, ...displayBoxFrameStyle}}>
         </div>
