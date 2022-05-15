@@ -1,13 +1,11 @@
-import { Frame, DataToBackend } from '../components/UploadVideo/types';
+import { DataToBackend } from '../components/UploadVideo/types';
 import { API_URL } from '../consts';
 
-export const sendDataToBackEnd = (framesArray: Frame[], id: string) => {
-  const keys: string[] = framesArray.flatMap(frame => Object.keys(frame));
+export const sendDataToBackEnd = (frameNamesArray: string[], id: string) => {
   const dataToSend: DataToBackend = {
     videoId: id,
-    frames: keys
+    frames: frameNamesArray
   };
-
   return fetch(`${API_URL}getlinks`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { createFFmpeg } from '@ffmpeg/ffmpeg';
-import { getStillsFromVideo, transformRawFrameData, attachFramesToAnalysis } from './utils';
+import { getStillsFromVideo, transformRawFrameData, attachRawFramesToAnalysis } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource, S3Links, AlertMessageProps, DataAnalysis } from './types';
 import { ProgressBar } from 'react-bootstrap';
@@ -21,7 +21,7 @@ const UploadVideo = () => {
   const ffmpeg = useRef(createFFmpeg({ log: true }));
 
   const load = async () => {
-    setMessage('Loading transcoder');
+    setMessage('Loading transcoder...');
     await ffmpeg.current.load();
     setMessage('Start transcoding');
   };
@@ -39,13 +39,13 @@ const UploadVideo = () => {
       const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
-      const {filesArray, newFramesArray, videoId} = transformRawFrameData(rawFrameDataArray);
-      const {links}: S3Links = await sendDataToBackEnd(newFramesArray, videoId);
+      const {filesArray, newFramesNames, videoId} = transformRawFrameData(rawFrameDataArray); // TODO update and transform only filesarray and videoid
+      const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
-        const analysisWithFrames = attachFramesToAnalysis(newFramesArray, analysis);
-        setAnalysisData(analysisWithFrames);
+        const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+        setAnalysisData(analysisWithRawFrames);
         setAlertMessage(uploadSuccessful);
         toggleShowAlert();
       }// TODO add an else block to handle upload/analysis errors
