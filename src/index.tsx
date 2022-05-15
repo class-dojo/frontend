@@ -8,7 +8,6 @@ import './index.css';
 
 import './assets/softDashboard/css/soft-ui-dashboard.css';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

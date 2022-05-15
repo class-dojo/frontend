@@ -18,10 +18,9 @@ type ChartTogglerProps = {
   data: SingleFrameAnalysis[],
   accuracy: number,
   dataType: string
-  frames: string[]
 }
 
-const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.primaryGreen, data, accuracy, dataType, frames }: ChartTogglerProps) => { // TODO has to take data and parse it here
+const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.primaryGreen, data, accuracy, dataType }: ChartTogglerProps) => { // TODO has to take data and parse it here
 
   const [isBarChart, setIsBarChart] = useState(true);
 

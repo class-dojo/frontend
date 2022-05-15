@@ -10,7 +10,7 @@ import './analysis.css';
 const Analysis = () => {
 
   const location = useLocation();
-  const { accuracy, data, frames }: todoType = location.state;
+  const { accuracy, data, videoName }: todoType = location.state;
 
   const [isInDashboard, setIsInDashboard] = useState(true);
 
@@ -30,14 +30,12 @@ const Analysis = () => {
         <Dashboard
           accuracy={accuracy}
           data={data}
-          frames={frames}
         />
       }
       {!isInDashboard &&
         <DetailedView
           accuracy={accuracy}
           data={data}
-          frames={frames}
         />
       }
 

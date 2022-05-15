@@ -11,7 +11,7 @@ import VideoIcon from '../../../assets/icons/VideoIcon.svg';
 import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 
-const Dashboard = ({accuracy, data, frames}: todoType) => {
+const Dashboard = ({accuracy, data}: todoType) => {
 
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
@@ -19,7 +19,6 @@ const Dashboard = ({accuracy, data, frames}: todoType) => {
         <div className='fill-height col-sm-8 col-md-9 col-lg-10'>
           <div className='card chart-small'>
             <MixedChart
-              frames={frames}
               data={data.framesArray}
               accuracy={accuracy}
               isThumbnail={true}

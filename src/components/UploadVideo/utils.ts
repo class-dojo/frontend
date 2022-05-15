@@ -1,5 +1,5 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
-import { VideoSource, Frame, DataAnalysis } from './types';
+import { VideoSource, DataAnalysis } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
 export const getStillsFromVideo = async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
@@ -33,22 +33,21 @@ const videoLoaded = async (video: HTMLVideoElement): Promise<number> => {
 
 export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
   const filesArray: File[] = [];
-  const newFramesArray: Frame[] = [];
+  const newFramesNames: string[] = [];
   const videoId: string = uuidv4();
   rawFrameDataArray.forEach((frameRawData, i) => {
     const frameName = `${videoId}/${i + 1}.jpg`;
-    const singleFrameObj: Frame = { [frameName]: URL.createObjectURL(new Blob([frameRawData], { type: 'image/jpg' })) };
-    newFramesArray.push(singleFrameObj);
+    newFramesNames.push(frameName);
     const imgFile = new File([frameRawData], frameName);
     filesArray.push(imgFile);
   });
-  return { filesArray, newFramesArray, videoId };
+  return { filesArray, newFramesNames, videoId };
 };
 
-export const attachFramesToAnalysis = (frames: Frame[], analysis: DataAnalysis) => {
-  const framesArrayWithPics = analysis.framesArray.map((singleFrameAnalysis, i) => {
+export const attachRawFramesToAnalysis = (frames: Uint8Array[], analysis: DataAnalysis) => {
+  const framesArrayWithRawData = analysis.framesArray.map((singleFrameAnalysis, i) => {
     return singleFrameAnalysis.isImportantAttention || singleFrameAnalysis.isImportantMood || singleFrameAnalysis.isImportantPeople ?
-      singleFrameAnalysis = { ...singleFrameAnalysis, importantFrame: Object.values(frames[i])[0] } : singleFrameAnalysis;
+      singleFrameAnalysis = { ...singleFrameAnalysis, importantFrame: frames[i] } : singleFrameAnalysis;
   });
-  return { ...analysis, framesArray: framesArrayWithPics };
+  return { ...analysis, framesArray: framesArrayWithRawData };
 };
