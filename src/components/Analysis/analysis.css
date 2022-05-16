@@ -27,6 +27,10 @@
   width: 100%;
 }
 
+.single-chart-small {
+  padding-left: 10px;
+}
+
 .dashboard-icon {
   width: 30px;
   height: 30px;

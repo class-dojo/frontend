@@ -109,6 +109,9 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
     }, 0);
   };
 
+  const indexes = dataset[0].data.map(datum => datum.x % 10 === 0 || datum.x === 0);
+  console.log(indexes);
+
   return (
     <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>
@@ -124,7 +127,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           yScale={{
             type: 'linear',
             min: 0,
-            max: yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 10,
+            max: yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 100,
             stacked: false,
             reverse: false
           }}
@@ -164,6 +167,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
             legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
+            format: index => { return (index === 0 || index % 10 === 0) ? index : '';},
           }}
           axisLeft={isSecondary ? null : {
             tickSize: 10,
@@ -171,7 +175,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? -40 : -50
+            legendOffset: isThumbnail ? -45 : -50
           }}
           axisRight={isSecondary ? {
             tickSize: 10,
@@ -179,7 +183,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? 40 : 50
+            legendOffset: isThumbnail ? 45 : 50
           } : null}
           defs={[
             linearGradientDef('gradientA', [

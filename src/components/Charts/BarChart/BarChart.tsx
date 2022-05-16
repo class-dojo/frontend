@@ -117,7 +117,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           motionConfig={'stiff'}
           data={dataset.data}
           keys={dataset.keys}
-          maxValue={yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 10}
+          maxValue={yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 100}
           padding={isMultibar ? 0.2 : 0.04}
           margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 40, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}
@@ -139,7 +139,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
-            format: index => {return (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '';} ,
+            format: index => (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '',
           }}
           axisLeft={isSecondary ? null : {
             tickSize: 10,
@@ -147,7 +147,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? -40 : -50
+            legendOffset: isThumbnail ? -45 : -50
           }}
           axisRight={isSecondary ? {
             tickSize: 10,
@@ -155,7 +155,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? 40 : 50
+            legendOffset: isThumbnail ? 45 : 50
           } : null}
           defs={[
             linearGradientDef('gradientA', [

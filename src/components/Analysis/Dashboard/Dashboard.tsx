@@ -71,7 +71,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small' style={{ flex: 4 }}>
+            <div className='chart-small single-chart-small' style={{ flex: 4 }}>
               {data && < ChartToggler
                 dataType={'attentionScore'}
                 data={data.framesArray}
@@ -102,7 +102,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small' style={{ flex: 4 }}>
+            <div className='chart-small single-chart-small' style={{ flex: 4 }}>
               {data && <ChartToggler
                 dataType={'moodScore'}
                 data={data.framesArray}
