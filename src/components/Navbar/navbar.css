@@ -54,3 +54,12 @@
 .bs-icon.bs-icon-circle {
   border-radius: 50%;
 }
+
+.navbar {
+  height: 73px;
+}
+@media (max-width: 767px) {
+  .navbar {
+    height: unset;
+  }
+}

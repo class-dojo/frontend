@@ -7,11 +7,9 @@ import MixedChart from '../../Charts/MixedChart/MixedChart';
 
 const AnalysisDisplay = ({accuracy, data}: todoType) => {
 
-  // d -> 66.8 + 16
-  // m -> 193.59 + 16
   return (
     <div>
-      <div className='big-chart-container'>
+      <div className='big-chart-container big-chart-aggregate-container'>
         <MixedChart
           type={AGGREGATE}
           color={colors.primaryDarkBlue}

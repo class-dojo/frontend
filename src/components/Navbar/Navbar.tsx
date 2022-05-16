@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className='navbar sticky-top navbar-dark navbar-expand-md bg-dark py-3' style={{height: 73}}>
+      <nav className='navbar sticky-top navbar-dark navbar-expand-md bg-dark py-3' >
 
         <div className="container">
           <Link to={'/'}>
@@ -21,7 +21,9 @@ const Navbar = () => {
                   <path d="M8 4.5l4 2l4 1l4 3.5l-2 3.5"></path>
                 </svg>
               </span>
-              <span className='fs-4'>Classdojo</span>
+              <span className='fs-4'>
+                Classdojo
+              </span>
             </span>
           </Link>
           <button data-bs-toggle="collapse" className="navbar-toggler" data-bs-target="#navcol-5"><span className="visually-hidden">Toggle navigation</span><span className="navbar-toggler-icon"></span></button>
