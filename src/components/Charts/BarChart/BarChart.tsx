@@ -22,25 +22,13 @@ const displayBoxFrameStyle: React.CSSProperties = {
 };
 
 const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | undefined) => {
-  switch (id) {
-    case 'Happiness':
-      return colors.happiness;
-      break;
-    case 'Sadness':
-      return colors.sadness;
-      break;
-    case 'Calmness':
-      return colors.calmness;
-      break;
-    case 'Confusion':
-      return colors.confusion;
-      break;
-    default:
-      if (isSecondary) return '#3a4f637a';
-      if (colorOverride) return colorOverride;
-      return colors.primaryGreen;
-      break;
-  }
+  console.log(colorOverride);
+  let barColor = colors.primaryGreen;
+  if (id === 'Attention') barColor = colors.primaryRed;
+  if (id === 'Mood') barColor = colors.primaryGreen;
+  if (colorOverride) barColor = colorOverride;
+  if (isSecondary) barColor = '#3a4f637a';
+  return barColor;
 };
 
 type BarChartProps = {
@@ -110,7 +98,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
 
   const getMaxValue = () => {
     return dataset.data.reduce((acc, val) => {
-      return val['People'] > acc ? val['People'] : acc;
+      return val[HEADCOUNT] > acc ? val[HEADCOUNT] : acc;
     }, 0);
   };
 
@@ -149,7 +137,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickSize: 0,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Time',
+            legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
             format: index => {return (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '';} ,
@@ -260,6 +248,31 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
               </div>
             );
           }}
+          legends={isOverlayed ? [
+            {
+              dataFrom: 'keys',
+              anchor: isSecondary ? 'bottom-right' : 'bottom-left',
+              direction: 'row',
+              justify: false,
+              translateY: 30,
+              itemWidth: 100,
+              itemHeight: 10,
+              itemsSpacing: 6,
+              symbolSize: isThumbnail ? 14 : 22,
+              symbolShape: 'square',
+              itemDirection: 'left-to-right',
+              itemTextColor: '#777',
+              effects: [
+                {
+                  on: 'hover',
+                  style: {
+                    itemBackground: 'rgba(0, 0, 0, .03)',
+                    itemOpacity: 1
+                  }
+                }
+              ]
+            }
+          ] : undefined}
         />
       </div>
 

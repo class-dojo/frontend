@@ -51,7 +51,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         accuracy={accuracy}
         isMultibar={false}
         dataset={parseChartData(data, dataType, accuracy, 'bar') as BarDataset}
-        color={color}
+        // color={color}
         isThumbnail={isThumbnail}
         yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
       />}

@@ -22,7 +22,7 @@ const displayBoxFrameStyle: React.CSSProperties = {
 type LineChartProps = {
   isMultiline: boolean,
   dataset: LineDataset[],
-  title: string,
+  title?: string,
   yAxisName: string,
   isOverlayed?: boolean,
   isSecondary?: boolean,
@@ -59,12 +59,10 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
     display: isSecondary ? 'none' : 'initial',
   };
 
-  let hasLegend = false;
   let hasFill = true;
   let hasPoints = false;
 
   if (isMultiline) {
-    hasLegend = true;
     hasFill = false;
     hasPoints = false;
   }
@@ -135,7 +133,6 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           onMouseLeave={handleMouseLeave}
           onMouseMove={handleMouseMove}
           onClick={handleClick}
-          // enableSlices={'x'}
           enableArea={hasFill}
           areaOpacity={0.8}
           enablePoints={true}
@@ -164,7 +161,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
             tickSize: 0,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Time',
+            legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
           }}
@@ -319,16 +316,16 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
               </div>
             );
           }}
-          legends={hasLegend ? [
+          legends={isOverlayed ? [
             {
-              anchor: 'bottom-right',
+              anchor: isSecondary ? 'bottom-right' : 'bottom-left',
               direction: 'row',
               justify: false,
-              translateY: 70,
+              translateY: 30,
               itemWidth: 100,
               itemHeight: 10,
               itemsSpacing: 6,
-              symbolSize: 22,
+              symbolSize: isThumbnail ? 14 : 22,
               symbolShape: 'square',
               itemDirection: 'left-to-right',
               itemTextColor: '#777',

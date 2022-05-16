@@ -10,6 +10,7 @@ export const colors = {
   primaryRedStrong : '#bf5039',
   primaryYellow: '#f5cf96', // Pastel yellow
   primaryDarkBlue: '#314d64',
+  primaryDarkBlueTransparent: '#314d64b8',
   primaryLightBlue: '#619eed',
   primaryBlue: '#377fdf',
   secondaryBlue: '#1f6ad1',

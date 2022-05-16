@@ -23,23 +23,25 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
   const [isMultiPrimary, setIsMultiPrimary] = useState(true);
   const [lineData, setLineData] = useState(getMultiLineData());
   const [barData, setBarData] = useState(parseChartData(data, 'amountOfPeople', accuracy, 'bar') as BarDataset);
+  const [isRedrawing, setIsRedrawing] = useState(false);
 
   useEffect(() => {
+    setIsRedrawing(true);
     if (isMultiPrimary === isBarPrimary) {
-      const multiLineData = getMultiLineData();
-      setLineData(multiLineData);
-      const singleBarData = parseChartData(data, 'amountOfPeople', accuracy, 'bar') as BarDataset;
-      console.log(singleBarData);
-      setBarData(singleBarData);
-    } else {
       setLineData([{
         ...parseChartData(data, 'amountOfPeople', accuracy, 'line') as LineDataset,
-        id: type,
-        color
+        id: 'Headcount',
+        color: isMultiPrimary ? colors.primaryDarkBlueTransparent : colors.primaryDarkBlue,
       }]);
       const multibarData = getMultiBarData();
       setBarData(multibarData);
+    } else {
+      const multiLineData = getMultiLineData();
+      setLineData(multiLineData);
+      const singleBarData = parseChartData(data, 'amountOfPeople', accuracy, 'bar') as BarDataset;
+      setBarData(singleBarData);
     }
+    setIsRedrawing(false);
   }, [isMultiPrimary, isBarPrimary]);
 
   function getMultiLineData () {
@@ -90,8 +92,8 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
         <div className={`toggle-btn-group col-md-3 ${isThumbnail ? 'thumbnail-toggle-btn-group-margins' : ''}` }>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2'>Select primary chart</p>}
           <div className="btn-group d-flex mr-2 " style={{ zIndex: 1 }}>
-            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'not-selected' : 'selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Mood and Attention</button>
-            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Headcount</button>
+            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Mood and Attention</button>
+            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'not-selected' : 'selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Headcount</button>
           </div>
         </div>
         {isThumbnail ? <h4 className='chart-title text-center col-md-4 mb-0'>{type}</h4> : <h1 className='chart-title text-center col-md-4 mb-0' style={{ margin: 'unset' }}>{type}</h1>}
@@ -103,34 +105,34 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
           </div>
         </div>
       </div>
-      <div style={{ position: 'relative',  height: '100%' }}>
+      {!isRedrawing && <div style={{ position: 'relative',  height: '100%' }}>
         <div style={{position: 'absolute', width: '100%', height: '100%' }} >
           <BarChart
             frames={getImportantFrames(data)}
-            isMultibar={isMultiPrimary != isBarPrimary}
+            isMultibar={isMultiPrimary === isBarPrimary}
             accuracy={accuracy}
             dataset={barData}
             isOverlayed={true}
             isSecondary={!isBarPrimary}
             isThumbnail={isThumbnail}
-            color={color}
-            yAxisName={isMultiPrimary === isBarPrimary ? HEADCOUNT : 'Attention and Mood' }
+            color={isMultiPrimary === isBarPrimary ? undefined : color}
+            yAxisName={isMultiPrimary === isBarPrimary ? 'Attention and Mood' : HEADCOUNT }
           />
         </div>
         <div style={{position: 'relative', height: '100%', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
           <LineChart
             frames={getImportantFrames(data)}
             accuracy={accuracy}
-            isMultiline={isMultiPrimary === isBarPrimary}
+            isMultiline={isMultiPrimary != isBarPrimary}
             title={'Aggregate'}
             dataset={lineData}
-            yAxisName={isMultiPrimary === isBarPrimary ? 'Attention and Mood' : HEADCOUNT}
+            yAxisName={isMultiPrimary === isBarPrimary ? HEADCOUNT : 'Attention and Mood'}
             isOverlayed={true}
             isSecondary={isBarPrimary}
             isThumbnail={isThumbnail}
           />
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

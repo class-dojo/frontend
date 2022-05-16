@@ -29,7 +29,7 @@ const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: n
       goodKeyName = 'Mood';
       break;
     case 'amountOfPeople':
-      goodKeyName = 'People';
+      goodKeyName = 'Headcount';
       break;
   }
 

@@ -27,24 +27,26 @@ const Dashboard = ({accuracy, data}: todoType) => {
             />
           </div>
         </div>
-        <div className='col-sm-4 col-md-3 col-lg-2 d-flex flex-column justify-content-around ps-4 pb-4'>
-          <div className='d-flex gap-3'>
-            <img src={VideoIcon} className='dashboard-icon'/>
-            <span>My cool video</span>
-          </div>
-          <div className='d-flex gap-3'>
-            <img src={TimeIcon} className='dashboard-icon'/>
-            <span>12 min</span>
-          </div>
-          <div className='d-flex gap-3'>
-            <img src={CalendarIcon} className='dashboard-icon'/>
-            <span>14 may, 2022</span>
-          </div>
-          <div className='d-flex gap-3'>
-            <button className='btn mb-0'>
-              <img src={CopyLinkIcon} className='dashboard-icon'/>
-              <span>Copy link</span>
-            </button>
+        <div className='col-sm-4 col-md-3 col-lg-2 '>
+          <div className='card d-flex flex-column justify-content-around ps-4 pb-4'>
+            <div className='d-flex gap-3'>
+              <img src={VideoIcon} className='dashboard-icon'/>
+              <span>My cool video</span>
+            </div>
+            <div className='d-flex gap-3'>
+              <img src={TimeIcon} className='dashboard-icon'/>
+              <span>12 min</span>
+            </div>
+            <div className='d-flex gap-3'>
+              <img src={CalendarIcon} className='dashboard-icon'/>
+              <span>14 may, 2022</span>
+            </div>
+            <div className='d-flex gap-3'>
+              <button className='btn mb-0'>
+                <img src={CopyLinkIcon} className='dashboard-icon'/>
+                <span>Copy link</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
