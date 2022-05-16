@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react';
-import { createFFmpeg } from '@ffmpeg/ffmpeg';
+import { createFFmpeg, CreateFFmpegOptions } from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData, attachRawFramesToAnalysis } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
-import { VideoSource, S3Links, AlertMessageProps, DataAnalysis } from './types';
+import { VideoSource, S3Links, AlertMessageProps, DataAnalysis, VideoStillsWithInfo } from './types';
 import { ProgressBar } from 'react-bootstrap';
-import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
+import { fileNotSelected, uploadSuccessful, analysisError } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
+import Spinner from './Spinner';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
 import {VERSION} from '../../consts';
 
@@ -14,14 +15,16 @@ const UploadVideo = () => {
   const [analysisData, setAnalysisData] = useState<DataAnalysis>();
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
+  const [showSpinner, toggleShowSpinner] = useReducer(state => !state, false);
   const [showAlert, toggleShowAlert] = useReducer(state => !state, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const videoName = useRef<string>('');
+  const videoDate = useRef<Date>();
   const source = useRef<VideoSource>('');
 
-  const config: any = {log: true};
+  const config: CreateFFmpegOptions = {log: true};
 
   if (VERSION !== '@dev') {
     config['corePath'] = '/static/js/ffmpeg-core.js';
@@ -45,21 +48,33 @@ const UploadVideo = () => {
       ffmpeg.current.setProgress(({ ratio }) => {
         setBarProgress(ratio*100);
       });
-      const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
+      const {rawFrameDataArray, duration}: VideoStillsWithInfo = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
-      setMessage('Transcoding Complete');
+      toggleShowSpinner();
+      setMessage('Analysis Complete');
       const {filesArray, newFramesNames, videoId} = transformRawFrameData(rawFrameDataArray); // TODO update and transform only filesarray and videoid
       const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
-        const analysis: DataAnalysis = await getAnalysis(videoId);
-        const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-        setAnalysisData(analysisWithRawFrames);
-        setAlertMessage(uploadSuccessful);
+        const analysis = await getAnalysis(videoId);
+        if (analysis) {
+          const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+          const completeData = {... analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration}; // TODO add date
+          setAnalysisData(completeData);
+          setAlertMessage(uploadSuccessful);
+          toggleShowSpinner();
+          toggleShowAlert();
+        } else {
+          setAlertMessage(analysisError);
+          toggleShowSpinner();
+          toggleShowAlert();
+        }
+      } else {
+        setAlertMessage(analysisError); // TODO add different messages to handle upload errors?
+        toggleShowSpinner();
         toggleShowAlert();
-      }// TODO add an else block to handle upload/analysis errors
-
-    } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
+      }
+    } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
     }
   };
@@ -67,7 +82,8 @@ const UploadVideo = () => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       source.current = event.target.files[0];
-      videoName.current = event.target.files[0].name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
+      videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
+      videoDate.current = new Date(event.target.files[0].lastModified); // TODO check a way to extract creation date from ffmpeg
     }
   };
 
@@ -97,13 +113,13 @@ const UploadVideo = () => {
               <input className="form-control form-control-lg notranslate" id="formFileLg" type="file" translate='no' accept="video/*" onChange={handleFileInputChange}/>
             </div>
             {/* <input type="file" accept="video/*" onChange={handleFileInputChange}/> */}
-            <div className="my-3"><a className={`btn btn-primary btn-lg me-2 dark-element ${isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
-            <div className='mt-4'>{ isTranscoding ? <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/> : <p style={{ marginBottom: 0, marginTop: 0 }}>{message}</p>}</div>
+            <div className="my-3"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>ANALYZE VIDEO</a></div>
+            {showSpinner ? <Spinner/> : <div className='mt-4'>{ isTranscoding ? <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/> : <p style={{ marginBottom: 0, marginTop: 0 }}>{message}</p>}</div>}
           </div>
         </div>
         <div className='mt-2'>
           {showAlert &&
-          <ActionAlert videoName={videoName.current} accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          <ActionAlert /*videoName={videoName.current}*/ accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>

@@ -1,5 +1,10 @@
 export type VideoSource = string | Buffer | Blob | File;
 
+export type VideoStillsWithInfo = {
+  rawFrameDataArray: Uint8Array[],
+  duration: number
+}
+
 export type Frame = {
   [key: string]: string
 }
@@ -24,6 +29,11 @@ export type DataAnalysis = {
   peaks: Peaks
   valleys: Valleys
   averages: Averages
+  videoName?: string
+  videoDate?: Date
+  duration?: number
+  accuracy?: number
+
 }
 
 export type SingleFrameAnalysis = {

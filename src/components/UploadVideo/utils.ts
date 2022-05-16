@@ -1,17 +1,17 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
-import { VideoSource, DataAnalysis } from './types';
+import { VideoSource, DataAnalysis, VideoStillsWithInfo } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
-export const getStillsFromVideo = async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<Uint8Array[]> => {
+export const getStillsFromVideo = async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<VideoStillsWithInfo> => {
   ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
   await ffmpeg.run('-i', 'test.mp4', '-vf', `fps=1/${accuracy}`, '%d.jpg');
-  const frameArray = [];
+  const rawFrameDataArray = [];
   const duration: number = await getVideoDuration(source);
   for (let i = 1, ratio = Math.floor(duration / accuracy); i <= ratio; i++) {
     const frame: Uint8Array = ffmpeg.FS('readFile', `${i}.jpg`);
-    frameArray.push(frame);
+    rawFrameDataArray.push(frame);
   }
-  return frameArray;
+  return { rawFrameDataArray, duration };
 };
 
 export const getVideoDuration = async (source: VideoSource) => {
@@ -47,7 +47,7 @@ export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
 export const attachRawFramesToAnalysis = (frames: Uint8Array[], analysis: DataAnalysis) => {
   const framesArrayWithRawData = analysis.framesArray.map((singleFrameAnalysis, i) => {
     return singleFrameAnalysis.isImportantAttention || singleFrameAnalysis.isImportantMood || singleFrameAnalysis.isImportantPeople ?
-      singleFrameAnalysis = { ...singleFrameAnalysis, importantFrame: frames[i] } : singleFrameAnalysis;
+      { ...singleFrameAnalysis, importantFrame: frames[i] } : singleFrameAnalysis;
   });
   return { ...analysis, framesArray: framesArrayWithRawData };
 };

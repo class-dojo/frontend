@@ -57,22 +57,23 @@ components:
         - links
       example:
         links: [
-                'http://images.localhost:9000/images/dummy1.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=62835950a0046bf4db93444fea0d2d0626c45ccc0da71eaca470a95b304dbd76&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy2.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=98ed2fa0826f3cb879a4454700a91feee850b07d3237026627faaf0f2f4d2a19&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy3.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=f225597dc96e6824109be872c2fced68160f9c00cc35e98aaf87ec0a17147da1&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy4.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=195c72d61a7dd44c643bf6cd233a5e43ffe33b0bc37e042c06fb86030ac5e92b&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy5.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=f63205e3f4cc68cd3aa7ea90117d726ffcde100a2b1786b6c1e933e204f9ba5f&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy6.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=9bc4deb78c6011b26c5c666e122200c8dfcc58e7764e46d4f16a63001d56685c&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy7.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=02e4889ea9fef82dc830100819bc5762ba338dd03fb4bb9bab0ce47e074a479b&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy8.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=a7d1d75dceb4053ce032b73e4e7a4203bff55b82aac9ceeea3c3e3fb9cce47d7&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy9.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=f841a712238729131fdc7ba4823ef7998139304f6dcbe6cd6ab86e0b397cd26b&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy10.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=bcd011f0be8b31ee796811e9b15fb90142c084e27c7f72f4c1eb03b8078d52fe&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy11.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=e0a93869484da6f4bcd5235977a6c4afc61f41440638fa91d765a0b353547555&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy12.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=5f1d0789e80c9be879971f0a4f2eedd04786551f7685c8f1315591607eed289a&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy13.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=ef2d4a64b6f4cd151458438d1896059ce620dba6a3a49b2f13c133c22e95c9bd&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy14.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=94a98439f24e7e45ae8af2e24299af82a2759418b0f48d9bb17bc89caa939d00&X-Amz-SignedHeaders=host',
-                'http://images.localhost:9000/images/dummy15.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220509%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220509T164546Z&X-Amz-Expires=604800&X-Amz-Signature=0858028c4c68a36e1789cca39736c12aa235a37bb5fc707ca95facbef547729e&X-Amz-SignedHeaders=host'
+                'http://localhost:9000/images/testVideo/image1.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=7fe772705878ac4178a56856f3052c35f17bb27f7c5ae4ba01a0e4f81785368e&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image2.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=313f68d1a0eb33b9d2265f771944b30468ff0a2e2d0fd36ba64119f988f05a07&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image3.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=baf1d5393d6314aa7e81049adc760e57c345ba47d2be1804d1110dce32622ad6&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image4.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=64dca4fdd41fbf085ffd1dcdd4dc2eeb63959456b3b51707aa41fb2282ba23bb&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image5.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=d89698ca4e996d1a4215bc042cfc09da4841d11df75559474e9998e6c10ca4bd&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image6.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=f958c0f6116267e3f3082153f67a8c906ecc50f76d8a445c855f4b49228b0ea8&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image7.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=9c7c74ea0cbb707b7bdacdb6a1f2005b2f25ffee4d1eecfd64ab0ca8a1ea8705&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image8.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=b62d6f0c66882ce4084e50cc0c322076c294d17dea81ecbd5f9fa7c0ec8b56f8&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image9.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=234d52909b3c64aca04a1b251245429779c63c21ee35034ec5e88610500a5b2f&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image10.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=122c2d4373ae5dbc2a1548fdc30668424b9e4c8a5e72c2b3e889f8f84a8281f1&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image11.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=003fb0dc18a7a6927dcd3e4e521629e9a54fff76928d90d3a77d7e3b1c03a1ea&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image12.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=0305f34d01faa544351be2e40d2f70bb059f4d10a9e7e71f1d30d457d7bb9fdf&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image13.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=bd17fa45b32b52d62411c4c0d0b513d10395d91007ede1c3dabedaf3e2801d74&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image14.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=7b104a61cfa80311ac95eeb331b9e63a32fce2743fcaad2bfb5cef7cafc67f49&X-Amz-SignedHeaders=host',
+                'http://localhost:9000/images/testVideo/image15.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=root%2F20220516%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220516T183211Z&X-Amz-Expires=100000&X-Amz-Signature=8a5845604c82df957bc6c98110b17f4604282ed6a5629120715e1e8f51b2bc2b&X-Amz-SignedHeaders=host'
               ]
+
 
     S3Links:
       properties:
@@ -245,8 +246,8 @@ components:
             moodAverage: 0.37
             attentionAverage: 0.55
             peopleAverage: 17
-        required:
-          - framesArray
-          - peaks
-          - valleys
-          - averages
+      required:
+        - framesArray
+        - peaks
+        - valleys
+        - averages
