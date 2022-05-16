@@ -40,5 +40,3 @@ const mockdata = {
   valleys: v(frameArr),
   averages: ave(frameArr)
 };
-
-console.log(mockdata);

@@ -92,7 +92,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
         <div className={`toggle-btn-group col-md-3 ${isThumbnail ? 'thumbnail-toggle-btn-group-margins' : ''}` }>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2'>Select primary chart</p>}
           <div className="btn-group d-flex mr-2 " style={{ zIndex: 1 }}>
-            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Mood and Attention</button>
+            <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'selected' : 'not-selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Indexes</button>
             <button className={`btn p-1 py-2 mb-0 btn-primary shadow-none ${isMultiPrimary ? 'not-selected' : 'selected'}`} onClick={toggleMainChart} type="button" style={{flex: '1 1 50%', background: color}}>Headcount</button>
           </div>
         </div>

@@ -22,7 +22,6 @@ const displayBoxFrameStyle: React.CSSProperties = {
 };
 
 const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | undefined) => {
-  console.log(colorOverride);
   let barColor = colors.primaryGreen;
   if (id === 'Attention') barColor = colors.primaryRed;
   if (id === 'Mood') barColor = colors.primaryGreen;
