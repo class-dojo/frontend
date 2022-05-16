@@ -53,10 +53,15 @@ const UploadVideo = () => {
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis: DataAnalysis = await getAnalysis(videoId);
-        const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-        setAnalysisData(analysisWithRawFrames);
-        setAlertMessage(uploadSuccessful);
-        toggleShowAlert();
+        if (analysis) {
+          const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+          setAnalysisData(analysisWithRawFrames);
+          setAlertMessage(uploadSuccessful);
+          toggleShowAlert();
+        } else {
+          setAlertMessage(analysisError);
+          toggleShowAlert();
+        }
       }// TODO add an else block to handle upload/analysis errors
     } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
