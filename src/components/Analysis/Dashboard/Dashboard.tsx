@@ -51,7 +51,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
       <div className='row pt-2 pb-2' style={{ height: '50%' }}>
         <div className='col-6 fill-height'>
           <div className='card d-flex flex-row'>
-            <div className='d-flex flex-column align-items-center ps-2 pt-4' >
+            <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay
                 percentage={Math.floor(Math.random() * 101)}
@@ -67,7 +67,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small'>
+            <div className='chart-small' style={{ flex: 4 }}>
               {data && < ChartToggler
                 dataType={'attentionScore'}
                 data={data.framesArray}
@@ -81,8 +81,8 @@ const Dashboard = ({accuracy, data}: todoType) => {
           </div>
         </div>
         <div className='col-6 fill-height'>
-          <div className='card d-flex flex-row'>
-            <div className='d-flex flex-column align-items-center ps-2 pt-4'>
+          <div className='card d-flex flex-row' >
+            <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay
                 percentage={Math.floor(Math.random() * 101)}
@@ -98,7 +98,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small'>
+            <div className='chart-small' style={{ flex: 4 }}>
               {data && <ChartToggler
                 dataType={'moodScore'}
                 data={data.framesArray}
