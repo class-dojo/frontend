@@ -35,7 +35,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
 
   return (
     <div style={{position: 'relative', height: '100%'}}>
-      <div className={`row d-flex justify-content-between mt-3 ${isThumbnail ? 'ms-5 me-5' : 'ms-6 me-6'}` }>
+      <div className={`row d-flex justify-content-between ${isThumbnail ? 'ms-5 me-5 mt-3' : 'ms-6 me-6'}` }>
         <div className={`toggle-btn-group col-md-3 ${isThumbnail ? 'thumbnail-toggle-btn-group-margins' : ''}` }>
           {isThumbnail ? <></> : <p className='text-nowrap mb-2'>Select primary chart</p>}
           <div className="btn-group d-flex mr-2 " style={{ zIndex: 1 }}>

@@ -32,18 +32,24 @@
 }
 
 /* DETAILED VIEW */
-/* 139.08 + 16 + 66.8 */
 .big-chart-container {
   --chart-y-offset: 221.9px;
-  margin: 30px 0 30px;
+  margin: 20px 0 40px;
   padding: 0 20px;
   height: calc(100vh - var(--chart-y-offset));
   display: table;
   width: 100%;
 }
 
+/* 99 + 20 + 171.54 + 40 */
+/* 73 + 32.8 + 20 + 40 + 66.8 */
+/* 20 + 40 + 104.74 + 99 */
 @media (max-width: 767px) {
   .big-chart-container {
-    --chart-y-offset: 352.58px;
+    --chart-y-offset: 263.74px;
+    padding: 0 0 0 5px;
+  }
+  .big-chart-aggregate-container {
+    height: calc(100vh - 330.54px);
   }
 }
