@@ -29,6 +29,10 @@ export type DataAnalysis = {
   peaks: Peaks
   valleys: Valleys
   averages: Averages
+  videoName?: string
+  duration?: number
+  accuracy?: number
+
 }
 
 export type SingleFrameAnalysis = {

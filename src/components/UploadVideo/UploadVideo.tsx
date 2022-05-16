@@ -55,8 +55,8 @@ const UploadVideo = () => {
         const analysis = await getAnalysis(videoId);
         if (analysis) {
           const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-          //const completeData = attachVideoInfoToData(videoName.current, duration);
-          setAnalysisData(analysisWithRawFrames);
+          const completeData = {... analysisWithRawFrames, videoName: videoName.current, duration}; // TODO add date
+          setAnalysisData(completeData);
           setAlertMessage(uploadSuccessful);
           toggleShowAlert();
         } else {
@@ -108,7 +108,7 @@ const UploadVideo = () => {
         </div>
         <div className='mt-2'>
           {showAlert &&
-          <ActionAlert videoName={videoName.current} accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          <ActionAlert /*videoName={videoName.current}*/ accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>
