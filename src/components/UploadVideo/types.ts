@@ -30,6 +30,7 @@ export type DataAnalysis = {
   valleys: Valleys
   averages: Averages
   videoName?: string
+  videoDate?: Date
   duration?: number
   accuracy?: number
 
