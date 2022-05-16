@@ -108,6 +108,12 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const getMaxValue = () => {
+    return dataset.data.reduce((acc, val) => {
+      return val['People'] > acc ? val['People'] : acc;
+    }, 0);
+  };
+
   const indexes = dataset.data.map(datum => datum.Time).filter(time => time % 10 === 0 || time === 0);
 
   return (
@@ -124,7 +130,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           motionConfig={'stiff'}
           data={dataset.data}
           keys={dataset.keys}
-          maxValue={yAxisName === HEADCOUNT ? 'auto' : 10}
+          maxValue={yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 10}
           padding={isMultibar ? 0.2 : 0.04}
           margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 40, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}

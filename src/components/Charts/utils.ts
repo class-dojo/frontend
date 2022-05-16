@@ -32,10 +32,11 @@ const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: n
       goodKeyName = 'People';
       break;
   }
+
   const importantIndexes: number[] = [];
   const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
     if (frame[importance]) importantIndexes.push(i);
-    return { id: i, Time: i * samplePeriod, [goodKeyName]: Math.round(Number(frame[key]) * 10 * 10) / 10 };
+    return { id: i, Time: i * samplePeriod, [goodKeyName]: key === 'amountOfPeople' ? Math.round(Number(frame[key]) * 10) / 10 : Math.round(Number(frame[key]) * 10 * 10) / 10 };
   });
   return { data, importantIndexes, keys: [goodKeyName] };
 };
@@ -52,7 +53,7 @@ const parseLine = (framesArray: SingleFramesLoose[], key: string, samplePeriod: 
   const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
     return {
       x: i * samplePeriod,
-      y: Math.round(Number(frame[key]) * 10 * 10) / 10,
+      y: key === 'amountOfPeople' ? Math.round(Number(frame[key]) * 10) / 10 : Math.round(Number(frame[key]) * 10 * 10) / 10,
       isImportant: frame[importance] as boolean
     };
   });

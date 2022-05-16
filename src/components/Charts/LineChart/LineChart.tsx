@@ -62,15 +62,11 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   let hasLegend = false;
   let hasFill = true;
   let hasPoints = false;
-  let hasGridX = false;
-  let hasGridY = false;
 
   if (isMultiline) {
     hasLegend = true;
     hasFill = false;
     hasPoints = false;
-    hasGridX = true;
-    hasGridY = true;
   }
 
   if (isOverlayed) {
@@ -109,6 +105,12 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const getMaxValue = () => {
+    return dataset[0].data.reduce((acc, val) => {
+      return val['y'] > acc ? val['y'] : acc;
+    }, 0);
+  };
+
   return (
     <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>
@@ -124,7 +126,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           yScale={{
             type: 'linear',
             min: 0,
-            max: yAxisName === HEADCOUNT ? 'auto' : 10,
+            max: yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 10,
             stacked: false,
             reverse: false
           }}
@@ -156,8 +158,8 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           lineWidth={isOverlayed ? 4 : 2}
           useMesh={true}
           pointLabelYOffset={0}
-          enableGridY={hasGridX}
-          enableGridX={hasGridY}
+          enableGridY={false}
+          enableGridX={false}
           axisBottom={isOverlayed ? null : {
             tickSize: 0,
             tickPadding: 5,
