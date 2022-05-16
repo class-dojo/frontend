@@ -6,6 +6,7 @@ import { VideoSource, S3Links, AlertMessageProps, DataAnalysis, VideoStillsWithI
 import { ProgressBar } from 'react-bootstrap';
 import { fileNotSelected, uploadSuccessful, analysisError } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
+import Spinner from './Spinner';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
 import {VERSION} from '../../consts';
 
@@ -14,6 +15,7 @@ const UploadVideo = () => {
   const [analysisData, setAnalysisData] = useState<DataAnalysis>();
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
+  const [showSpinner, toggleShowSpinner] = useReducer(state => !state, false);
   const [showAlert, toggleShowAlert] = useReducer(state => !state, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
@@ -48,7 +50,8 @@ const UploadVideo = () => {
       });
       const {rawFrameDataArray, duration}: VideoStillsWithInfo = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
-      setMessage('Transcoding Complete');
+      toggleShowSpinner();
+      setMessage('Analysis Complete');
       const {filesArray, newFramesNames, videoId} = transformRawFrameData(rawFrameDataArray); // TODO update and transform only filesarray and videoid
       const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
@@ -59,12 +62,18 @@ const UploadVideo = () => {
           const completeData = {... analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration}; // TODO add date
           setAnalysisData(completeData);
           setAlertMessage(uploadSuccessful);
+          toggleShowSpinner();
           toggleShowAlert();
         } else {
           setAlertMessage(analysisError);
+          toggleShowSpinner();
           toggleShowAlert();
         }
-      }// TODO add an else block to handle transcode errors?
+      } else {
+        setAlertMessage(analysisError); // TODO add different messages to handle upload errors?
+        toggleShowSpinner();
+        toggleShowAlert();
+      }
     } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
     }
@@ -105,7 +114,7 @@ const UploadVideo = () => {
             </div>
             {/* <input type="file" accept="video/*" onChange={handleFileInputChange}/> */}
             <div className="my-3"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>ANALYZE VIDEO</a></div>
-            <div className='mt-4'>{ isTranscoding ? <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/> : <p style={{ marginBottom: 0, marginTop: 0 }}>{message}</p>}</div>
+            {showSpinner ? <Spinner/> : <div className='mt-4'>{ isTranscoding ? <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/> : <p style={{ marginBottom: 0, marginTop: 0 }}>{message}</p>}</div>}
           </div>
         </div>
         <div className='mt-2'>
