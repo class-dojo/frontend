@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { createFFmpeg, CreateFFmpegOptions } from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData, attachRawFramesToAnalysis } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
-import { VideoSource, S3Links, AlertMessageProps, DataAnalysis } from './types';
+import { VideoSource, S3Links, AlertMessageProps, DataAnalysis, VideoStillsWithInfo } from './types';
 import { ProgressBar } from 'react-bootstrap';
 import { fileNotSelected, uploadSuccessful, analysisError } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
@@ -45,30 +45,24 @@ const UploadVideo = () => {
       ffmpeg.current.setProgress(({ ratio }) => {
         setBarProgress(ratio*100);
       });
-      const rawFrameDataArray: Uint8Array[] = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
+      const {rawFrameDataArray, duration}: VideoStillsWithInfo = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       setMessage('Transcoding Complete');
       const {filesArray, newFramesNames, videoId} = transformRawFrameData(rawFrameDataArray); // TODO update and transform only filesarray and videoid
       const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
-        let analysis: DataAnalysis | undefined;
-        console.log('=> starting timeout with ', videoId, new Date(Date.now()));
-        setTimeout(async () => {
-          console.log('FIRING', new Date(Date.now()));
-          analysis = await getAnalysis(videoId);
-          console.log({analysis});
-          if (analysis) {
-            const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-            setAnalysisData(analysisWithRawFrames);
-            setAlertMessage(uploadSuccessful);
-            toggleShowAlert();
-            console.log('=> DONE');
-          } else {
-            setAlertMessage(analysisError);
-            toggleShowAlert();
-          }
-        }, 5000);
+        const analysis = await getAnalysis(videoId);
+        if (analysis) {
+          const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+          //const completeData = attachVideoInfoToData(videoName.current, duration);
+          setAnalysisData(analysisWithRawFrames);
+          setAlertMessage(uploadSuccessful);
+          toggleShowAlert();
+        } else {
+          setAlertMessage(analysisError);
+          toggleShowAlert();
+        }
       }// TODO add an else block to handle transcode errors?
     } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();

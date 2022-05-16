@@ -1,5 +1,10 @@
 export type VideoSource = string | Buffer | Blob | File;
 
+export type VideoStillsWithInfo = {
+  rawFrameDataArray: Uint8Array[],
+  duration: number
+}
+
 export type Frame = {
   [key: string]: string
 }
