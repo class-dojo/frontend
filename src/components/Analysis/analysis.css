@@ -2,6 +2,9 @@
 /* TABS */
 .analysis-tab-container {
   display: flex;
+  position: sticky;
+  top: 73px;
+  z-index: 1020;
 }
 
 .analysis-tab-container > button {
@@ -11,6 +14,10 @@
 
 .tab-button:hover {
   transform: scaleY(1.1) !important
+}
+
+.not-selected-tab {
+  background-color: #678095 !important;
 }
 
 /* DASHBOARD */
@@ -25,6 +32,15 @@
 
 .chart-small {
   width: 100%;
+  min-width: unset;
+}
+
+.chart-title {
+  width: auto !important;
+}
+
+.single-chart-small {
+  padding-left: 10px;
 }
 
 .dashboard-icon {
@@ -51,6 +67,7 @@
     padding: 0 0 0 5px;
   }
   .big-chart-aggregate-container {
-    height: calc(100vh - 330.54px);
+    height: calc(100vh - 300.54px);
+    padding-right: 5px;
   }
 }

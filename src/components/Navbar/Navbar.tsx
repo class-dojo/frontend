@@ -26,12 +26,12 @@ const Navbar = () => {
               </span>
             </span>
           </Link>
-          <button data-bs-toggle="collapse" className="navbar-toggler" data-bs-target="#navcol-5"><span className="visually-hidden">Toggle navigation</span><span className="navbar-toggler-icon"></span></button>
           <div className="collapse navbar-collapse" id="navcol-5">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><a className="nav-link" href="#">Learn more</a></li>
-            </ul><Link to={'/upload'}><span className="btn btn-primary ms-md-2 mb-0 dark-element" role="button">Analyze video</span></Link>
+            </ul>
           </div>
+          <Link to={'/upload'}><span className="btn btn-primary ms-md-2 mb-0 dark-element" role="button">Analyze video</span></Link>
         </div>
       </nav>
     </>

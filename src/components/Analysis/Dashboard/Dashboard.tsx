@@ -13,8 +13,6 @@ import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 
 const Dashboard = ({accuracy, data}: todoType) => {
 
-  console.log(data);
-
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
       <div className='row pb-2' style={{ height: '50%' }}>
@@ -71,7 +69,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small' style={{ flex: 4 }}>
+            <div className='chart-small single-chart-small' style={{ flex: 4 }}>
               {data && < ChartToggler
                 dataType={'attentionScore'}
                 data={data.framesArray}
@@ -102,7 +100,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small' style={{ flex: 4 }}>
+            <div className='chart-small single-chart-small' style={{ flex: 4 }}>
               {data && <ChartToggler
                 dataType={'moodScore'}
                 data={data.framesArray}

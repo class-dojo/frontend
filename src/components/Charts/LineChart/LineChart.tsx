@@ -7,6 +7,7 @@ import { LineDataset } from '../../../interfaces';
 import { HEADCOUNT } from '../../../constants';
 import { Modal } from 'react-bootstrap';
 import { Frame } from '../../UploadVideo/types';
+import useWindowDimensions from '../../../utils/useWindowDimensions';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -36,6 +37,8 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
+  const { width } = useWindowDimensions();
+
   const yOffsetThumnbail = 49;
 
   const mainContainerStyle: React.CSSProperties = {
@@ -52,7 +55,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
 
   const displayBoxStyle: React.CSSProperties = {
     position: 'absolute',
-    height: 'calc(100% - 49px)',
+    height: (width < 768 && isOverlayed) ? 'calc(100% - 79px)' : 'calc(100% - 49px)',
     width: isThumbnail ? (isOverlayed ? 'calc(100% - 108px)' : 'calc(100% - 78.2px)') : 'calc(100% - 108px)',
     top: 9.5, // TODO make this pixel perfect
     left: 54,
@@ -109,6 +112,8 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
     }, 0);
   };
 
+  const indexes = dataset[0].data.map(datum => datum.x % 10 === 0 || datum.x === 0);
+
   return (
     <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>
@@ -119,12 +124,12 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
         <ResponsiveLine
           data={[...dataset]}
           colors={data => data.color}
-          margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 40, left: 55 }}
+          margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: (width < 768 && isOverlayed) ? 70 : 40, left: 55 }}
           xScale={{ type: 'linear' }}
           yScale={{
             type: 'linear',
             min: 0,
-            max: yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 10,
+            max: yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 100,
             stacked: false,
             reverse: false
           }}
@@ -164,6 +169,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
             legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
+            format: index => { return (index === 0 || index % 10 === 0) ? index : '';},
           }}
           axisLeft={isSecondary ? null : {
             tickSize: 10,
@@ -171,7 +177,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? -40 : -50
+            legendOffset: isThumbnail ? -45 : -50
           }}
           axisRight={isSecondary ? {
             tickSize: 10,
@@ -179,7 +185,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? 40 : 50
+            legendOffset: isThumbnail ? 45 : 50
           } : null}
           defs={[
             linearGradientDef('gradientA', [
@@ -256,7 +262,8 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           //   );
           // }}
           tooltip={({point}: todoType) => {
-            return (
+            console.log(point);
+            return ( point.data.isImportant && width < 768 ? <></> :
               <div
                 className='unselectable-text'
                 style={{
@@ -321,7 +328,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
               anchor: isSecondary ? 'bottom-right' : 'bottom-left',
               direction: 'row',
               justify: false,
-              translateY: 30,
+              translateY: width >= 768 ? 35 : 60,
               itemWidth: 100,
               itemHeight: 10,
               itemsSpacing: 6,
@@ -350,11 +357,8 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           }}
         >
           <img
+            className='modal-img'
             src={frames[modalImgIndex]}
-            style={{
-              height: 500,
-              borderRadius: 8,
-            }}
           />
         </div>
       </Modal>

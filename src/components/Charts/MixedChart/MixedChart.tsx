@@ -116,7 +116,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
             isSecondary={!isBarPrimary}
             isThumbnail={isThumbnail}
             color={isMultiPrimary === isBarPrimary ? undefined : color}
-            yAxisName={isMultiPrimary === isBarPrimary ? 'Attention and Mood' : HEADCOUNT }
+            yAxisName={isMultiPrimary === isBarPrimary ? 'Attention and Mood indexes' : HEADCOUNT }
           />
         </div>
         <div style={{position: 'relative', height: '100%', width: '100%', pointerEvents: isBarPrimary ? 'none' : 'auto' }} >
@@ -126,7 +126,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
             isMultiline={isMultiPrimary != isBarPrimary}
             title={'Aggregate'}
             dataset={lineData}
-            yAxisName={isMultiPrimary === isBarPrimary ? HEADCOUNT : 'Attention and Mood'}
+            yAxisName={isMultiPrimary === isBarPrimary ? HEADCOUNT : 'Attention and Mood indexes'}
             isOverlayed={true}
             isSecondary={isBarPrimary}
             isThumbnail={isThumbnail}

@@ -9,6 +9,7 @@ import { BarDataset } from '../../../interfaces';
 import { HEADCOUNT } from '../../../constants';
 import { Modal } from 'react-bootstrap';
 import { Frame } from '../../UploadVideo/types';
+import useWindowDimensions from '../../../utils/useWindowDimensions';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -47,6 +48,8 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
   const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
+  const { width } = useWindowDimensions();
+
   const yOffsetThumnbail = 49;
 
   const mainContainerStyle: React.CSSProperties = {
@@ -63,7 +66,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
 
   const displayBoxStyle: React.CSSProperties = {
     position: 'absolute',
-    height: 'calc(100% - 49px)',
+    height: (width < 768 && isOverlayed) ? 'calc(100% - 79px)' : 'calc(100% - 49px)',
     width: isThumbnail ? (isOverlayed ? 'calc(100% - 108px)' : 'calc(100% - 78.2px)') : 'calc(100% - 108px)',
     top: 9.5,
     left: 54,
@@ -117,16 +120,16 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           motionConfig={'stiff'}
           data={dataset.data}
           keys={dataset.keys}
-          maxValue={yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 10}
+          maxValue={yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 100}
           padding={isMultibar ? 0.2 : 0.04}
-          margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: 40, left: 55 }}
+          margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: (width < 768 && isOverlayed) ? 70 : 40, left: 55 }}
           colors={({ id }) => setBarColor(id as string, isSecondary, color)}
           borderRadius={isMultibar ? 1 : 3}
           // borderWidth={1} // TODO debate
           borderColor='black'
           enableLabel={false}
           enableGridY={false}
-          enableGridX={isMultibar ? true : false}
+          enableGridX={false}
           indexScale={{
             type: 'band',
             round: false,
@@ -139,7 +142,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
-            format: index => {return (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '';} ,
+            format: index => (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '',
           }}
           axisLeft={isSecondary ? null : {
             tickSize: 10,
@@ -147,7 +150,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? -40 : -50
+            legendOffset: isThumbnail ? -45 : -50
           }}
           axisRight={isSecondary ? {
             tickSize: 10,
@@ -155,7 +158,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             tickRotation: 0,
             legend: yAxisName,
             legendPosition: 'middle',
-            legendOffset: isThumbnail ? 40 : 50
+            legendOffset: isThumbnail ? 45 : 50
           } : null}
           defs={[
             linearGradientDef('gradientA', [
@@ -188,7 +191,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           ]}
 
           tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (/*  isThumbnail ? <></> : */
+            return ( dataset.importantIndexes.includes(index) && width < 768 ? <></> :
               <div
                 className='unselectable-text'
                 style={{
@@ -253,7 +256,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
               anchor: isSecondary ? 'bottom-right' : 'bottom-left',
               direction: 'row',
               justify: false,
-              translateY: 30,
+              translateY: width >= 768 ? 35 : 60,
               itemWidth: 100,
               itemHeight: 10,
               itemsSpacing: 6,
@@ -275,19 +278,15 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
         />
       </div>
 
-      <Modal centered show={showModal} onHide={handleClose}>
+      <Modal centered show={showModal} onHide={handleClose} className="">
         <div
           className="modal-dialog-centered d-flex justify-content-center align-items-center"
           style={{
             backgroundColor: 'transparent',
           }}
         >
-          <img
+          <img className='modal-img'
             src={frames[modalImgIndex]}
-            style={{
-              height: 500,
-              borderRadius: 8,
-            }}
           />
         </div>
       </Modal>
