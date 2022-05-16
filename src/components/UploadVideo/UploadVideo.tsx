@@ -84,7 +84,6 @@ const UploadVideo = () => {
       source.current = event.target.files[0];
       videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend?
       videoDate.current = new Date(event.target.files[0].lastModified).toISOString(); // TODO check a way to extract creation date from ffmpeg
-      console.log(typeof videoDate.current, videoDate.current);
     }
   };
 
