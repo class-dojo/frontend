@@ -13,7 +13,7 @@ const Analysis = () => {
   const { width } = useWindowDimensions();
 
   const location = useLocation();
-  const { accuracy, data }: todoType = location.state;
+  const { data }: todoType = location.state;
 
   const [isDesktop, setIsDesktop] = useState(width >= 768);
   const [isInDashboard, setIsInDashboard] = useState(isDesktop);
@@ -42,13 +42,11 @@ const Analysis = () => {
       </div>}
       {isDesktop && isInDashboard &&
         <Dashboard
-          accuracy={accuracy}
           data={data}
         />
       }
       {!isInDashboard &&
         <DetailedView
-          accuracy={accuracy}
           data={data}
         />
       }
