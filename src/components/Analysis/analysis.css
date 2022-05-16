@@ -32,6 +32,11 @@
 
 .chart-small {
   width: 100%;
+  min-width: unset;
+}
+
+.chart-title {
+  width: auto !important;
 }
 
 .single-chart-small {
