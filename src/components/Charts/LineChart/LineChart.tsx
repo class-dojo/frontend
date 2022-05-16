@@ -113,7 +113,6 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   };
 
   const indexes = dataset[0].data.map(datum => datum.x % 10 === 0 || datum.x === 0);
-  console.log(indexes);
 
   return (
     <div style={{...mainContainerStyle}}>
@@ -263,7 +262,8 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           //   );
           // }}
           tooltip={({point}: todoType) => {
-            return (
+            console.log(point);
+            return ( point.data.isImportant && width < 768 ? <></> :
               <div
                 className='unselectable-text'
                 style={{
@@ -357,11 +357,8 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           }}
         >
           <img
+            className='modal-img'
             src={frames[modalImgIndex]}
-            style={{
-              height: 500,
-              borderRadius: 8,
-            }}
           />
         </div>
       </Modal>

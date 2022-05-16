@@ -13,8 +13,6 @@ import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 
 const Dashboard = ({accuracy, data}: todoType) => {
 
-  console.log(data);
-
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
       <div className='row pb-2' style={{ height: '50%' }}>

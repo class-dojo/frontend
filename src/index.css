@@ -21,6 +21,19 @@ body {
 
 /* STYLING - Move into other files */
 
+.modal-img {
+  border-radius: 8px;
+  width: calc(100vw - 32px);
+  max-width: 960px;
+  height: 100%;
+}
+
+@media (max-width: 767px) {
+  .modal-img {
+    width: 100%;
+  }
+}
+
 .fill-height {
   height: 100%;
 }

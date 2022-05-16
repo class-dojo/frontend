@@ -191,7 +191,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           ]}
 
           tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (/*  isThumbnail ? <></> : */
+            return ( dataset.importantIndexes.includes(index) && width < 768 ? <></> :
               <div
                 className='unselectable-text'
                 style={{
@@ -278,19 +278,15 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
         />
       </div>
 
-      <Modal centered show={showModal} onHide={handleClose}>
+      <Modal centered show={showModal} onHide={handleClose} className="">
         <div
           className="modal-dialog-centered d-flex justify-content-center align-items-center"
           style={{
             backgroundColor: 'transparent',
           }}
         >
-          <img
+          <img className='modal-img'
             src={frames[modalImgIndex]}
-            style={{
-              height: 500,
-              borderRadius: 8,
-            }}
           />
         </div>
       </Modal>
