@@ -52,17 +52,20 @@ const UploadVideo = () => {
       const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
-        const analysis: DataAnalysis = await getAnalysis(videoId);
-        if (analysis) {
-          const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-          setAnalysisData(analysisWithRawFrames);
-          setAlertMessage(uploadSuccessful);
-          toggleShowAlert();
-        } else {
-          setAlertMessage(analysisError);
-          toggleShowAlert();
-        }
-      }// TODO add an else block to handle upload/analysis errors
+        let analysis: DataAnalysis | undefined;
+        setTimeout(async () => {
+          analysis = await getAnalysis(videoId);
+          if (analysis) {
+            const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+            setAnalysisData(analysisWithRawFrames);
+            setAlertMessage(uploadSuccessful);
+            toggleShowAlert();
+          } else {
+            setAlertMessage(analysisError);
+            toggleShowAlert();
+          }
+        }, 500);
+      }// TODO add an else block to handle transcode errors?
     } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
     }

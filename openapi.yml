@@ -245,8 +245,8 @@ components:
             moodAverage: 0.37
             attentionAverage: 0.55
             peopleAverage: 17
-        required:
-          - framesArray
-          - peaks
-          - valleys
-          - averages
+      required:
+        - framesArray
+        - peaks
+        - valleys
+        - averages
