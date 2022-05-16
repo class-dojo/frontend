@@ -13,11 +13,13 @@ import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 
 const Dashboard = ({accuracy, data}: todoType) => {
 
+  console.log(data);
+
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
       <div className='row pb-2' style={{ height: '50%' }}>
         <div className='fill-height col-sm-8 col-md-9 col-lg-10'>
-          <div className='card chart-small'>
+          <div className='card chart-small' style={{ paddingBottom: 25 }}>
             <MixedChart
               data={data.framesArray}
               accuracy={accuracy}
@@ -27,24 +29,26 @@ const Dashboard = ({accuracy, data}: todoType) => {
             />
           </div>
         </div>
-        <div className='col-sm-4 col-md-3 col-lg-2 d-flex flex-column justify-content-around ps-4 pb-4'>
-          <div className='d-flex gap-3'>
-            <img src={VideoIcon} className='dashboard-icon'/>
-            <span>My cool video</span>
-          </div>
-          <div className='d-flex gap-3'>
-            <img src={TimeIcon} className='dashboard-icon'/>
-            <span>12 min</span>
-          </div>
-          <div className='d-flex gap-3'>
-            <img src={CalendarIcon} className='dashboard-icon'/>
-            <span>14 may, 2022</span>
-          </div>
-          <div className='d-flex gap-3'>
-            <button className='btn mb-0'>
-              <img src={CopyLinkIcon} className='dashboard-icon'/>
-              <span>Copy link</span>
-            </button>
+        <div className='col-sm-4 col-md-3 col-lg-2 '>
+          <div className='card d-flex flex-column justify-content-around ps-4 pb-4 font-weight-bolder'>
+            <div className='d-flex gap-3'>
+              <img src={VideoIcon} className='dashboard-icon'/>
+              <span>My cool video</span>
+            </div>
+            <div className='d-flex gap-3'>
+              <img src={TimeIcon} className='dashboard-icon'/>
+              <span>12 min</span>
+            </div>
+            <div className='d-flex gap-3'>
+              <img src={CalendarIcon} className='dashboard-icon'/>
+              <span>14 may, 2022</span>
+            </div>
+            <div className='d-flex gap-3 d-flex justify-content-center'>
+              <button className='btn mb-0'>
+                <img src={CopyLinkIcon} className='dashboard-icon'/>
+                <span>Copy link</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -54,16 +58,16 @@ const Dashboard = ({accuracy, data}: todoType) => {
             <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay
-                percentage={Math.floor(Math.random() * 101)}
+                percentage={Number((data.averages.attentionAverage * 100).toFixed(0))}
               />
               <div className='mt-3'>
                 <div className='d-flex justify-content-between gap-3'>
                   <h4 className='fs-6 text-start'>Max: </h4>
-                  <h4 className='fs-6 text-end'>{(Math.random() * 101).toFixed(0)}%</h4>
+                  <h4 className='fs-6 text-end'>{(data.peaks.attentionPeak * 100).toFixed(0)}%</h4>
                 </div>
                 <div className='d-flex gap-3'>
                   <h4 className='fs-6 text-start'>Min: </h4>
-                  <h4 className='fs-6 text-end'>{(Math.random() * 101).toFixed(0)}%</h4>
+                  <h4 className='fs-6 text-end'>{(data.valleys.attentionValley * 100).toFixed(0)}%</h4>
                 </div>
               </div>
             </div>
@@ -85,16 +89,16 @@ const Dashboard = ({accuracy, data}: todoType) => {
             <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay
-                percentage={Math.floor(Math.random() * 101)}
+                percentage={Number((data.averages.moodAverage * 100).toFixed(0))}
               />
               <div className='mt-3'>
                 <div className='d-flex justify-content-between gap-3'>
                   <h4 className='fs-6 text-start'>Max: </h4>
-                  <h4 className='fs-6 text-end'>{(Math.random() * 101).toFixed(0)}%</h4>
+                  <h4 className='fs-6 text-end'>{(data.peaks.moodPeak * 100).toFixed(0)}%</h4>
                 </div>
                 <div className='d-flex gap-3'>
                   <h4 className='fs-6 text-start'>Min: </h4>
-                  <h4 className='fs-6 text-end'>{(Math.random() * 101).toFixed(0)}%</h4>
+                  <h4 className='fs-6 text-end'>{(data.valleys.moodValley * 100).toFixed(0)}%</h4>
                 </div>
               </div>
             </div>

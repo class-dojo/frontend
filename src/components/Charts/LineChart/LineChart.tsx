@@ -22,7 +22,7 @@ const displayBoxFrameStyle: React.CSSProperties = {
 type LineChartProps = {
   isMultiline: boolean,
   dataset: LineDataset[],
-  title: string,
+  title?: string,
   yAxisName: string,
   isOverlayed?: boolean,
   isSecondary?: boolean,
@@ -59,18 +59,12 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
     display: isSecondary ? 'none' : 'initial',
   };
 
-  let hasLegend = false;
   let hasFill = true;
   let hasPoints = false;
-  let hasGridX = false;
-  let hasGridY = false;
 
   if (isMultiline) {
-    hasLegend = true;
     hasFill = false;
     hasPoints = false;
-    hasGridX = true;
-    hasGridY = true;
   }
 
   if (isOverlayed) {
@@ -109,6 +103,12 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const getMaxValue = () => {
+    return dataset[0].data.reduce((acc, val) => {
+      return val['y'] > acc ? val['y'] : acc;
+    }, 0);
+  };
+
   return (
     <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>
@@ -124,7 +124,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           yScale={{
             type: 'linear',
             min: 0,
-            max: yAxisName === HEADCOUNT ? 'auto' : 10,
+            max: yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 10,
             stacked: false,
             reverse: false
           }}
@@ -133,7 +133,6 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           onMouseLeave={handleMouseLeave}
           onMouseMove={handleMouseMove}
           onClick={handleClick}
-          // enableSlices={'x'}
           enableArea={hasFill}
           areaOpacity={0.8}
           enablePoints={true}
@@ -156,13 +155,13 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           lineWidth={isOverlayed ? 4 : 2}
           useMesh={true}
           pointLabelYOffset={0}
-          enableGridY={hasGridX}
-          enableGridX={hasGridY}
+          enableGridY={false}
+          enableGridX={false}
           axisBottom={isOverlayed ? null : {
             tickSize: 0,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Time',
+            legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
           }}
@@ -317,16 +316,16 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
               </div>
             );
           }}
-          legends={hasLegend ? [
+          legends={isOverlayed ? [
             {
-              anchor: 'bottom-right',
+              anchor: isSecondary ? 'bottom-right' : 'bottom-left',
               direction: 'row',
               justify: false,
-              translateY: 70,
+              translateY: 30,
               itemWidth: 100,
               itemHeight: 10,
               itemsSpacing: 6,
-              symbolSize: 22,
+              symbolSize: isThumbnail ? 14 : 22,
               symbolShape: 'square',
               itemDirection: 'left-to-right',
               itemTextColor: '#777',

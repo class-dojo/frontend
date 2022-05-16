@@ -30,8 +30,7 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navcol-5">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><a className="nav-link" href="#">Learn more</a></li>
-              <li className="nav-item"><a className="nav-link" href="#">Dashboard</a></li>
-            </ul><a className="btn btn-primary ms-md-2 mb-0 dark-element" role="button" href="#">Analyze video</a>
+            </ul><Link to={'/upload'}><span className="btn btn-primary ms-md-2 mb-0 dark-element" role="button">Analyze video</span></Link>
           </div>
         </div>
       </nav>
