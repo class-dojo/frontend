@@ -21,7 +21,7 @@ const UploadVideo = () => {
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const videoName = useRef<string>('');
-  const videoDate = useRef<Date>();
+  const videoDate = useRef<string>();
   const source = useRef<VideoSource>('');
 
   const config: CreateFFmpegOptions = {log: true};
@@ -83,7 +83,8 @@ const UploadVideo = () => {
     if (event.target.files) {
       source.current = event.target.files[0];
       videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
-      videoDate.current = new Date(event.target.files[0].lastModified); // TODO check a way to extract creation date from ffmpeg
+      videoDate.current = new Date(event.target.files[0].lastModified).toISOString(); // TODO check a way to extract creation date from ffmpeg
+      console.log(typeof videoDate.current, videoDate.current);
     }
   };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {DateTime} from 'luxon';
 import MixedChart from '../../Charts/MixedChart/MixedChart';
 import { colors } from '../../../colors';
 import AverageValueDisplay from '../../Charts/AverageValueDisplay/AverageValueDisplay';
@@ -10,9 +11,10 @@ import TimeIcon from '../../../assets/icons/TimeIcon.svg';
 import VideoIcon from '../../../assets/icons/VideoIcon.svg';
 import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
+import { niceDuration, capitalise } from './utils';
 
 const Dashboard = ({accuracy, data}: todoType) => {
-
+  console.log(typeof data.videoDate);
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
       <div className='row pb-2' style={{ height: '50%' }}>
@@ -31,15 +33,15 @@ const Dashboard = ({accuracy, data}: todoType) => {
           <div className='card d-flex flex-column justify-content-around ps-4 pb-4 font-weight-bolder'>
             <div className='d-flex gap-3'>
               <img src={VideoIcon} className='dashboard-icon'/>
-              <span>My cool video</span>
+              <span>{capitalise(data.videoName)}</span>
             </div>
             <div className='d-flex gap-3'>
               <img src={TimeIcon} className='dashboard-icon'/>
-              <span>12 min</span>
+              <span>{niceDuration(data.duration)}</span>
             </div>
             <div className='d-flex gap-3'>
               <img src={CalendarIcon} className='dashboard-icon'/>
-              <span>14 may, 2022</span>
+              <span>{DateTime.fromISO(data.videoDate).toLocaleString(DateTime.DATE_MED)}</span>
             </div>
             <div className='d-flex gap-3 d-flex justify-content-center'>
               <button className='btn mb-0'>
