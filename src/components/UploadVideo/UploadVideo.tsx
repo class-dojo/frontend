@@ -53,18 +53,22 @@ const UploadVideo = () => {
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         let analysis: DataAnalysis | undefined;
+        console.log('=> starting timeout with ', videoId, new Date(Date.now()));
         setTimeout(async () => {
+          console.log('FIRING', new Date(Date.now()));
           analysis = await getAnalysis(videoId);
+          console.log({analysis});
           if (analysis) {
             const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
             setAnalysisData(analysisWithRawFrames);
             setAlertMessage(uploadSuccessful);
             toggleShowAlert();
+            console.log('=> DONE');
           } else {
             setAlertMessage(analysisError);
             toggleShowAlert();
           }
-        }, 500);
+        }, 5000);
       }// TODO add an else block to handle transcode errors?
     } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
