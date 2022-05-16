@@ -6,7 +6,7 @@ import { todoType } from '../../types';
 import Dashboard from './Dashboard/Dashboard';
 import DetailedView from './DetailedView/DetailedView';
 import './analysis.css';
-import useWindowDimensions from './useWindowDimensions';
+import useWindowDimensions from '../../utils/useWindowDimensions';
 
 const Analysis = () => {
 
@@ -27,8 +27,6 @@ const Analysis = () => {
       setIsInDashboard(false);
     }
   }, [width]);
-
-
 
   const toggleView = (event: todoType) => {
     if (!event.target.className.split(' ').includes('selected')) {

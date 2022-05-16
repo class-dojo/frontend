@@ -55,6 +55,7 @@
     padding: 0 0 0 5px;
   }
   .big-chart-aggregate-container {
-    height: calc(100vh - 330.54px);
+    height: calc(100vh - 300.54px);
+    padding-right: 5px;
   }
 }
