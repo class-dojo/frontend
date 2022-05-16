@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef, useReducer } from 'react';
-import { createFFmpeg } from '@ffmpeg/ffmpeg';
+import { createFFmpeg, CreateFFmpegOptions } from '@ffmpeg/ffmpeg';
 import { getStillsFromVideo, transformRawFrameData, attachRawFramesToAnalysis } from './utils';
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource, S3Links, AlertMessageProps, DataAnalysis } from './types';
 import { ProgressBar } from 'react-bootstrap';
-import { loaderNotReady, fileNotSelected, uploadSuccessful } from './Alert/utils';
+import { fileNotSelected, uploadSuccessful, analysisError } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
 import {VERSION} from '../../consts';
@@ -21,7 +21,7 @@ const UploadVideo = () => {
   const videoName = useRef<string>('');
   const source = useRef<VideoSource>('');
 
-  const config: any = {log: true};
+  const config: CreateFFmpegOptions = {log: true};
 
   if (VERSION !== '@dev') {
     config['corePath'] = '/static/js/ffmpeg-core.js';
@@ -58,8 +58,7 @@ const UploadVideo = () => {
         setAlertMessage(uploadSuccessful);
         toggleShowAlert();
       }// TODO add an else block to handle upload/analysis errors
-
-    } else {!source.current ? setAlertMessage(fileNotSelected) : setAlertMessage(loaderNotReady);
+    } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
     }
   };
@@ -67,7 +66,7 @@ const UploadVideo = () => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       source.current = event.target.files[0];
-      videoName.current = event.target.files[0].name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
+      videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
     }
   };
 
@@ -97,7 +96,7 @@ const UploadVideo = () => {
               <input className="form-control form-control-lg notranslate" id="formFileLg" type="file" translate='no' accept="video/*" onChange={handleFileInputChange}/>
             </div>
             {/* <input type="file" accept="video/*" onChange={handleFileInputChange}/> */}
-            <div className="my-3"><a className={`btn btn-primary btn-lg me-2 dark-element ${isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>UPLOAD VIDEO</a></div>
+            <div className="my-3"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>ANALYZE VIDEO</a></div>
             <div className='mt-4'>{ isTranscoding ? <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/> : <p style={{ marginBottom: 0, marginTop: 0 }}>{message}</p>}</div>
           </div>
         </div>
