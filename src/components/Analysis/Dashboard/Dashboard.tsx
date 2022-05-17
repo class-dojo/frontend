@@ -14,7 +14,6 @@ import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 import HelpTooltip from '../../HelpTooltip/HelpTooltip';
 import { niceDuration, niceDate, capitalise } from './utils';
 
-
 const Dashboard = ({ data }: todoType) => {
 
   const [showToast, setShowToast] = useState(false);
@@ -70,13 +69,16 @@ const Dashboard = ({ data }: todoType) => {
                   <Toast.Header style={{
                     backgroundColor: '#34556e',
                     color: 'white',
-                    borderRadius: 0,
+                    borderRadius: '0 0 8px 8px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    height: 30,
                   }}>
-                    <img
+                    {/* <img
                       src="holder.js/20x20?text=%20"
                       className="rounded me-2"
                       alt=""
-                    />
+                    /> */}
                     <strong>Link copied!</strong>
                   </Toast.Header>
                 </Toast>
