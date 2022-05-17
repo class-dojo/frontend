@@ -4,7 +4,7 @@ import Toast from 'react-bootstrap/Toast';
 import MixedChart from '../../Charts/MixedChart/MixedChart';
 import { colors } from '../../../colors';
 import AverageValueDisplay from '../../Charts/AverageValueDisplay/AverageValueDisplay';
-import { AGGREGATE, ATTENTION, MOOD } from '../../../constants';
+import { AGGREGATE, ATTENTION, BASE_URL, MOOD } from '../../../constants';
 import ChartToggler from '../../Charts/ChartToggler/ChartToggler';
 import { todoType } from '../../../types';
 import TimeIcon from '../../../assets/icons/TimeIcon.svg';
@@ -20,7 +20,7 @@ const Dashboard = ({ data }: todoType) => {
   const [showToast, setShowToast] = useState(false);
 
   const handleShareLink = () => {
-    const linkToShare = `${process.env.REACT_APP_BASE_URL}analysis/${data.videoId}`;
+    const linkToShare = `${BASE_URL}analysis/${data.videoId}`;
     navigator.clipboard.writeText(linkToShare);
     setShowToast(true);
   };

@@ -8,7 +8,7 @@ import { fileNotSelected, uploadSuccessful, analysisError } from './Alert/utils'
 import ActionAlert from './Alert/ActionAlert';
 import Spinner from './Spinner';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
-import {VERSION} from '../../consts';
+import {VERSION} from '../../constants';
 
 const UploadVideo = () => {
 

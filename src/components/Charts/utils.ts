@@ -1,3 +1,4 @@
+import { IMAGE_BUCKET_URL } from '../../constants';
 import { Frame, SingleFrameAnalysis, SingleFramesLoose } from '../UploadVideo/types';
 
 // ALL IN ONE
@@ -41,12 +42,11 @@ const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: n
   return { data, importantIndexes, keys: [goodKeyName] };
 };
 
-// TODO when we get links for old videoanalysis from be, add if else statement if we receive Uint8Array or another type in importantFrame property
 export const getImportantFrames = (data: SingleFrameAnalysis[]) => {
   const frames: Frame = {};
   data.forEach((singleFrameData, i) => {
     if (singleFrameData.importantFrame) {
-      return typeof singleFrameData.importantFrame === 'string' ? frames[i] = singleFrameData.importantFrame : (frames[i] = URL.createObjectURL(new Blob([singleFrameData.importantFrame], { type: 'image/jpg' })));
+      return typeof singleFrameData.importantFrame === 'string' ? frames[i] = `${IMAGE_BUCKET_URL}${singleFrameData.importantFrame}` : (frames[i] = URL.createObjectURL(new Blob([singleFrameData.importantFrame], { type: 'image/jpg' })));
     }
   });
   return frames;
