@@ -7,14 +7,13 @@ import './barChart.css';
 import { todoType } from '../../../types';
 import { colors } from '../../../colors';
 import { BarDataset } from '../../../interfaces';
-import { HEADCOUNT } from '../../../constants';
+import { ATTENTION, HEADCOUNT, MOOD } from '../../../constants';
 import { Modal } from 'react-bootstrap';
 import { Frame } from '../../UploadVideo/types';
 import useWindowDimensions from '../../../utils/useWindowDimensions';
 import { isInFirstHalf } from '../utils';
 
 const displayBoxBgStyle: React.CSSProperties = {
-  // backgroundColor: '#f2f2f2',
   backgroundColor: '#fffefa',
   zIndex: -1
 };
@@ -27,9 +26,9 @@ const displayBoxFrameStyle: React.CSSProperties = {
 
 const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | undefined) => {
   let barColor = colors.primaryGreen;
-  if (id === 'Attention') barColor = colors.primaryRed;
-  if (id === 'Mood') barColor = colors.primaryGreen;
-  if (id === 'Headcount') barColor = colors.primaryPurple;
+  if (id === ATTENTION) barColor = colors.primaryRed;
+  if (id === MOOD) barColor = colors.primaryGreen;
+  if (id === HEADCOUNT) '#ffffff00';
   if (colorOverride) barColor = colorOverride;
   if (isSecondary) barColor = '#3a4f637a';
   return barColor;
