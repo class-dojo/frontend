@@ -1,5 +1,5 @@
 import { DataToBackend } from '../components/UploadVideo/types';
-import { API_URL } from '../consts';
+import { API_URL } from '../constants';
 
 export const sendDataToBackEnd = (frameNamesArray: string[], id: string) => {
   const dataToSend: DataToBackend = {
