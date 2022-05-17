@@ -1,5 +1,6 @@
 import {Modal} from 'react-bootstrap';
 import React from 'react';
+import {FrameCanvas} from './FrameCanvas/FrameCanvas';
 
 interface IFrameModal {
   show: boolean,
@@ -15,10 +16,7 @@ export const FrameModal = ({show, onHide, frame}: IFrameModal) => {
         backgroundColor: 'transparent',
       }}
     >
-      <img className="modal-img"
-        src={frame}
-      />
-      <canvas/>
+      <FrameCanvas frame={frame}/>
     </div>
   </Modal>;
 };
