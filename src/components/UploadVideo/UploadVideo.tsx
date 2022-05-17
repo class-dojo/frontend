@@ -33,9 +33,9 @@ const UploadVideo = () => {
   const ffmpeg = useRef(createFFmpeg(config));
 
   const load = async () => {
-    setMessage('Loading transcoder...');
+    setMessage('Loading analyzer...');
     await ffmpeg.current.load();
-    setMessage('Start transcoding');
+    setMessage('Start analysis');
   };
 
   useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);

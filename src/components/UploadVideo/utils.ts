@@ -46,7 +46,8 @@ export const transformRawFrameData = (rawFrameDataArray: Uint8Array[]) => {
 
 export const attachRawFramesToAnalysis = (frames: Uint8Array[], analysis: DataAnalysis) => {
   const framesArrayWithRawData = analysis.framesArray.map((singleFrameAnalysis, i) => {
-    return singleFrameAnalysis.isImportantAttention || singleFrameAnalysis.isImportantMood || singleFrameAnalysis.isImportantPeople ?
+    // first check if analysis already contains an importantFrame
+    return !singleFrameAnalysis.importantFrame && singleFrameAnalysis.isImportantAttention || singleFrameAnalysis.isImportantMood || singleFrameAnalysis.isImportantPeople ?
       { ...singleFrameAnalysis, importantFrame: frames[i] } : singleFrameAnalysis;
   });
   return { ...analysis, framesArray: framesArrayWithRawData };
