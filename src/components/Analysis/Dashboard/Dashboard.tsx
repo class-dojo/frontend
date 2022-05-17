@@ -11,6 +11,7 @@ import TimeIcon from '../../../assets/icons/TimeIcon.svg';
 import VideoIcon from '../../../assets/icons/VideoIcon.svg';
 import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
+import HelpTooltip from '../../HelpTooltip/HelpTooltip';
 import { niceDuration, niceDate, capitalise } from './utils';
 
 
@@ -29,6 +30,13 @@ const Dashboard = ({ data }: todoType) => {
       <div className='row pb-2' style={{ height: '50%' }}>
         <div className='fill-height col-sm-8 col-md-9 col-lg-10'>
           <div className='card chart-small' style={{ paddingBottom: 25 }}>
+            <div className='help-button-container'>
+              <HelpTooltip
+                placement='right'
+                header={<>TEST</>}
+                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+              />
+            </div>
             <MixedChart
               data={data.framesArray}
               accuracy={data.accuracy}
@@ -80,6 +88,13 @@ const Dashboard = ({ data }: todoType) => {
       <div className='row pt-2 pb-2' style={{ height: '50%' }}>
         <div className='col-6 fill-height'>
           <div className='card d-flex flex-row'>
+            <div className='help-button-container'>
+              <HelpTooltip
+                placement='right'
+                header={<>TEST</>}
+                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+              />
+            </div>
             <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay
@@ -111,6 +126,13 @@ const Dashboard = ({ data }: todoType) => {
         </div>
         <div className='col-6 fill-height'>
           <div className='card d-flex flex-row' >
+            <div className='help-button-container'>
+              <HelpTooltip
+                placement='top'
+                header={<>TEST</>}
+                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+              />
+            </div>
             <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay

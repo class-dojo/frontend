@@ -62,3 +62,7 @@ const parseLine = (framesArray: SingleFramesLoose[], key: string, samplePeriod: 
   });
   return { data };
 };
+
+export const isInFirstHalf = (index: number, length: number) => {
+  return index < length / 2;
+};

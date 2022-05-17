@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { linearGradientDef, patternLinesDef, patternSquaresDef } from '@nivo/core';
+import { TooltipWrapper } from '@nivo/tooltip';
 
 import './barChart.css';
 import { todoType } from '../../../types';
@@ -10,9 +11,11 @@ import { HEADCOUNT } from '../../../constants';
 import { Modal } from 'react-bootstrap';
 import { Frame } from '../../UploadVideo/types';
 import useWindowDimensions from '../../../utils/useWindowDimensions';
+import { isInFirstHalf } from '../utils';
 
 const displayBoxBgStyle: React.CSSProperties = {
-  backgroundColor: '#f2f2f2',
+  // backgroundColor: '#f2f2f2',
+  backgroundColor: '#fffefa',
   zIndex: -1
 };
 
@@ -26,6 +29,7 @@ const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | u
   let barColor = colors.primaryGreen;
   if (id === 'Attention') barColor = colors.primaryRed;
   if (id === 'Mood') barColor = colors.primaryGreen;
+  if (id === 'Headcount') barColor = colors.primaryPurple;
   if (colorOverride) barColor = colorOverride;
   if (isSecondary) barColor = '#3a4f637a';
   return barColor;
@@ -192,53 +196,54 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
 
           tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
             return ( dataset.importantIndexes.includes(index) && width < 768 ? <></> :
-              <div
-                className='unselectable-text'
-                style={{
-                  background: '#f7fafb',
-                  padding: '0 15px',
-                  border: '1px solid black',
-                  borderRadius: 6,
-                  display: 'flex',
-                  gap: 20,
-                  alignItems: 'center',
-                  height: 180,
-                  zIndex: 100,
-                  // TODO try make hover on important point less wonky
-                }}
-              >
+              <TooltipWrapper anchor={isInFirstHalf(index, dataset.data.length) ? 'right' : 'left'} position={[0, 0]}>
                 <div
+                  className='unselectable-text'
                   style={{
+                    background: '#f7fafb',
+                    padding: '0 15px',
+                    border: '1px solid black',
+                    borderRadius: 6,
                     display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                    height: '100%'
+                    gap: 20,
+                    alignItems: 'center',
+                    height: 180,
+                    zIndex: 100,
+                  // TODO try make hover on important point less wonky
                   }}
                 >
                   <div
                     style={{
-                      color: color,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-evenly',
+                      height: '100%'
+                    }}
+                  >
+                    <div
+                      style={{
+                        color: color,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        flexDirection: 'column',
+                        gap: 10
+                      }}
+                    >
+                      <strong>{id}: </strong>
+                      <span style={{ fontWeight: 900 }}>{value}</span>
+                    </div>
+                    <div style={{
                       display: 'flex',
                       justifyContent: 'space-between',
                       flexDirection: 'column',
                       gap: 10
                     }}
-                  >
-                    <strong>{id}: </strong>
-                    <span style={{ fontWeight: 900 }}>{value}</span>
+                    >
+                      <strong>Time: </strong>
+                      <span style={{ fontWeight: 900 }}>{indexValue * accuracy} sec</span>
+                    </div>
                   </div>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    flexDirection: 'column',
-                    gap: 10
-                  }}
-                  >
-                    <strong>Time: </strong>
-                    <span style={{ fontWeight: 900 }}>{indexValue * accuracy} sec</span>
-                  </div>
-                </div>
-                {dataset.importantIndexes.includes(index) &&
+                  {dataset.importantIndexes.includes(index) &&
                 <img src={frames[index]}
                   style={{
                     height: 180,
@@ -246,8 +251,9 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                     marginRight: -15,
                   }}
                 />
-                }
-              </div>
+                  }
+                </div>
+              </TooltipWrapper>
             );
           }}
           legends={isOverlayed ? [
