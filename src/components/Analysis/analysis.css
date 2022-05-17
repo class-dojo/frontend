@@ -35,12 +35,13 @@
   min-width: unset;
 }
 
-.chart-title {
-  width: auto !important;
+.single-chart-small {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-.single-chart-small {
-  padding-left: 10px;
+.chart-title {
+  width: auto !important;
 }
 
 .dashboard-icon {
@@ -59,8 +60,12 @@
 
 .help-button-container {
   position: absolute;
-  left: 14px;
+  left: 2px;
   top: 10px;
+}
+
+.help-button-container-big-chart {
+  left: 15px;
 }
 
 /* DETAILED VIEW */

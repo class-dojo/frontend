@@ -47,11 +47,6 @@ const AnalysisDisplay = ({ data }: todoType) => {
           type={HEADCOUNT}
         />
       </div>
-      {/* <ChartToggler
-        isBarChartOnInit={false}
-        type={EMOTIONS}
-      /> */}
-
       {
         // TODO MAKE PRINTABLE VERSION
         /* <BarChart

@@ -29,7 +29,7 @@ const Dashboard = ({ data }: todoType) => {
       <div className='row pb-2' style={{ height: '50%' }}>
         <div className='fill-height col-sm-8 col-md-9 col-lg-10'>
           <div className='card chart-small' style={{ paddingBottom: 25 }}>
-            <div className='help-button-container'>
+            <div className='help-button-container help-button-container-big-chart'>
               <HelpTooltip
                 placement='right'
                 header={<>TEST</>}
@@ -74,11 +74,6 @@ const Dashboard = ({ data }: todoType) => {
                     justifyContent: 'space-between',
                     height: 30,
                   }}>
-                    {/* <img
-                      src="holder.js/20x20?text=%20"
-                      className="rounded me-2"
-                      alt=""
-                    /> */}
                     <strong>Link copied!</strong>
                   </Toast.Header>
                 </Toast>
@@ -89,7 +84,7 @@ const Dashboard = ({ data }: todoType) => {
       </div>
       <div className='row pt-2 pb-2' style={{ height: '50%' }}>
         <div className='col-6 fill-height'>
-          <div className='card d-flex flex-row'>
+          <div className='row card d-flex flex-row me-1 ms-0'>
             <div className='help-button-container'>
               <HelpTooltip
                 placement='right'
@@ -97,7 +92,7 @@ const Dashboard = ({ data }: todoType) => {
                 body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
               />
             </div>
-            <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
+            <div className='col-2 d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay
                 percentage={Number((data.averages.attentionAverage * 100).toFixed(0))}
@@ -113,7 +108,7 @@ const Dashboard = ({ data }: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small single-chart-small' style={{ flex: 4 }}>
+            <div className='col-10 chart-small single-chart-small' style={{ flex: 4 }}>
               {data && < ChartToggler
                 dataType={'attentionScore'}
                 data={data.framesArray}
@@ -127,7 +122,7 @@ const Dashboard = ({ data }: todoType) => {
           </div>
         </div>
         <div className='col-6 fill-height'>
-          <div className='card d-flex flex-row' >
+          <div className='row card d-flex flex-row ms-1 me-0' >
             <div className='help-button-container'>
               <HelpTooltip
                 placement='top'
@@ -135,7 +130,7 @@ const Dashboard = ({ data }: todoType) => {
                 body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
               />
             </div>
-            <div className='d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
+            <div className='col-2 d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
               <h4 className='text-center fs-6'>Average</h4>
               <AverageValueDisplay
                 percentage={Number((data.averages.moodAverage * 100).toFixed(0))}
@@ -151,7 +146,7 @@ const Dashboard = ({ data }: todoType) => {
                 </div>
               </div>
             </div>
-            <div className='chart-small single-chart-small' style={{ flex: 4 }}>
+            <div className='col-10 chart-small single-chart-small' style={{ flex: 4 }}>
               {data && <ChartToggler
                 dataType={'moodScore'}
                 data={data.framesArray}
