@@ -29,6 +29,7 @@ const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | u
   let barColor = colors.primaryGreen;
   if (id === 'Attention') barColor = colors.primaryRed;
   if (id === 'Mood') barColor = colors.primaryGreen;
+  if (id === 'Headcount') barColor = colors.primaryPurple;
   if (colorOverride) barColor = colorOverride;
   if (isSecondary) barColor = '#3a4f637a';
   return barColor;
