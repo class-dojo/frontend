@@ -48,7 +48,6 @@ export const getImportantFrames = (data: SingleFrameAnalysis[]) => {
     if (singleFrameData.importantFrame) {
       return typeof singleFrameData.importantFrame === 'string' ? frames[i] = `${IMAGE_BUCKET_URL}${singleFrameData.importantFrame}` : (frames[i] = URL.createObjectURL(new Blob([singleFrameData.importantFrame], { type: 'image/jpg' })));
     }
-    console.log('URL => ', singleFrameData.importantFrame); // TODO debugging
   });
   return frames;
 };

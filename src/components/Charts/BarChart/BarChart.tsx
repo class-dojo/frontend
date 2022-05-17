@@ -110,9 +110,6 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
 
   const indexes = dataset.data.map(datum => datum.Time).filter(time => time % 10 === 0 || time === 0);
 
-  // TODO debugging
-  console.log(frames);
-
   return (
     <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>

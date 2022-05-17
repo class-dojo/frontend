@@ -4,15 +4,15 @@ import { getStillsFromVideo, transformRawFrameData, attachRawFramesToAnalysis } 
 import { uploadImgToBucket } from '../../services/s3Service';
 import { VideoSource, S3Links, AlertMessageProps, DataAnalysis, VideoStillsWithInfo } from './types';
 import { ProgressBar } from 'react-bootstrap';
-import { fileNotSelected, uploadSuccessful, analysisError } from './Alert/utils';
+import { fileNotSelected, analysisError } from './Alert/utils';
 import ActionAlert from './Alert/ActionAlert';
 import Spinner from './Spinner';
 import { getAnalysis, sendDataToBackEnd } from '../../services/backendService';
 import {VERSION} from '../../constants';
+import { useNavigate } from 'react-router-dom';
 
 const UploadVideo = () => {
 
-  const [analysisData, setAnalysisData] = useState<DataAnalysis>();
   const [message, setMessage] = useState<string>('Click the button to transcode');
   const [barProgress, setBarProgress] = useState<number>();
   const [showSpinner, toggleShowSpinner] = useReducer(state => !state, false);
@@ -23,6 +23,7 @@ const UploadVideo = () => {
   const videoName = useRef<string>('');
   const videoDate = useRef<string>('');
   const source = useRef<VideoSource>('');
+  const navigate = useNavigate();
 
   const config: CreateFFmpegOptions = {log: true};
 
@@ -33,12 +34,18 @@ const UploadVideo = () => {
   const ffmpeg = useRef(createFFmpeg(config));
 
   const load = async () => {
-    setMessage('Loading analyzer...');
+    setMessage('WAX ON, WAX OFF... 🥋');
     await ffmpeg.current.load();
-    setMessage('Start analysis');
+    setMessage('START ANALYSIS');
   };
 
   useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);
+
+  const showError = () => {
+    setAlertMessage(analysisError);
+    toggleShowSpinner();
+    toggleShowAlert();
+  };
 
   const handleTranscodeClick = async (): Promise<void> => {
     if (isTranscoding) return;
@@ -48,33 +55,24 @@ const UploadVideo = () => {
       ffmpeg.current.setProgress(({ ratio }) => {
         setBarProgress(ratio*100);
       });
-      const {rawFrameDataArray, duration}: VideoStillsWithInfo = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
+      const { rawFrameDataArray, duration }: VideoStillsWithInfo = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
       toggleIsTranscoding();
       toggleShowSpinner();
-      setMessage('Analysis Complete');
-      const {filesArray, newFramesNames, videoId} = transformRawFrameData(rawFrameDataArray); // TODO update and transform only filesarray and videoid
-      const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
+      const { filesArray, newFramesNames, videoId } = transformRawFrameData(rawFrameDataArray);
+      const { links }: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
         const analysis = await getAnalysis(videoId, videoName.current, videoDate.current, duration, accuracy.current);
         if (analysis) {
           const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
           const completeData = { ...analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current, videoId};
-          // TODO check if the props already exist when we receive the data from be // TODO might be useless, delete oldanalasyis check from these two functions
-          // const completeData = checkIfOldAnalysis(analysisWithRawFrames, videoName.current, videoDate.current, duration, accuracy.current, videoId);
-          setAnalysisData(completeData);
-          setAlertMessage(uploadSuccessful);
           toggleShowSpinner();
-          toggleShowAlert();
+          navigate(`/analysis/${videoId}`, { state: completeData as DataAnalysis });
         } else {
-          setAlertMessage(analysisError);
-          toggleShowSpinner();
-          toggleShowAlert();
+          showError();
         }
       } else {
-        setAlertMessage(analysisError); // TODO add different messages to handle upload errors?
-        toggleShowSpinner();
-        toggleShowAlert();
+        showError();
       }
     } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
@@ -84,8 +82,8 @@ const UploadVideo = () => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       source.current = event.target.files[0];
-      videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend?
-      videoDate.current = new Date(event.target.files[0].lastModified).toISOString(); // TODO check a way to extract creation date from ffmpeg
+      videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, '');
+      videoDate.current = new Date(event.target.files[0].lastModified).toISOString();
     }
   };
 
@@ -114,14 +112,12 @@ const UploadVideo = () => {
               <label htmlFor="formFileLg" className="form-label notranslate mt-3"></label>
               <input className="form-control form-control-lg notranslate" id="formFileLg" type="file" translate='no' accept="video/*" onChange={handleFileInputChange}/>
             </div>
-            {/* <input type="file" accept="video/*" onChange={handleFileInputChange}/> */}
-            <div className="my-3"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>ANALYZE VIDEO</a></div>
-            {showSpinner ? <Spinner/> : <div className='mt-4'>{ isTranscoding ? <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/> : <p style={{ marginBottom: 0, marginTop: 0 }}>{message}</p>}</div>}
+            <div className="mt-5"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>{message}</a></div>
+            {showSpinner ? <Spinner/> : <div className='mt-4 mx-9'>{ isTranscoding && <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/>}</div>}
           </div>
         </div>
         <div className='mt-2'>
-          {showAlert &&
-          <ActionAlert analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          {showAlert && <ActionAlert alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>

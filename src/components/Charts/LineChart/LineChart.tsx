@@ -117,9 +117,6 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
     }, 0);
   };
 
-  // TODO debugging
-  console.log('FRAMES', frames);
-
   return (
     <div style={{...mainContainerStyle}}>
       <div style={graphContainerStyle}>

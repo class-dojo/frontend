@@ -22,7 +22,7 @@ const Navbar = () => {
                 </svg>
               </span>
               <span className='fs-4'>
-                Classdojo
+                Class Dojo
               </span>
             </span>
           </Link>

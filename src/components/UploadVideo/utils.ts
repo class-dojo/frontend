@@ -51,17 +51,3 @@ export const attachRawFramesToAnalysis = (frames: Uint8Array[], analysis: DataAn
   });
   return { ...analysis, framesArray: framesArrayWithRawData };
 };
-
-// export const attachRawFramesToAnalysis = (frames: Uint8Array[], analysis: DataAnalysis) => {
-//   const framesArrayWithRawData = analysis.framesArray.map((singleFrameAnalysis, i) => {
-//     // first check if analysis already contains an importantFrame
-//     return !singleFrameAnalysis.importantFrame && singleFrameAnalysis.isImportantAttention || singleFrameAnalysis.isImportantMood || singleFrameAnalysis.isImportantPeople ?
-//       { ...singleFrameAnalysis, importantFrame: frames[i] } : singleFrameAnalysis;
-//   });
-//   return { ...analysis, framesArray: framesArrayWithRawData };
-// };
-
-// export const checkIfOldAnalysis = (analysisWithRawFrames: DataAnalysis, videoName: string, videoDate: string, duration: number, accuracy: number, videoId: string) => {
-//   return !analysisWithRawFrames.videoName || !analysisWithRawFrames.videoDate || !analysisWithRawFrames.duration || !analysisWithRawFrames.accuracy || !analysisWithRawFrames.videoId ?
-//     { ...analysisWithRawFrames, videoName, videoDate, duration, accuracy, videoId } : analysisWithRawFrames;
-// };
