@@ -21,7 +21,7 @@ const UploadVideo = () => {
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const videoName = useRef<string>('');
-  const videoDate = useRef<Date>();
+  const videoDate = useRef<string>();
   const source = useRef<VideoSource>('');
 
   const config: CreateFFmpegOptions = {log: true};
@@ -59,7 +59,7 @@ const UploadVideo = () => {
         const analysis = await getAnalysis(videoId);
         if (analysis) {
           const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-          const completeData = {... analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration}; // TODO add date
+          const completeData = {... analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current}; // TODO add date
           setAnalysisData(completeData);
           setAlertMessage(uploadSuccessful);
           toggleShowSpinner();
@@ -82,8 +82,8 @@ const UploadVideo = () => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files) {
       source.current = event.target.files[0];
-      videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend and display it in the dashboard
-      videoDate.current = new Date(event.target.files[0].lastModified); // TODO check a way to extract creation date from ffmpeg
+      videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, ''); //TODO send videoName.current to backend?
+      videoDate.current = new Date(event.target.files[0].lastModified).toISOString(); // TODO check a way to extract creation date from ffmpeg
     }
   };
 
@@ -119,7 +119,7 @@ const UploadVideo = () => {
         </div>
         <div className='mt-2'>
           {showAlert &&
-          <ActionAlert /*videoName={videoName.current}*/ accuracy={accuracy.current} analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
+          <ActionAlert analysisData={analysisData as DataAnalysis} alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
     </section>

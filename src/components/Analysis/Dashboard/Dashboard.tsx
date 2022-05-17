@@ -11,8 +11,9 @@ import VideoIcon from '../../../assets/icons/VideoIcon.svg';
 import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 import HelpTooltip from '../../HelpTooltip/HelpTooltip';
+import { niceDuration, niceDate, capitalise } from './utils';
 
-const Dashboard = ({accuracy, data}: todoType) => {
+const Dashboard = ({ data }: todoType) => {
 
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
@@ -28,7 +29,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
             </div>
             <MixedChart
               data={data.framesArray}
-              accuracy={accuracy}
+              accuracy={data.accuracy}
               isThumbnail={true}
               color={colors.primaryDarkBlue}
               type={AGGREGATE}
@@ -39,15 +40,15 @@ const Dashboard = ({accuracy, data}: todoType) => {
           <div className='card d-flex flex-column justify-content-around ps-4 pb-4 font-weight-bolder'>
             <div className='d-flex gap-3'>
               <img src={VideoIcon} className='dashboard-icon'/>
-              <span>My cool video</span>
+              <span>{capitalise(data.videoName)}</span>
             </div>
             <div className='d-flex gap-3'>
               <img src={TimeIcon} className='dashboard-icon'/>
-              <span>12 min</span>
+              <span>{niceDuration(data.duration)}</span>
             </div>
             <div className='d-flex gap-3'>
               <img src={CalendarIcon} className='dashboard-icon'/>
-              <span>14 may, 2022</span>
+              <span>{niceDate(data.videoDate)}</span>
             </div>
             <div className='d-flex gap-3 d-flex justify-content-center'>
               <button className='btn mb-0'>
@@ -88,7 +89,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
               {data && < ChartToggler
                 dataType={'attentionScore'}
                 data={data.framesArray}
-                accuracy={accuracy}
+                accuracy={data.accuracy}
                 isBarChartOnInit={true}
                 type={ATTENTION}
                 color={colors.primaryRed}
@@ -126,7 +127,7 @@ const Dashboard = ({accuracy, data}: todoType) => {
               {data && <ChartToggler
                 dataType={'moodScore'}
                 data={data.framesArray}
-                accuracy={accuracy}
+                accuracy={data.accuracy}
                 isBarChartOnInit={false}
                 type={MOOD}
                 color={colors.primaryGreen}
