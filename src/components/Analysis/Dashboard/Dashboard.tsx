@@ -46,7 +46,7 @@ const Dashboard = ({ data }: todoType) => {
           </div>
         </div>
         <div className='col-sm-4 col-md-3 col-lg-2 '>
-          <div className='card d-flex flex-column justify-content-around ps-4 pb-4 font-weight-bolder'>
+          <div className='card d-flex flex-column justify-content-around pb-4 font-weight-bolder'>
             <div className='d-flex gap-3'>
               <img src={VideoIcon} className='dashboard-icon'/>
               <span>{capitalise(data.videoName)}</span>
@@ -60,7 +60,7 @@ const Dashboard = ({ data }: todoType) => {
               <span>{niceDate(data.videoDate)}</span>
             </div>
             <div className='d-flex gap-3 d-flex justify-content-center'>
-              <button className='btn mb-0' onClick={handleShareLink}>
+              <button className='btn copy-link-btn mb-0 d-flex gap-3 d-flex justify-content-center align-items-center' onClick={handleShareLink}>
                 <img src={CopyLinkIcon} className='dashboard-icon'/>
                 <span>Share Analysis</span>
               </button>

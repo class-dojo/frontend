@@ -1,4 +1,3 @@
-
 /* TABS */
 .analysis-tab-container {
   display: flex;
@@ -12,8 +11,13 @@
   flex: 1 1 auto;
 }
 
+.tab-button {
+  background-color: #1e3e56 !important;
+  border-radius: 0 !important;
+}
+
 .tab-button:hover {
-  transform: scaleY(1.1) !important
+  transform: scaleY(1.1) !important;
 }
 
 .not-selected-tab {
@@ -47,6 +51,11 @@
 .dashboard-icon {
   width: 30px;
   height: 30px;
+}
+
+.copy-link-btn {
+  background-color: #34556e !important;
+  color: white !important;
 }
 
 .copy-link-toast {
