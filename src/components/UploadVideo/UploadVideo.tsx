@@ -112,8 +112,11 @@ const UploadVideo = () => {
               <label htmlFor="formFileLg" className="form-label notranslate mt-3"></label>
               <input className="form-control form-control-lg notranslate" id="formFileLg" type="file" translate='no' accept="video/*" onChange={handleFileInputChange}/>
             </div>
-            <div className="mt-5"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>{message}</a></div>
-            {showSpinner ? <Spinner/> : <div className='mt-4 mx-9'>{ isTranscoding && <ProgressBar style={{ marginTop: 35, marginBottom: 12 }} animated now={barProgress}/>}</div>}
+            {/* <div className="mt-5"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>{message}</a></div> */}
+            {showSpinner ? <Spinner /> : <div className='mt-4 mx-9'>
+              { isTranscoding ?
+                <ProgressBar className={'mt-6 mb-5'} /*style={{ marginTop: 35, marginBottom: 12 }}*/ animated now={barProgress}/> :
+                <div className="mt-5 mb-2"><a className={`btn btn-primary btn-lg me-2 dark-element ${!ffmpeg.current.isLoaded() || isTranscoding ? 'upload-btn-disabled' : ''}`} role="button" onClick={handleTranscodeClick}>{message}</a></div>}</div>}
           </div>
         </div>
         <div className='mt-2'>
