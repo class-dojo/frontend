@@ -96,7 +96,7 @@ const UploadVideo = () => {
       <div className="container my-5 mt-2">
         <div className="text-white text-center bg-dark border rounded border-0 p-3 p-md-4 d-flex flex-column aling-items-center">
           <h1 className="fw-bold text-white mb-3">ANALYZE VIDEO</h1><small></small>
-          <p className="mb-4">Upload a video and ClassDojo will analyze it</p>
+          <p className="mb-4">Upload a video and Class Dojo will analyze it</p>
           <div className='mt-4'>
             <small className='me-3'>Select analysis quality</small>
             <select style={{maxWidth: 200}} defaultValue={5} onChange={handleAccuracyChange}>
