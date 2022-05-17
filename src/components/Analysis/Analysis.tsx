@@ -47,7 +47,7 @@ const Analysis = () => {
   }, [width]);
 
   const toggleView = (event: todoType) => {
-    if (!event.target.className.split(' ').includes('selected')) {
+    if (event.target.className.split(' ').includes('not-selected-tab')) {
       setIsInDashboard(!isInDashboard);
     }
   };
