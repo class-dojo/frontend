@@ -48,6 +48,12 @@
   height: 30px;
 }
 
+.help-button-container {
+  position: absolute;
+  left: 14px;
+  top: 10px;
+}
+
 /* DETAILED VIEW */
 .big-chart-container {
   --chart-y-offset: 221.9px;

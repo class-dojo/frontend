@@ -12,7 +12,8 @@ import { Frame } from '../../UploadVideo/types';
 import useWindowDimensions from '../../../utils/useWindowDimensions';
 
 const displayBoxBgStyle: React.CSSProperties = {
-  backgroundColor: '#f2f2f2',
+  // backgroundColor: '#f2f2f2',
+  backgroundColor: '#fffefa',
   zIndex: -1
 };
 
