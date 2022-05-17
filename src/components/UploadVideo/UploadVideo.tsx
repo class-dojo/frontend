@@ -83,7 +83,7 @@ const UploadVideo = () => {
     if (event.target.files) {
       source.current = event.target.files[0];
       videoName.current = event.target.files[0]?.name.replace(/\.\w+$/gi, '');
-      videoDate.current = new Date(event.target.files[0].lastModified).toISOString();
+      videoDate.current = event.target.files[0] && new Date(event.target.files[0].lastModified).toISOString();
     }
   };
 
