@@ -99,8 +99,11 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
   };
 
   const handleClick = (point: todoType) => {
+    console.log(point);
     if (point.data.isImportant) {
-      setModalImgIndex(point.index);
+      const imgIndex = point.data.x / 5;
+      console.log(dataset);
+      setModalImgIndex(imgIndex);
       handleShow();
     }
   };
@@ -113,8 +116,6 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
       return val['y'] > acc ? val['y'] : acc;
     }, 0);
   };
-
-  const indexes = dataset[0].data.map(datum => datum.x % 10 === 0 || datum.x === 0);
 
   return (
     <div style={{...mainContainerStyle}}>

@@ -4,6 +4,9 @@ export type VideoStillsWithInfo = {
   rawFrameDataArray: Uint8Array[],
   duration: number
 }
+export type Analytics = {
+  analysisData: DataAnalysis
+}
 
 export type Frame = {
   [key: string]: string
@@ -17,6 +20,10 @@ export type AlertMessageProps = {
 
 export type DataToBackend = {
   videoId: string // uuid
+  videoName?: string
+  videoDate?: string
+  duration?: number
+  accuracy?: number
   frames?: string[] // TODO send also the framerate?
 }
 
@@ -29,11 +36,11 @@ export type DataAnalysis = {
   peaks: Peaks
   valleys: Valleys
   averages: Averages
+  videoId?: string
   videoName?: string
   videoDate?: string
   duration?: number
   accuracy?: number
-
 }
 
 export type SingleFrameAnalysis = {

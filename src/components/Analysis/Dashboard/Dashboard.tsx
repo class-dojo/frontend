@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Toast from 'react-bootstrap/Toast';
 
 import MixedChart from '../../Charts/MixedChart/MixedChart';
 import { colors } from '../../../colors';
@@ -13,7 +14,16 @@ import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 import HelpTooltip from '../../HelpTooltip/HelpTooltip';
 import { niceDuration, niceDate, capitalise } from './utils';
 
+
 const Dashboard = ({ data }: todoType) => {
+
+  const [showToast, setShowToast] = useState(false);
+
+  const handleShareLink = () => {
+    const linkToShare = `${process.env.REACT_APP_BASE_URL}analysis/${data.videoId}`;
+    navigator.clipboard.writeText(linkToShare);
+    setShowToast(true);
+  };
 
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
@@ -51,10 +61,26 @@ const Dashboard = ({ data }: todoType) => {
               <span>{niceDate(data.videoDate)}</span>
             </div>
             <div className='d-flex gap-3 d-flex justify-content-center'>
-              <button className='btn mb-0'>
+              <button className='btn mb-0' onClick={handleShareLink}>
                 <img src={CopyLinkIcon} className='dashboard-icon'/>
-                <span>Copy link</span>
+                <span>Share Analysis</span>
               </button>
+              <div className='copy-link-toast'>
+                <Toast onClose={() => setShowToast(false)} show={showToast} delay={2000} autohide>
+                  <Toast.Header style={{
+                    backgroundColor: '#34556e',
+                    color: 'white',
+                    borderRadius: 0,
+                  }}>
+                    <img
+                      src="holder.js/20x20?text=%20"
+                      className="rounded me-2"
+                      alt=""
+                    />
+                    <strong>Link copied!</strong>
+                  </Toast.Header>
+                </Toast>
+              </div>
             </div>
           </div>
         </div>

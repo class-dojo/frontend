@@ -15,7 +15,7 @@ const ActionAlert = ({ toggleShowAlert, alertMessage, analysisData }: AlertProps
       <p>{alertMessage.body}</p>
       {alertMessage.variant === 'success' &&
       <div className="d-flex justify-content-end">
-        <Link to={'/analysis'} state={{ data: analysisData }}>
+        <Link to={`/analysis/${analysisData.videoId}`} state={{ analysisData }}>
           <Button onClick={toggleShowAlert} variant="outline-success">Lets go!</Button>
         </Link>
       </div>}

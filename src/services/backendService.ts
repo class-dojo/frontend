@@ -16,13 +16,20 @@ export const sendDataToBackEnd = (frameNamesArray: string[], id: string) => {
     .catch(err => console.error(err));
 };
 
-export const getAnalysis = (id: string) => {
-  const ref: DataToBackend = { videoId: id };
+export const getAnalysis = (videoId: string, videoName: string, videoDate: string, duration: number, accuracy: number) => {
+  const ref: DataToBackend = { videoId, videoName, videoDate, duration, accuracy };
   return fetch(`${API_URL}analyze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(ref)
   })
+    .then(res => res.status < 400 ? res : Promise.reject(res))
+    .then(res => res.json())
+    .catch(err => console.error(err));
+};
+
+export const getAnalysisRecord = (videoId: string) => {
+  return fetch(`${API_URL}analyze/${videoId}`)
     .then(res => res.status < 400 ? res : Promise.reject(res))
     .then(res => res.json())
     .catch(err => console.error(err));

@@ -48,6 +48,14 @@
   height: 30px;
 }
 
+.copy-link-toast {
+  width: 100%;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  z-index: 400000;
+}
+
 .help-button-container {
   position: absolute;
   left: 14px;

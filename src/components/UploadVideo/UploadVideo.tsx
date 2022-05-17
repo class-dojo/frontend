@@ -21,7 +21,7 @@ const UploadVideo = () => {
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
   const accuracy = useRef<number>(5); // TODO initialise as wanted default value
   const videoName = useRef<string>('');
-  const videoDate = useRef<string>();
+  const videoDate = useRef<string>('');
   const source = useRef<VideoSource>('');
 
   const config: CreateFFmpegOptions = {log: true};
@@ -33,9 +33,9 @@ const UploadVideo = () => {
   const ffmpeg = useRef(createFFmpeg(config));
 
   const load = async () => {
-    setMessage('Loading transcoder...');
+    setMessage('Loading analyzer...');
     await ffmpeg.current.load();
-    setMessage('Start transcoding');
+    setMessage('Start analysis');
   };
 
   useEffect(()=> {!ffmpeg.current.isLoaded() && load();}, []);
@@ -56,10 +56,12 @@ const UploadVideo = () => {
       const {links}: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
       const isUploaded = await uploadImgToBucket(filesArray, links);
       if (isUploaded) {
-        const analysis = await getAnalysis(videoId);
+        const analysis = await getAnalysis(videoId, videoName.current, videoDate.current, duration, accuracy.current);
         if (analysis) {
           const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-          const completeData = {... analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current}; // TODO add date
+          const completeData = { ...analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current, videoId};
+          // TODO check if the props already exist when we receive the data from be // TODO might be useless, delete oldanalasyis check from these two functions
+          // const completeData = checkIfOldAnalysis(analysisWithRawFrames, videoName.current, videoDate.current, duration, accuracy.current, videoId);
           setAnalysisData(completeData);
           setAlertMessage(uploadSuccessful);
           toggleShowSpinner();
@@ -95,7 +97,7 @@ const UploadVideo = () => {
     <section className="py-4 py-xl-5 ">
       <div className="container my-5 mt-2">
         <div className="text-white text-center bg-dark border rounded border-0 p-3 p-md-4 d-flex flex-column aling-items-center">
-          <h1 className="fw-bold text-white mb-3">analyze video</h1><small></small>
+          <h1 className="fw-bold text-white mb-3">ANALYZE VIDEO</h1><small></small>
           <p className="mb-4">Upload a video and ClassDojo will analyze it</p>
           <div className='mt-4'>
             <small className='me-3'>Select analysis quality</small>
