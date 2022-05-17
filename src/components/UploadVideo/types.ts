@@ -43,7 +43,7 @@ export interface DataAnalysis {
   accuracy?: number
 }
 
-export interface SingleFrameAnalysis {
+export type SingleFrameAnalysis = {
   attentionScore: number
   moodScore: number
   amountOfPeople: number
