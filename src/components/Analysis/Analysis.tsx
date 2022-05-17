@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { colors } from '../../colors';
 import { todoType } from '../../types';
@@ -7,16 +7,34 @@ import Dashboard from './Dashboard/Dashboard';
 import DetailedView from './DetailedView/DetailedView';
 import './analysis.css';
 import useWindowDimensions from '../../utils/useWindowDimensions';
+import { Analytics, DataAnalysis } from '../UploadVideo/types';
+import { getAnalysisRecord } from '../../services/backendService';
+
+
 
 const Analysis = () => {
 
   const { width } = useWindowDimensions();
 
   const location = useLocation();
-  const { data }: todoType = location.state;
+  const params = useParams();
+  //const { data }: todoType = location.state;
+
+  const [data, setData] = useState<DataAnalysis>();
 
   const [isDesktop, setIsDesktop] = useState(width >= 768);
   const [isInDashboard, setIsInDashboard] = useState(isDesktop);
+
+  useEffect(() => {
+    if (location.state) {
+      const { analysisData } = location.state as Analytics;
+      setData(analysisData);
+    } else {
+      getAnalysisRecord(params.videoId as string).then(data => {
+        setData(data);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     setIsDesktop(width >= 768);
@@ -36,16 +54,16 @@ const Analysis = () => {
 
   return (
     <div>
-      {isDesktop && <div className="analysis-tab-container mb-2">
+      {data && isDesktop && <div className="analysis-tab-container mb-2">
         <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? '' : 'not-selected-tab'}` }  onClick={toggleView} type="button" style={{background: colors.headers, borderRadius: 0}}>Dashboard</button>
         <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? 'not-selected-tab' : ''}` }  onClick={toggleView} style={{background: colors.headers, borderRadius: 0}}>Detailed</button>
       </div>}
-      {isDesktop && isInDashboard &&
+      {data && isDesktop && isInDashboard &&
         <Dashboard
           data={data}
         />
       }
-      {!isInDashboard &&
+      {data && !isInDashboard &&
         <DetailedView
           data={data}
         />

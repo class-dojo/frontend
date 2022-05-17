@@ -12,7 +12,7 @@ function App () {
       <Routes>
         <Route path='/' element={<Landing/>}/>
         <Route path='/upload' element={<UploadVideo/>}/>
-        <Route path='/analysis' element={<Analysis/>}/>
+        <Route path='/analysis/:videoId' element={<Analysis/>}/>
       </Routes>
     </main>
   );

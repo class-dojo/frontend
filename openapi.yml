@@ -40,6 +40,26 @@ paths:
               schema:
                 "$ref": "#/components/schemas/dataAnalysisResponse"
 
+  "/analyze/{videoId}":
+    get:
+      summary: get analysis from old video
+      description: Get analysis record related to a specific video
+      parameters:
+        - in: path
+          name: videoId
+          schema:
+            type: string
+          required: true
+          description: uuid of the video data to get
+
+      responses:
+        '200':
+          description: Analysis record
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/analysisRecordResponse"
+
 components:
   schemas:
     s3Response:
@@ -251,3 +271,174 @@ components:
         - peaks
         - valleys
         - averages
+
+    analysisRecordResponse:
+      properties:
+        framesArray:
+          type: array
+          items:
+            type: object
+            properties:
+              attentionScore:
+                type: number
+              moodScore:
+                type: number
+              amountOfPeople:
+                type: number
+              isImportantAttention:
+                type: boolean
+              isImportantMood:
+                type: boolean
+              isImportantPeople:
+                type: boolean
+          example:
+            - attentionScore: 0.65
+              moodScore: 0.39
+              amountOfPeople: 19
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: true
+            - attentionScore: 0.6
+              moodScore: 0.4
+              amountOfPeople: 19
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.89
+              moodScore: 0.22
+              amountOfPeople: 19
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.46
+              moodScore: 0.36
+              amountOfPeople: 18
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: true
+            - attentionScore: 0.54
+              moodScore: 0.38
+              amountOfPeople: 18
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.51
+              moodScore: 0.35
+              amountOfPeople: 18
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.48
+              moodScore: 0.33
+              amountOfPeople: 18
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.56
+              moodScore: 0.4
+              amountOfPeople: 17
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: true
+            - attentionScore: 0.78
+              moodScore: 0.87
+              amountOfPeople: 18
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: true
+            - attentionScore: 0.46
+              moodScore: 0.29
+              amountOfPeople: 16
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: true
+            - attentionScore: 0.53
+              moodScore: 0.33
+              amountOfPeople: 16
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.29
+              moodScore: 0.18
+              amountOfPeople: 16
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.55
+              moodScore: 0.31
+              amountOfPeople: 16
+              isImportantAttention: false
+              isImportantMood: false
+              isImportantPeople: false
+            - attentionScore: 0.55
+              moodScore: 0.46
+              amountOfPeople: 16
+              isImportantAttention: false
+              isImportantMood: true
+              isImportantPeople: false
+            - attentionScore: 0.10
+              moodScore: 0.30
+              amountOfPeople: 15
+              isImportantAttention: true
+              isImportantMood: true
+              isImportantPeople: true
+        peaks:
+          type: object
+          properties:
+            moodPeak:
+              type: number
+            attentionPeak:
+              type: number
+            peoplePeak:
+              type: number
+          example:
+            moodPeak: 0.46
+            attentionPeak: 0.89
+            peoplePeak: 19
+        valleys:
+          type: object
+          properties:
+            moodValley:
+              type: number
+            attentionValley:
+              type: number
+            peopleValley:
+              type: number
+          example:
+            moodValley: 0.18
+            attentionValley: 0.10
+            peopleValley: 15
+        averages:
+          type: object
+          properties:
+            moodAverage:
+              type: number
+            attentionAverage:
+              type: number
+            peopleAverage:
+              type: number
+          example:
+            moodAverage: 0.37
+            attentionAverage: 0.55
+            peopleAverage: 17
+        videoName:
+          type: string
+          example: "sample chunk"
+        videoDate:
+          type: string
+          example: "2022-05-07T13:35:38.467Z"
+        duration:
+          type: number
+          example: 76
+        accuracy:
+          type: number
+          example: 5
+      required:
+        - framesArray
+        - peaks
+        - valleys
+        - averages
+        - videoName
+        - videoDate
+        - duration
+        - accuracy
