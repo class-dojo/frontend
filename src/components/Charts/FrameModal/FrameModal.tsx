@@ -1,8 +1,7 @@
-import {Frame} from '../../UploadVideo/types';
 import {Modal} from 'react-bootstrap';
 import React from 'react';
 
-export function FrameModal (props: { show: boolean, onHide: () => void, frames: Frame, modalImgIndex: number }) {
+export function FrameModal (props: { show: boolean, onHide: () => void, frame: string }) {
   return <Modal centered show={props.show} onHide={props.onHide} className="">
     <div
       className="modal-dialog-centered d-flex justify-content-center align-items-center"
@@ -11,7 +10,7 @@ export function FrameModal (props: { show: boolean, onHide: () => void, frames: 
       }}
     >
       <img className="modal-img"
-        src={props.frames[props.modalImgIndex]}
+        src={props.frame}
       />
       <canvas/>
     </div>

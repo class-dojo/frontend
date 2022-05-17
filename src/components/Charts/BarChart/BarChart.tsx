@@ -291,7 +291,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           ] : undefined}
         />
       </div>
-      <FrameModal show={showModal} onHide={handleClose} frames={frames} modalImgIndex={modalImgIndex}/>
+      <FrameModal show={showModal} onHide={handleClose} frame={frames[modalImgIndex]} />
     </div>
   );
 };

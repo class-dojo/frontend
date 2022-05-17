@@ -294,7 +294,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           ] : undefined}
         />
       </div>
-      <FrameModal show={showModal} onHide={handleClose} frames={frames} modalImgIndex={modalImgIndex}/>
+      <FrameModal show={showModal} onHide={handleClose} frame={frames[modalImgIndex]}/>
     </div>
   );
 };
