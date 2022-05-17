@@ -24,6 +24,7 @@ const AnalysisDisplay = ({ data }: todoType) => {
           accuracy={data.accuracy}
           isBarChartOnInit={true}
           type={ATTENTION}
+          color={colors.primaryRed}
         />
       </div>
       <div className='big-chart-container'>
@@ -32,6 +33,7 @@ const AnalysisDisplay = ({ data }: todoType) => {
           data={data.framesArray}
           accuracy={data.accuracy}
           isBarChartOnInit={false}
+          color={colors.primaryGreen}
           type={MOOD}
         />
       </div>
