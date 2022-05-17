@@ -42,7 +42,6 @@ const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: n
   return { data, importantIndexes, keys: [goodKeyName] };
 };
 
-// TODO when we get links for old videoanalysis from be, add if else statement if we receive Uint8Array or another type in importantFrame property
 export const getImportantFrames = (data: SingleFrameAnalysis[]) => {
   const frames: Frame = {};
   data.forEach((singleFrameData, i) => {
