@@ -1,8 +1,14 @@
 import {Modal} from 'react-bootstrap';
 import React from 'react';
 
-export function FrameModal (props: { show: boolean, onHide: () => void, frame: string }) {
-  return <Modal centered show={props.show} onHide={props.onHide} className="">
+interface IFrameModal {
+  show: boolean,
+  onHide: () => void,
+  frame: string,
+}
+
+export const FrameModal = ({show, onHide, frame}: IFrameModal) => {
+  return <Modal centered show={show} onHide={onHide} className="">
     <div
       className="modal-dialog-centered d-flex justify-content-center align-items-center"
       style={{
@@ -10,9 +16,9 @@ export function FrameModal (props: { show: boolean, onHide: () => void, frame: s
       }}
     >
       <img className="modal-img"
-        src={props.frame}
+        src={frame}
       />
       <canvas/>
     </div>
   </Modal>;
-}
+};
