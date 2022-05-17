@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const Spinner = () => {
   return (
     <div className="mt-4 mb-3 d-flex flex-column align-items-center">

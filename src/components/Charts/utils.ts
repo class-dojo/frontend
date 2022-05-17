@@ -1,7 +1,6 @@
 import { IMAGE_BUCKET_URL } from '../../constants';
 import { Frame, SingleFrameAnalysis, SingleFramesLoose } from '../UploadVideo/types';
 
-// ALL IN ONE
 export const parseChartData = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, chart: string) => {
   let importance = '';
   switch (key) {

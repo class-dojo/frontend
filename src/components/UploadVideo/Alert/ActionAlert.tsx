@@ -7,7 +7,7 @@ toggleShowAlert: (() => void)
 alertMessage: AlertMessageProps
 }
 
-const ActionAlert = ({ toggleShowAlert, alertMessage, /*analysisData*/ }: AlertProps) => {
+const ActionAlert = ({ toggleShowAlert, alertMessage }: AlertProps) => {
   return (
     <Alert variant={alertMessage.variant} onClose={toggleShowAlert} dismissible>
       <Alert.Heading>{alertMessage.heading}</Alert.Heading>

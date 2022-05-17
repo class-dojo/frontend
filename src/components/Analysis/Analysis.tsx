@@ -11,14 +11,12 @@ import { DataAnalysis } from '../UploadVideo/types';
 import { getAnalysisRecord } from '../../services/backendService';
 
 
-
 const Analysis = () => {
 
   const { width } = useWindowDimensions();
 
   const location = useLocation();
   const params = useParams();
-  //const { data }: todoType = location.state;
 
   const [data, setData] = useState<DataAnalysis>();
 
