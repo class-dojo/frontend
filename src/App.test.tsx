@@ -5,6 +5,6 @@ import App from './App';
 
 test('renders learn react link', () => {
   render(<BrowserRouter><App /></BrowserRouter>);
-  const uploadButton = screen.getByText('TRY NOW');
-  expect(uploadButton).toBeInTheDocument();
+  const learnMoreButton = screen.getByText('LEARN MORE');
+  expect(learnMoreButton).toBeInTheDocument();
 });
