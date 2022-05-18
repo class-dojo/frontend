@@ -30,12 +30,28 @@ export const FrameCanvas = ({frame}: IFrameCanvas) => {
 
       ctx.drawImage(img, 0,0, canvas.width, canvas.height);
 
-      // draw random rectangle
-      ctx.beginPath();
-      ctx.rect(188, 50, 200, 100);
-      ctx.lineWidth = 7;
-      ctx.strokeStyle = 'yellow';
-      ctx.stroke();
+      for (const face of frameInfo) {
+        const {Top, Left, Width, Height} = face.boundingBox;
+        const x = Left * img.width;
+        const y = Top * img.height;
+        const width = Width * img.width;
+        const height = Height * img.height;
+
+        ctx.beginPath();
+        ctx.rect(x, y, width, height);
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = 'yellow';
+        ctx.stroke();
+
+        const { Type, Confidence } = face.topEmotion;
+
+        ctx.font = 'bold 20px Arial';
+        ctx.fillStyle = 'yellow';
+
+        const emotion = `${Type}: ${Confidence.toFixed(2)} %`;
+        ctx.fillText(emotion, x, y + height + 30);
+      }
+
     }, false);
 
 
