@@ -14,8 +14,6 @@ export const FrameCanvas = ({frame}: IFrameCanvas) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    console.log(frameInfo);
-
     const canvasReference = canvasRef.current;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
