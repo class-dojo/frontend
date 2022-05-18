@@ -17,7 +17,8 @@ export const FrameModal = ({show, onHide, frame}: IFrameModal) => {
     <div
       className="modal-dialog-centered d-flex justify-content-center align-items-center"
       style={{
-        backgroundColor: 'transparent',
+        backgroundColor: 'black',
+        borderRadius: '10px'
       }}
     >
       <FrameCanvas frame={frame}/>
