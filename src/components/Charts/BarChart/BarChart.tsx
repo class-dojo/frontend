@@ -8,10 +8,10 @@ import { todoType } from '../../../types';
 import { colors } from '../../../colors';
 import { BarDataset } from '../../../interfaces';
 import { ATTENTION, HEADCOUNT, MOOD } from '../../../constants';
-import { Modal } from 'react-bootstrap';
 import { Frame } from '../../UploadVideo/types';
 import useWindowDimensions from '../../../utils/useWindowDimensions';
 import { isInFirstHalf } from '../utils';
+import { FrameModal } from '../FrameModal/FrameModal';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#fffefa',
@@ -47,7 +47,6 @@ type BarChartProps = {
 }
 
 const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName, frames}: BarChartProps) => {
-
   const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
 
@@ -95,6 +94,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
   const handleClick = (data: todoType) => {
     if (dataset.importantIndexes.includes(data.index)) {
       setModalImgIndex(data.index);
+
       handleShow();
     }
   };
@@ -244,7 +244,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                     </div>
                   </div>
                   {dataset.importantIndexes.includes(index) &&
-                <img src={frames[index]}
+                <img src={frames[index].src}
                   style={{
                     height: 180,
                     borderRadius: '2px 6px 6px 2px',
@@ -283,19 +283,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           ] : undefined}
         />
       </div>
-
-      <Modal centered show={showModal} onHide={handleClose} className="">
-        <div
-          className="modal-dialog-centered d-flex justify-content-center align-items-center"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-        >
-          <img className='modal-img'
-            src={frames[modalImgIndex]}
-          />
-        </div>
-      </Modal>
+      <FrameModal show={showModal} onHide={handleClose} frame={frames[modalImgIndex]} />
     </div>
   );
 };

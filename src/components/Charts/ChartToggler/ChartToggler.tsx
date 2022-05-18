@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { todoType } from '../../../types';
-import { SingleFrameAnalysis } from '../../UploadVideo/types';
+import {SingleFrameAnalysis, TKeys, TSingleFrameKeys} from '../../UploadVideo/types';
 import BarChart from '../BarChart/BarChart';
 import { colors } from '../../../colors';
 import LineChart from '../LineChart/LineChart';
@@ -13,15 +13,14 @@ import { ATTENTION, MOOD } from '../../../constants';
 type ChartTogglerProps = {
   isThumbnail?: boolean,
   isBarChartOnInit: boolean,
-  type: string,
+  type: TKeys,
   color?: string,
   data: SingleFrameAnalysis[],
   accuracy: number,
-  dataType: string
+  dataType: TSingleFrameKeys
 }
 
 const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.primaryGreen, data, accuracy, dataType }: ChartTogglerProps) => { // TODO has to take data and parse it here
-
   const [isBarChart, setIsBarChart] = useState(true);
 
   useEffect(() => {
