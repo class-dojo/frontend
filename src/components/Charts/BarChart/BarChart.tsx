@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
-import {ResponsiveBar} from '@nivo/bar';
-import {linearGradientDef, patternLinesDef, patternSquaresDef} from '@nivo/core';
-import {TooltipWrapper} from '@nivo/tooltip';
+import React, { useState } from 'react';
+import { ResponsiveBar } from '@nivo/bar';
+import { linearGradientDef, patternLinesDef, patternSquaresDef } from '@nivo/core';
+import { TooltipWrapper } from '@nivo/tooltip';
 
 import './barChart.css';
-import {todoType} from '../../../types';
-import {colors} from '../../../colors';
-import {BarDataset} from '../../../interfaces';
-import {HEADCOUNT} from '../../../constants';
-import {Frame} from '../../UploadVideo/types';
+import { todoType } from '../../../types';
+import { colors } from '../../../colors';
+import { BarDataset } from '../../../interfaces';
+import { ATTENTION, HEADCOUNT, MOOD } from '../../../constants';
+import { Modal } from 'react-bootstrap';
+import { Frame } from '../../UploadVideo/types';
 import useWindowDimensions from '../../../utils/useWindowDimensions';
-import {isInFirstHalf} from '../utils';
-import {FrameModal} from '../FrameModal/FrameModal';
+import { isInFirstHalf } from '../utils';
+import { FrameModal } from '../FrameModal/FrameModal';
 
 const displayBoxBgStyle: React.CSSProperties = {
-  // backgroundColor: '#f2f2f2',
   backgroundColor: '#fffefa',
   zIndex: -1
 };
@@ -27,9 +27,9 @@ const displayBoxFrameStyle: React.CSSProperties = {
 
 const setBarColor = (id: string, isSecondary: boolean, colorOverride: string | undefined) => {
   let barColor = colors.primaryGreen;
-  if (id === 'Attention') barColor = colors.primaryRed;
-  if (id === 'Mood') barColor = colors.primaryGreen;
-  if (id === 'Headcount') barColor = colors.primaryPurple;
+  if (id === ATTENTION) barColor = colors.primaryRed;
+  if (id === MOOD) barColor = colors.primaryGreen;
+  if (id === HEADCOUNT) '#ffffff00';
   if (colorOverride) barColor = colorOverride;
   if (isSecondary) barColor = '#3a4f637a';
   return barColor;
@@ -64,6 +64,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
 
   const graphContainerStyle: React.CSSProperties = {
     position: 'relative',
+    maxWidth: (!isThumbnail) ? (width >= 768 ? 'calc(100vw - 35px)' : 'calc(100vw - 10px)') : '100%',
     width: '100%',
     height: '100%',
   };
@@ -129,13 +130,8 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           keys={dataset.keys}
           maxValue={yAxisName === HEADCOUNT ? getMaxValue() * 1.2 : 100}
           padding={isMultibar ? 0.2 : 0.04}
-          margin={{
-            top: 10,
-            right: (isThumbnail && !isOverlayed) ? 25 : 55,
-            bottom: (width < 768 && isOverlayed) ? 70 : 40,
-            left: 55
-          }}
-          colors={({id}) => setBarColor(id as string, isSecondary, color)}
+          margin={{ top: 10, right: (isThumbnail && !isOverlayed) ? 25 : 55, bottom: (width < 768 && isOverlayed) ? 70 : 40, left: 55 }}
+          colors={({ id }) => setBarColor(id as string, isSecondary, color)}
           borderRadius={isMultibar ? 1 : 3}
           // borderWidth={1} // TODO debate
           borderColor='black'
@@ -174,8 +170,8 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           } : null}
           defs={[
             linearGradientDef('gradientA', [
-              {offset: 0, color: 'inherit', opacity: isMultibar ? 0.6 : 0.5},
-              {offset: 100, color: 'inherit', opacity: 1},
+              { offset: 0, color: 'inherit', opacity: isMultibar ? 0.6 : 0.5 },
+              { offset: 100, color: 'inherit', opacity: 1 },
             ]),
             patternSquaresDef('patternSquare', {
               'size': 1,
@@ -194,16 +190,16 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
           ]}
           fill={[
             {
-              match: ({data}) => {
+              match: ({ data }) => {
                 return dataset.importantIndexes.includes(data.index as number);
               },
               id: isMultibar ? 'patternLine' : 'patternSquare'
             },
-            {match: '*', id: 'gradientA'},
+            { match: '*', id: 'gradientA' },
           ]}
 
-          tooltip={({id, value, color, indexValue, index}: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
-            return (dataset.importantIndexes.includes(index) && width < 768 ? <></> :
+          tooltip={({ id, value, color, indexValue, index }: todoType) => {  // Need to extend SliceTooltipProps probably for this to work with type
+            return ( dataset.importantIndexes.includes(index) && width < 768 ? <></> :
               <TooltipWrapper anchor={isInFirstHalf(index, dataset.data.length) ? 'right' : 'left'} position={[0, 0]}>
                 <div
                   className='unselectable-text'
@@ -217,7 +213,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                     alignItems: 'center',
                     height: 180,
                     zIndex: 100,
-                    // TODO try make hover on important point less wonky
+                  // TODO try make hover on important point less wonky
                   }}
                 >
                   <div
@@ -238,7 +234,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                       }}
                     >
                       <strong>{id}: </strong>
-                      <span style={{fontWeight: 900}}>{value}</span>
+                      <span style={{ fontWeight: 900 }}>{value}</span>
                     </div>
                     <div style={{
                       display: 'flex',
@@ -248,17 +244,17 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                     }}
                     >
                       <strong>Time: </strong>
-                      <span style={{fontWeight: 900}}>{indexValue * accuracy} sec</span>
+                      <span style={{ fontWeight: 900 }}>{indexValue * accuracy} sec</span>
                     </div>
                   </div>
                   {dataset.importantIndexes.includes(index) &&
-                      <img src={frames[index]}
-                        style={{
-                          height: 180,
-                          borderRadius: '2px 6px 6px 2px',
-                          marginRight: -15,
-                        }}
-                      />
+                <img src={frames[index]}
+                  style={{
+                    height: 180,
+                    borderRadius: '2px 6px 6px 2px',
+                    marginRight: -15,
+                  }}
+                />
                   }
                 </div>
               </TooltipWrapper>

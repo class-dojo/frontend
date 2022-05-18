@@ -7,10 +7,8 @@ import Dashboard from './Dashboard/Dashboard';
 import DetailedView from './DetailedView/DetailedView';
 import './analysis.css';
 import useWindowDimensions from '../../utils/useWindowDimensions';
-import { Analytics, DataAnalysis } from '../UploadVideo/types';
+import { DataAnalysis } from '../UploadVideo/types';
 import { getAnalysisRecord } from '../../services/backendService';
-
-
 
 const Analysis = () => {
 
@@ -18,7 +16,6 @@ const Analysis = () => {
 
   const location = useLocation();
   const params = useParams();
-  //const { data }: todoType = location.state;
 
   const [data, setData] = useState<DataAnalysis>();
 
@@ -27,7 +24,7 @@ const Analysis = () => {
 
   useEffect(() => {
     if (location.state) {
-      const { analysisData } = location.state as Analytics;
+      const analysisData = location.state as DataAnalysis;
       setData(analysisData);
     } else {
       getAnalysisRecord(params.videoId as string).then(data => {
@@ -47,7 +44,7 @@ const Analysis = () => {
   }, [width]);
 
   const toggleView = (event: todoType) => {
-    if (!event.target.className.split(' ').includes('selected')) {
+    if (event.target.className.split(' ').includes('not-selected-tab')) {
       setIsInDashboard(!isInDashboard);
     }
   };
@@ -55,8 +52,8 @@ const Analysis = () => {
   return (
     <div>
       {data && isDesktop && <div className="analysis-tab-container mb-2">
-        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? '' : 'not-selected-tab'}` }  onClick={toggleView} type="button" style={{background: colors.headers, borderRadius: 0}}>Dashboard</button>
-        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? 'not-selected-tab' : ''}` }  onClick={toggleView} style={{background: colors.headers, borderRadius: 0}}>Detailed</button>
+        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? '' : 'not-selected-tab'}` }  onClick={toggleView}>Dashboard</button>
+        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? 'not-selected-tab' : ''}` }  onClick={toggleView}>Detailed</button>
       </div>}
       {data && isDesktop && isInDashboard &&
         <Dashboard

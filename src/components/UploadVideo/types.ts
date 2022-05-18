@@ -1,24 +1,24 @@
 export type VideoSource = string | Buffer | Blob | File;
 
-export type VideoStillsWithInfo = {
+export interface VideoStillsWithInfo {
   rawFrameDataArray: Uint8Array[],
   duration: number
 }
-export type Analytics = {
+export interface Analytics {
   analysisData: DataAnalysis
 }
 
-export type Frame = {
+export interface Frame {
   [key: string]: string
 }
 
-export type AlertMessageProps = {
+export interface AlertMessageProps {
   heading: string
   body: string
   variant: string
 }
 
-export type DataToBackend = {
+export interface DataToBackend {
   videoId: string // uuid
   videoName?: string
   videoDate?: string
@@ -27,11 +27,11 @@ export type DataToBackend = {
   frames?: string[] // TODO send also the framerate?
 }
 
-export type S3Links = {
+export interface S3Links {
   links: string[]
 }
 
-export type DataAnalysis = {
+export interface DataAnalysis {
   framesArray: SingleFrameAnalysis[]
   peaks: Peaks
   valleys: Valleys
@@ -53,24 +53,24 @@ export type SingleFrameAnalysis = {
   importantFrame?: string | Uint8Array // for rawdata
 }
 
-export type SingleFramesLoose = {
+export interface SingleFramesLoose {
   [key: string]: number | boolean | string | Uint8Array
 }
 
 
-export type Peaks = {
+export interface Peaks {
   moodPeak: number
   attentionPeak: number
   peoplePeak: number
 }
 
-export type Valleys = {
+export interface Valleys {
   moodValley: number
   attentionValley: number
   peopleValley: number
 }
 
-export type Averages = {
+export interface Averages {
   moodAverage: number
   attentionAverage: number
   peopleAverage: number

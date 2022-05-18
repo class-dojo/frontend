@@ -1,5 +1,5 @@
 import React from 'react';
-import { OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { Placement } from 'react-bootstrap/esm/types';
 
 import { ReactComponent as HelpIcon } from '../../assets/icons/HelpIcon.svg';

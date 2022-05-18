@@ -1,7 +1,6 @@
 import { IMAGE_BUCKET_URL } from '../../constants';
 import { Frame, SingleFrameAnalysis, SingleFramesLoose } from '../UploadVideo/types';
 
-// ALL IN ONE
 export const parseChartData = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, chart: string) => {
   let importance = '';
   switch (key) {
@@ -48,7 +47,6 @@ export const getImportantFrames = (data: SingleFrameAnalysis[]) => {
     if (singleFrameData.importantFrame) {
       return typeof singleFrameData.importantFrame === 'string' ? frames[i] = `${IMAGE_BUCKET_URL}${singleFrameData.importantFrame}` : (frames[i] = URL.createObjectURL(new Blob([singleFrameData.importantFrame], { type: 'image/jpg' })));
     }
-    console.log('URL => ', singleFrameData.importantFrame); // TODO debugging
   });
   return frames;
 };
