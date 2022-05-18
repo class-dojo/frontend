@@ -1,4 +1,4 @@
-import React, { MouseEvent, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { todoType } from '../../../types';
 import ChartToggler from '../../Charts/ChartToggler/ChartToggler';
 import { colors } from '../../../colors';
@@ -25,6 +25,7 @@ const AnalysisDisplay = ({ data }: todoType) => {
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [currentSelectedIcon, setCurrentSelectedIcon] = useState(AGGREGATE);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -35,44 +36,55 @@ const AnalysisDisplay = ({ data }: todoType) => {
   }, []);
 
   useEffect(() => {
+    if (!isScrolling) {
+      const scrollPositionWithNavbar = scrollPosition + 105.8 + 20;
+      const chartHeight = window.innerHeight - 105.8;
 
-    const scrollPositionWithNavbar = scrollPosition + 105.8 + 20;
-    const chartHeight = window.innerHeight - 105.8;
-
-    if (scrollPositionWithNavbar <= chartHeight) {
-      setCurrentSelectedIcon(AGGREGATE);
-    } else if (scrollPositionWithNavbar > chartHeight && scrollPositionWithNavbar <= 2 * chartHeight) {
-      setCurrentSelectedIcon(ATTENTION);
-    } else if (scrollPositionWithNavbar > 2 * chartHeight && scrollPositionWithNavbar <= 3 * chartHeight) {
-      setCurrentSelectedIcon(MOOD);
-    } else {
-      setCurrentSelectedIcon(HEADCOUNT);
+      if (scrollPositionWithNavbar <= chartHeight) {
+        setCurrentSelectedIcon(AGGREGATE);
+      } else if (scrollPositionWithNavbar > chartHeight && scrollPositionWithNavbar <= 2 * chartHeight) {
+        setCurrentSelectedIcon(ATTENTION);
+      } else if (scrollPositionWithNavbar > 2 * chartHeight && scrollPositionWithNavbar <= 3 * chartHeight) {
+        setCurrentSelectedIcon(MOOD);
+      } else {
+        setCurrentSelectedIcon(HEADCOUNT);
+      }
     }
-
   }, [scrollPosition]);
 
   const handleAggregateClick = (): void => {
     setCurrentSelectedIcon(AGGREGATE);
     aggregateScroll();
+    setScrollTimeOut();
   };
   const handleAttentionClick = (): void => {
     setCurrentSelectedIcon(ATTENTION);
     attentionScroll();
+    setScrollTimeOut();
   };
 
   const handleMoodClick = (): void => {
     setCurrentSelectedIcon(MOOD);
     moodScroll();
+    setScrollTimeOut();
   };
 
   const handleHeadcountClick = (): void => {
     setCurrentSelectedIcon(HEADCOUNT);
     headcountScroll();
+    setScrollTimeOut();
   };
 
   const handleScroll = () => {
     const position = window.pageYOffset;
     setScrollPosition(position);
+  };
+
+  const setScrollTimeOut = () => {
+    setIsScrolling(true);
+    setTimeout(() => {
+      setIsScrolling(false);
+    }, 800);
   };
 
   return (
