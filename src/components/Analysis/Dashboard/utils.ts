@@ -7,7 +7,11 @@ export const niceDuration = (duration: number) => {
 };
 
 export const capitalise = (title: string) => {
-  return title.split(' ').map((word: string) => word.toLowerCase()).join(' ').replace(/(^\w{1})|(\s+\w{1})/g, (char: string) => char.toUpperCase());
+  let newTitle = title.split(' ').map((word: string) => word.toLowerCase()).join(' ').replace(/(^\w{1})|(\s+\w{1})/g, (char: string) => char.toUpperCase());
+  if (newTitle.length > 20) {
+    newTitle = newTitle.slice(0, 17);
+    return newTitle + '...';
+  }
 };
 
 export const niceDate = (ISOdate: string) => {
