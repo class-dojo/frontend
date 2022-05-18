@@ -49,11 +49,11 @@ export const getImportantFrames = (data: SingleFrameAnalysis[]) => {
       return typeof singleFrameData.importantFrame === 'string' ?
         frames[i] = {
           src: `${IMAGE_BUCKET_URL}${singleFrameData.importantFrame}`,
-          frameInfo: singleFrameData.faceDetails
+          frameInfo: singleFrameData.facesDetail
         } :
         (frames[i] = {
           src: URL.createObjectURL(new Blob([singleFrameData.importantFrame], { type: 'image/jpg' })),
-          frameInfo: singleFrameData.faceDetails
+          frameInfo: singleFrameData.facesDetail
         });
     }
   });

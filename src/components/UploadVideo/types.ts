@@ -71,7 +71,7 @@ export type TSingleFrameKeys = 'attentionScore' |
   'isImportantMood' |
   'isImportantPeople' |
   'importantFrame' |
-  'faceDetails'
+  'facesDetail'
 
 
 export type SingleFrameAnalysis = {
@@ -82,7 +82,7 @@ export type SingleFrameAnalysis = {
   isImportantMood: boolean
   isImportantPeople: boolean
   importantFrame?: string | Uint8Array // for rawdata
-  faceDetails: IFaceDetail[]
+  facesDetail: IFaceDetail[]
 
 }
 

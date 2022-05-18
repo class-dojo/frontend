@@ -31,7 +31,7 @@ for (let i = 0; i < 15; i++) {
     isImportantAttention: truthy(),
     isImportantMood: truthy(),
     isImportantPeople: truthy(),
-    faceDetails: [
+    facesDetail: [
       {
         boundingBox: {
           Width: 34.5324534,
