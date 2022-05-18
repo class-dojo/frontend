@@ -1,3 +1,5 @@
+import {AGGREGATE, HEADCOUNT} from '../../constants';
+
 export type VideoSource = string | Buffer | Blob | File;
 
 export interface VideoStillsWithInfo {
@@ -9,7 +11,10 @@ export interface Analytics {
 }
 
 export interface Frame {
-  [key: string]: string
+  [key: string]: {
+    src: string,
+    frameInfo: IFaceDetail[]
+  }
 }
 
 export interface AlertMessageProps {
@@ -43,6 +48,32 @@ export interface DataAnalysis {
   accuracy?: number
 }
 
+export interface IFaceDetail {
+  boundingBox: {
+    Width: number,
+    Height: number,
+    Top: number,
+    Left: number,
+  }
+
+  topEmotion: {
+    Type: string,
+    Confidence: number,
+  }
+}
+
+export type TKeys = 'Attention' | 'Mood' | 'Emotions' | 'Aggregate' | 'Headcount'
+
+export type TSingleFrameKeys = 'attentionScore' |
+  'moodScore' |
+  'amountOfPeople'|
+  'isImportantAttention' |
+  'isImportantMood' |
+  'isImportantPeople' |
+  'importantFrame' |
+  'faceDetails'
+
+
 export type SingleFrameAnalysis = {
   attentionScore: number
   moodScore: number
@@ -51,12 +82,9 @@ export type SingleFrameAnalysis = {
   isImportantMood: boolean
   isImportantPeople: boolean
   importantFrame?: string | Uint8Array // for rawdata
-}
+  faceDetails: IFaceDetail[]
 
-export interface SingleFramesLoose {
-  [key: string]: number | boolean | string | Uint8Array
 }
-
 
 export interface Peaks {
   moodPeak: number
