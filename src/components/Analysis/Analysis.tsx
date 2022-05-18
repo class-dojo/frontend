@@ -10,15 +10,12 @@ import useWindowDimensions from '../../utils/useWindowDimensions';
 import { Analytics, DataAnalysis } from '../UploadVideo/types';
 import { getAnalysisRecord } from '../../services/backendService';
 
-
-
 const Analysis = () => {
 
   const { width } = useWindowDimensions();
 
   const location = useLocation();
   const params = useParams();
-  //const { data }: todoType = location.state;
 
   const [data, setData] = useState<DataAnalysis>();
 
@@ -47,7 +44,7 @@ const Analysis = () => {
   }, [width]);
 
   const toggleView = (event: todoType) => {
-    if (!event.target.className.split(' ').includes('selected')) {
+    if (event.target.className.split(' ').includes('not-selected-tab')) {
       setIsInDashboard(!isInDashboard);
     }
   };
@@ -55,8 +52,8 @@ const Analysis = () => {
   return (
     <div>
       {data && isDesktop && <div className="analysis-tab-container mb-2">
-        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? '' : 'not-selected-tab'}` }  onClick={toggleView} type="button" style={{background: colors.headers, borderRadius: 0}}>Dashboard</button>
-        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? 'not-selected-tab' : ''}` }  onClick={toggleView} style={{background: colors.headers, borderRadius: 0}}>Detailed</button>
+        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? '' : 'not-selected-tab'}` }  onClick={toggleView}>Dashboard</button>
+        <button className={`py-2 mb-0 btn btn-primary shadow-none tab-button ${isInDashboard ? 'not-selected-tab' : ''}` }  onClick={toggleView}>Detailed</button>
       </div>}
       {data && isDesktop && isInDashboard &&
         <Dashboard
