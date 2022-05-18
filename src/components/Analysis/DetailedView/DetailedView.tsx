@@ -5,6 +5,7 @@ import { colors } from '../../../colors';
 import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from '../../../constants';
 import MixedChart from '../../Charts/MixedChart/MixedChart';
 import Sidebar from './Sidebar/Sidebar';
+import useWindowDimensions from '../../../utils/useWindowDimensions';
 
 const useScroll = () => {
   const aggregateRef: todoType = useRef();
@@ -21,11 +22,18 @@ const useScroll = () => {
 
 const AnalysisDisplay = ({ data }: todoType) => {
 
+  const { width } = useWindowDimensions();
+
   const [aggregateScroll, aggregateRef, attentionScroll, attentionRef, moodScroll, moodRef, headcountScroll, headcountRef] = useScroll();
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [currentSelectedIcon, setCurrentSelectedIcon] = useState(AGGREGATE);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(width >= 768);
+
+  useEffect(() => {
+    setIsDesktop(width >= 768);
+  }, [width]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -89,13 +97,13 @@ const AnalysisDisplay = ({ data }: todoType) => {
 
   return (
     <div>
-      <Sidebar
+      {isDesktop && <Sidebar
         currentSelectedIcon={currentSelectedIcon}
         handleAggregateClick={handleAggregateClick}
         handleAttentionClick={handleAttentionClick}
         handleMoodClick={handleMoodClick}
         handleHeadcountClick={handleHeadcountClick}
-      />
+      />}
       <div className='big-chart-container big-chart-aggregate-container' ref={aggregateRef}>
         <MixedChart
           type={AGGREGATE}

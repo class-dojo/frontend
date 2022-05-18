@@ -6,7 +6,7 @@ import { ReactComponent as MoodIcon } from '../../../../assets/icons/MoodIcon.sv
 import { ReactComponent as AttentionIcon } from '../../../../assets/icons/AttentionIcon.svg';
 import { ReactComponent as HeadcountIcon } from '../../../../assets/icons/HeadcountIcon.svg';
 import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from '../../../../constants';
-import { OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { todoType } from '../../../../types';
 
 type SidebarProps = {
@@ -20,7 +20,7 @@ type SidebarProps = {
 const Sidebar = ({ handleAggregateClick, handleAttentionClick, handleMoodClick, handleHeadcountClick, currentSelectedIcon }: SidebarProps) => {
 
   const renderTooltip = (text: string, props: todoType) => (
-    <Tooltip id="button-tooltip" {...props}>
+    <Tooltip style={{ width: 50 }} {...props}>
       {text}
     </Tooltip>
   );
@@ -33,7 +33,7 @@ const Sidebar = ({ handleAggregateClick, handleAttentionClick, handleMoodClick, 
             <a className={`nav_link ${currentSelectedIcon === AGGREGATE ? 'active' : ''}`} onClick={handleAggregateClick}>
               <OverlayTrigger
                 placement='right'
-                delay={{ show: 250, hide: 400 }}
+                delay={{ show: 150, hide: 300 }}
                 overlay={(props) => renderTooltip(AGGREGATE, props)}
               >
                 <AggregateIcon
