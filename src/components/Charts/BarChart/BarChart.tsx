@@ -97,8 +97,6 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
     if (dataset.importantIndexes.includes(data.index)) {
       setModalImgIndex(data.index);
 
-      console.log('modal data', frames[data.index]);
-
       handleShow();
     }
   };
