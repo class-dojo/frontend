@@ -1,13 +1,49 @@
+
+
 .mainScreen {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   min-height: calc(100vh - 73px);
 }
 
+.bgColour {
+  padding: 25px;
+  z-index: 2;
+  background-image: url(../../assets/images/waveTop.svg);
+  background-repeat: no-repeat;
+  background-size: 185%;
+  padding-top: 50px
+}
+
 .text {
-  color: rgb(26, 26, 26);
+  color: rgb(56, 76, 98);
+  margin-left: 5vw;
+  margin-right: 5vw;
+  font-size: 20px;
+  margin-top: 16px;
+  margin-bottom: 32px
+}
+
+.title {
+  color: rgb(56, 76, 98);
+  margin-left: 5vw;
+  margin-right: 5vw;
+  font-size: 48px;
+  font-weight: bolder;
+}
+
+.left{
+  max-width: 50%
+}
+
+.button {
+  text-align: center;
   margin-left: 5vw;
   margin-right: 5vw;
 }
+
+.buttonText{
+  font-size: 25px;
+}
+

@@ -13,6 +13,7 @@ import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 import HelpTooltip from '../../HelpTooltip/HelpTooltip';
 import { niceDuration, niceDate, capitalise } from './utils';
+import { aggregateHelp, attentionHelp, moodHelp } from '../../../constants';
 
 const Dashboard = ({ data }: todoType) => {
 
@@ -32,8 +33,8 @@ const Dashboard = ({ data }: todoType) => {
             <div className='help-button-container help-button-container-big-chart'>
               <HelpTooltip
                 placement='right'
-                header={<>TEST</>}
-                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+                header={<>{aggregateHelp.header}</>}
+                body={<>{aggregateHelp.body}</>}
               />
             </div>
             <MixedChart
@@ -48,15 +49,15 @@ const Dashboard = ({ data }: todoType) => {
         <div className='col-sm-4 col-md-3 col-lg-2 '>
           <div className='card d-flex flex-column justify-content-around pb-4 font-weight-bolder'>
             <div className='d-flex gap-3'>
-              <img src={VideoIcon} className='dashboard-icon'/>
+              <img src={VideoIcon} className='dashboard-icon' alt='Title'/>
               <span>{capitalise(data.videoName)}</span>
             </div>
             <div className='d-flex gap-3'>
-              <img src={TimeIcon} className='dashboard-icon'/>
+              <img src={TimeIcon} className='dashboard-icon' alt='Duration'/>
               <span>{niceDuration(data.duration)}</span>
             </div>
             <div className='d-flex gap-3'>
-              <img src={CalendarIcon} className='dashboard-icon'/>
+              <img src={CalendarIcon} className='dashboard-icon' alt='Recording Date'/>
               <span>{niceDate(data.videoDate)}</span>
             </div>
             <div className='d-flex gap-3 d-flex justify-content-center'>
@@ -88,8 +89,8 @@ const Dashboard = ({ data }: todoType) => {
             <div className='help-button-container'>
               <HelpTooltip
                 placement='right'
-                header={<>TEST</>}
-                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+                header={<>{attentionHelp.header}</>}
+                body={<>{attentionHelp.body}</>}
               />
             </div>
             <div className='col-2 d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
@@ -126,8 +127,8 @@ const Dashboard = ({ data }: todoType) => {
             <div className='help-button-container'>
               <HelpTooltip
                 placement='top'
-                header={<>TEST</>}
-                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+                header={<>{moodHelp.header}</>}
+                body={<>{moodHelp.body}</>}
               />
             </div>
             <div className='col-2 d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>

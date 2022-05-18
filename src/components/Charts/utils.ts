@@ -1,8 +1,9 @@
 import { IMAGE_BUCKET_URL } from '../../constants';
-import { Frame, SingleFrameAnalysis, SingleFramesLoose } from '../UploadVideo/types';
+import {Frame, SingleFrameAnalysis, TSingleFrameKeys} from '../UploadVideo/types';
 
-export const parseChartData = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, chart: string) => {
-  let importance = '';
+export const parseChartData = (framesArray: SingleFrameAnalysis[], key: TSingleFrameKeys, samplePeriod: number, chart: string) => {
+
+  let importance = '' as TSingleFrameKeys;
   switch (key) {
     case 'attentionScore':
       importance = 'isImportantAttention';
@@ -19,7 +20,7 @@ export const parseChartData = (framesArray: SingleFramesLoose[], key: string, sa
   } else return parseBar(framesArray, key, samplePeriod, importance);
 };
 
-const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, importance: string) => {
+const parseBar = (framesArray: SingleFrameAnalysis[], key: TSingleFrameKeys, samplePeriod: number, importance: TSingleFrameKeys) => {
   let goodKeyName = '';
   switch (key) {
     case 'attentionScore':
@@ -34,7 +35,7 @@ const parseBar = (framesArray: SingleFramesLoose[], key: string, samplePeriod: n
   }
 
   const importantIndexes: number[] = [];
-  const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
+  const data = framesArray.map((frame: SingleFrameAnalysis, i: number) => {
     if (frame[importance]) importantIndexes.push(i);
     return { id: i, Time: i * samplePeriod, [goodKeyName]: key === 'amountOfPeople' ? Math.round(Number(frame[key]) * 10) / 10 : Math.round(Number(frame[key]) * 100 * 10) / 10 };
   });
@@ -45,14 +46,22 @@ export const getImportantFrames = (data: SingleFrameAnalysis[]) => {
   const frames: Frame = {};
   data.forEach((singleFrameData, i) => {
     if (singleFrameData.importantFrame) {
-      return typeof singleFrameData.importantFrame === 'string' ? frames[i] = `${IMAGE_BUCKET_URL}${singleFrameData.importantFrame}` : (frames[i] = URL.createObjectURL(new Blob([singleFrameData.importantFrame], { type: 'image/jpg' })));
+      return typeof singleFrameData.importantFrame === 'string' ?
+        frames[i] = {
+          src: `${IMAGE_BUCKET_URL}${singleFrameData.importantFrame}`,
+          frameInfo: singleFrameData.facesDetail
+        } :
+        (frames[i] = {
+          src: URL.createObjectURL(new Blob([singleFrameData.importantFrame], { type: 'image/jpg' })),
+          frameInfo: singleFrameData.facesDetail
+        });
     }
   });
   return frames;
 };
 
-const parseLine = (framesArray: SingleFramesLoose[], key: string, samplePeriod: number, importance: string) => {
-  const data = framesArray.map((frame: SingleFramesLoose, i: number) => {
+const parseLine = (framesArray: SingleFrameAnalysis[], key: TSingleFrameKeys, samplePeriod: number, importance: TSingleFrameKeys) => {
+  const data = framesArray.map((frame: SingleFrameAnalysis, i: number) => {
     return {
       x: i * samplePeriod,
       y: key === 'amountOfPeople' ? Math.round(Number(frame[key]) * 10) / 10 : Math.round(Number(frame[key]) * 100 * 10) / 10,

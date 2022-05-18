@@ -10,6 +10,7 @@ import { Modal } from 'react-bootstrap';
 import { Frame } from '../../UploadVideo/types';
 import useWindowDimensions from '../../../utils/useWindowDimensions';
 import { isInFirstHalf } from '../utils';
+import {FrameModal} from '../FrameModal/FrameModal';
 
 const displayBoxBgStyle: React.CSSProperties = {
   backgroundColor: '#f2f2f2',
@@ -251,7 +252,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
                     </div>
                   </div>
                   {point.data.isImportant &&
-              <img src={frames[point.data.x/accuracy]}
+              <img src={frames[point.data.x/accuracy].src}
                 style={{
                   height: 180,
                   borderRadius: '2px 6px 6px 2px',
@@ -289,19 +290,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           ] : undefined}
         />
       </div>
-      <Modal centered show={showModal} onHide={handleClose}>
-        <div
-          className="modal-dialog-centered d-flex justify-content-center align-items-center"
-          style={{
-            backgroundColor: 'transparent',
-          }}
-        >
-          <img
-            className='modal-img'
-            src={frames[modalImgIndex]}
-          />
-        </div>
-      </Modal>
+      <FrameModal show={showModal} onHide={handleClose} frame={frames[modalImgIndex]}/>
     </div>
   );
 };
