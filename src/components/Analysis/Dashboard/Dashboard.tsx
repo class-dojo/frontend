@@ -49,15 +49,15 @@ const Dashboard = ({ data }: todoType) => {
         <div className='col-sm-4 col-md-3 col-lg-2 '>
           <div className='card d-flex flex-column justify-content-around pb-4 font-weight-bolder'>
             <div className='d-flex gap-3'>
-              <img src={VideoIcon} className='dashboard-icon'/>
+              <img src={VideoIcon} className='dashboard-icon' alt='Title'/>
               <span>{capitalise(data.videoName)}</span>
             </div>
             <div className='d-flex gap-3'>
-              <img src={TimeIcon} className='dashboard-icon'/>
+              <img src={TimeIcon} className='dashboard-icon' alt='Duration'/>
               <span>{niceDuration(data.duration)}</span>
             </div>
             <div className='d-flex gap-3'>
-              <img src={CalendarIcon} className='dashboard-icon'/>
+              <img src={CalendarIcon} className='dashboard-icon' alt='Recording Date'/>
               <span>{niceDate(data.videoDate)}</span>
             </div>
             <div className='d-flex gap-3 d-flex justify-content-center'>
