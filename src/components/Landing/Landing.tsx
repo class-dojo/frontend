@@ -18,14 +18,16 @@ const Landing = () => {
   const handleOnClick = () => anchorScroll();
 
   return (
-    <div className='mainScreen'>
+    <div className='mainScreen' dir='ltr'>
       <section>
         <Hero handleOnClick={handleOnClick}/>
       </section>
       <section ref={anchorRef}>
         <CentralGif/>
       </section>
-      <Bottom/>
+      <section>
+        <Bottom/>
+      </section>
     </div>
   );
 };
