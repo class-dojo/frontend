@@ -18,7 +18,7 @@ const Landing = () => {
   const handleOnClick = () => anchorScroll();
 
   return (
-    <div className='mainScreen' dir='ltr'>
+    <div className='mainScreen'>
       <section>
         <Hero handleOnClick={handleOnClick}/>
       </section>

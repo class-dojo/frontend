@@ -92,7 +92,7 @@ const UploadVideo = () => {
   };
 
   return (
-    <section className="py-4 py-xl-5 ">
+    <div className="py-4 py-xl-5 ">
       <div className="container my-5 mt-2">
         <div className="text-white text-center bg-dark border rounded border-0 p-3 p-md-4 d-flex flex-column aling-items-center">
           <h1 className="fw-bold text-white mb-3">ANALYZE VIDEO</h1><small></small>
@@ -122,7 +122,7 @@ const UploadVideo = () => {
           {showAlert && <ActionAlert alertMessage={alertMessage as AlertMessageProps} toggleShowAlert={toggleShowAlert}/>}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
