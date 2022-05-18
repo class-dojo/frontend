@@ -13,6 +13,7 @@ import CalendarIcon from '../../../assets/icons/CalendarIcon.svg';
 import CopyLinkIcon from '../../../assets/icons/CopyLinkIcon.svg';
 import HelpTooltip from '../../HelpTooltip/HelpTooltip';
 import { niceDuration, niceDate, capitalise } from './utils';
+import { aggregateHelp, attentionHelp, moodHelp } from '../../../constants';
 
 const Dashboard = ({ data }: todoType) => {
 
@@ -32,8 +33,8 @@ const Dashboard = ({ data }: todoType) => {
             <div className='help-button-container help-button-container-big-chart'>
               <HelpTooltip
                 placement='right'
-                header={<>TEST</>}
-                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+                header={<>{aggregateHelp.header}</>}
+                body={<>{aggregateHelp.body}</>}
               />
             </div>
             <MixedChart
@@ -88,8 +89,8 @@ const Dashboard = ({ data }: todoType) => {
             <div className='help-button-container'>
               <HelpTooltip
                 placement='right'
-                header={<>TEST</>}
-                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+                header={<>{attentionHelp.header}</>}
+                body={<>{attentionHelp.body}</>}
               />
             </div>
             <div className='col-2 d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
@@ -126,8 +127,8 @@ const Dashboard = ({ data }: todoType) => {
             <div className='help-button-container'>
               <HelpTooltip
                 placement='top'
-                header={<>TEST</>}
-                body={<><strong>This is not a test!</strong> Of the emergency broadcast system.</>}
+                header={<>{moodHelp.header}</>}
+                body={<>{moodHelp.body}</>}
               />
             </div>
             <div className='col-2 d-flex flex-column align-items-center ps-2 pt-4' style={{ flex: 1, justifyContent: 'center' }}>
