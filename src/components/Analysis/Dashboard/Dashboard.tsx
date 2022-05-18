@@ -25,8 +25,6 @@ const Dashboard = ({ data }: todoType) => {
     setShowToast(true);
   };
 
-  console.log(data.videoName);
-
   return (
     <div className='container-fluid px-4 mt-3' style={{ height: 'calc(100vh - 130px)'}}>
       <div className='row pb-2' style={{ height: '50%' }}>
