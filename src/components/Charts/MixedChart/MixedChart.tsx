@@ -11,7 +11,7 @@ import { colors } from '../../../colors';
 
 type MixedChartProps = {
   isThumbnail?: boolean,
-  color: string,
+  color?: string,
   type: string,
   accuracy: number,
   data: SingleFrameAnalysis[]
