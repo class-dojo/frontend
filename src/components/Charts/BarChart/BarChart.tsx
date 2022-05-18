@@ -8,7 +8,6 @@ import { todoType } from '../../../types';
 import { colors } from '../../../colors';
 import { BarDataset } from '../../../interfaces';
 import { ATTENTION, HEADCOUNT, MOOD } from '../../../constants';
-import { Modal } from 'react-bootstrap';
 import { Frame } from '../../UploadVideo/types';
 import useWindowDimensions from '../../../utils/useWindowDimensions';
 import { isInFirstHalf } from '../utils';
@@ -48,6 +47,8 @@ type BarChartProps = {
 }
 
 const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = false, color, isOverlayed, accuracy, yAxisName, frames}: BarChartProps) => {
+
+  console.log(frames);
 
   const [showModal, setShow] = useState(false);
   const [modalImgIndex, setModalImgIndex] = useState(0);
@@ -246,7 +247,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
                     </div>
                   </div>
                   {dataset.importantIndexes.includes(index) &&
-                <img src={frames[index]}
+                <img src={frames[index].src}
                   style={{
                     height: 180,
                     borderRadius: '2px 6px 6px 2px',

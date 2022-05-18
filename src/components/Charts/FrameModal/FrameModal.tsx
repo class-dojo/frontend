@@ -1,11 +1,15 @@
 import {Modal} from 'react-bootstrap';
 import React from 'react';
 import {FrameCanvas} from './FrameCanvas/FrameCanvas';
+import {IFaceDetail} from '../../UploadVideo/types';
 
 interface IFrameModal {
   show: boolean,
   onHide: () => void,
-  frame: string,
+  frame: {
+    src: string,
+    frameInfo: IFaceDetail[]
+  },
 }
 
 export const FrameModal = ({show, onHide, frame}: IFrameModal) => {

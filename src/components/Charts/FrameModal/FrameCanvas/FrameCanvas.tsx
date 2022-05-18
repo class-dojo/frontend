@@ -1,17 +1,20 @@
 import React, {useEffect, useRef} from 'react';
+import {IFaceDetail} from '../../../UploadVideo/types';
 
 interface IFrameCanvas {
-  frame: string
-  faces?: any;
+  frame: {
+    src: string,
+    frameInfo: IFaceDetail[]
+  }
 }
 
 export const FrameCanvas = ({frame}: IFrameCanvas) => {
-
+  const {src, frameInfo} = frame;
 
   const canvasRef = useRef(null);
 
   useEffect(() => {
-
+    console.log(frameInfo);
 
     const canvasReference = canvasRef.current;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -38,8 +41,7 @@ export const FrameCanvas = ({frame}: IFrameCanvas) => {
     }, false);
 
 
-
-    img.src = frame;
+    img.src = src;
   }, []);
 
   return <canvas ref={canvasRef} />;

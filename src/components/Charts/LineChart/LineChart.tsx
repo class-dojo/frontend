@@ -252,7 +252,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
                     </div>
                   </div>
                   {point.data.isImportant &&
-              <img src={frames[point.data.x/accuracy]}
+              <img src={frames[point.data.x/accuracy].src}
                 style={{
                   height: 180,
                   borderRadius: '2px 6px 6px 2px',
