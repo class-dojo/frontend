@@ -58,7 +58,10 @@ export const FrameCanvas = ({frame}: IFrameCanvas) => {
     img.src = src;
   }, []);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas style={{
+    maxWidth: '80vw',
+    borderRadius: '20px'
+  }} ref={canvasRef} />;
 
 
 };
