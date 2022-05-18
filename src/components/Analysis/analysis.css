@@ -81,7 +81,7 @@
 .big-chart-container {
   --chart-y-offset: 221.9px;
   margin: 20px 0 40px;
-  padding: 0 20px;
+  padding: 0 20px 0 80px;
   height: calc(100vh - var(--chart-y-offset));
   display: table;
   width: 100%;
