@@ -47,7 +47,7 @@ const Dashboard = ({ data }: todoType) => {
           </div>
         </div>
         <div className='col-sm-4 col-md-3 col-lg-2 '>
-          <div className='card d-flex flex-column justify-content-around px-6 pb-4 font-weight-bolder'>
+          <div className='card d-flex flex-column justify-content-around px-4 pb-4 font-weight-bolder'>
             <div className='d-flex gap- justify-content-between align-items-center'>
               <img src={VideoIcon} className='dashboard-icon' alt='Title'/>
               <span>{capitalise(data.videoName)}</span>

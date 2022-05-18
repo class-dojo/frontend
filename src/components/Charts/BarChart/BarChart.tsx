@@ -145,7 +145,7 @@ const BarChart = ({ isMultibar, dataset, isSecondary = false, isThumbnail = fals
             legend: 'Time (seconds)',
             legendPosition: 'middle',
             legendOffset: 30,
-            format: index => (index === 0 || indexes.find(vts => vts === index * accuracy)) ? index * 5 : '',
+            format: index => { return (index * 5 === 0 || (index * 5) % 10 === 0) ? index * 5 : '';},
           }}
           axisLeft={isSecondary ? null : {
             tickSize: 10,
