@@ -30,7 +30,21 @@ for (let i = 0; i < 15; i++) {
     amountOfPeople: Math.round(Math.random() * 10),
     isImportantAttention: truthy(),
     isImportantMood: truthy(),
-    isImportantPeople: truthy()
+    isImportantPeople: truthy(),
+    faceDetails: [
+      {
+        boundingBox: {
+          Width: 34.5324534,
+          Height: 34.5324534,
+          Top: 34.5324534,
+          Left: 34.5324534
+        },
+        topEmotion: {
+          Type: 'CALM',
+          Confidence: 89.0435943534
+        }
+      }
+    ]
   });
 }
 
