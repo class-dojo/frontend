@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import LogoIcon from '../../assets/icons/LogoIcon.svg';
 
 import './navbar.css';
 
@@ -13,13 +14,7 @@ const Navbar = () => {
           <Link to={'/'}>
             <span className="navbar-brand d-flex align-items-center">
               <span className="dark-element bs-icon-md bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="33px" height="33px" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-karate">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <circle cx="18" cy="4" r="1"></circle>
-                  <path d="M3 9l4.5 1l3 2.5"></path>
-                  <path d="M13 21v-8l3-5.5"></path>
-                  <path d="M8 4.5l4 2l4 1l4 3.5l-2 3.5"></path>
-                </svg>
+                <img src={LogoIcon} className="icon icon-tabler icon-tabler-karate"/>
               </span>
               <span className='fs-4'>
                 Class Dojo
