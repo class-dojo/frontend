@@ -13,7 +13,6 @@ const Landing = () => {
         <Link to={'/upload'}>
           <Button className='mx-1' variant='dark'>TRY NOW</Button>
         </Link>
-        <Button className='mx-1' variant='outline-dark'>LEARN MORE</Button>
       </div>
     </div>
   );
