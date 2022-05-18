@@ -52,7 +52,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
 
   const graphContainerStyle: React.CSSProperties = {
     position: 'relative',
-    maxWidth: (!isThumbnail) ? (width >= 768 ? 'calc(100vw - 35px)' : 'calc(100vw - 10px)') : '100vw',
+    maxWidth: (isThumbnail) ? '100%' : (width >= 768 ? 'calc(100vw - 95px)' : 'calc(100vw - 10px)'),
     width: '100%',
     height: '100%',
   };

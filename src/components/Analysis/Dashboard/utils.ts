@@ -12,6 +12,7 @@ export const capitalise = (title: string) => {
     newTitle = newTitle.slice(0, 17);
     return newTitle + '...';
   }
+  return newTitle;
 };
 
 export const niceDate = (ISOdate: string) => {

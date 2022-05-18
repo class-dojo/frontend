@@ -20,6 +20,9 @@ body {
 
 
 /* STYLING - Move into other files */
+* {
+  scroll-margin-top: 125.8px;
+}
 
 .modal-img {
   border-radius: 8px;
