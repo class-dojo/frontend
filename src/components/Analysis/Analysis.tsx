@@ -7,7 +7,7 @@ import Dashboard from './Dashboard/Dashboard';
 import DetailedView from './DetailedView/DetailedView';
 import './analysis.css';
 import useWindowDimensions from '../../utils/useWindowDimensions';
-import { Analytics, DataAnalysis } from '../UploadVideo/types';
+import { DataAnalysis } from '../UploadVideo/types';
 import { getAnalysisRecord } from '../../services/backendService';
 
 const Analysis = () => {
@@ -24,7 +24,7 @@ const Analysis = () => {
 
   useEffect(() => {
     if (location.state) {
-      const { analysisData } = location.state as Analytics;
+      const analysisData = location.state as DataAnalysis;
       setData(analysisData);
     } else {
       getAnalysisRecord(params.videoId as string).then(data => {
