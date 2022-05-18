@@ -6,6 +6,8 @@ import { ReactComponent as MoodIcon } from '../../../../assets/icons/MoodIcon.sv
 import { ReactComponent as AttentionIcon } from '../../../../assets/icons/AttentionIcon.svg';
 import { ReactComponent as HeadcountIcon } from '../../../../assets/icons/HeadcountIcon.svg';
 import { AGGREGATE, ATTENTION, HEADCOUNT, MOOD } from '../../../../constants';
+import { OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { todoType } from '../../../../types';
 
 type SidebarProps = {
   handleAggregateClick: MouseEventHandler<HTMLElement>;
@@ -17,34 +19,64 @@ type SidebarProps = {
 
 const Sidebar = ({ handleAggregateClick, handleAttentionClick, handleMoodClick, handleHeadcountClick, currentSelectedIcon }: SidebarProps) => {
 
+  const renderTooltip = (text: string, props: todoType) => (
+    <Tooltip id="button-tooltip" {...props}>
+      {text}
+    </Tooltip>
+  );
+
   return (
     <div className="l-navbar" id="nav-bar">
       <nav className="nav">
         <div>
           <div className="nav_list">
             <a className={`nav_link ${currentSelectedIcon === AGGREGATE ? 'active' : ''}`} onClick={handleAggregateClick}>
-              <AggregateIcon
-                fill='white'
-                className='bx bx-grid-alt nav_icon'
-              />
+              <OverlayTrigger
+                placement='right'
+                delay={{ show: 250, hide: 400 }}
+                overlay={(props) => renderTooltip(AGGREGATE, props)}
+              >
+                <AggregateIcon
+                  fill='white'
+                  className='bx bx-grid-alt nav_icon'
+                />
+              </OverlayTrigger>
             </a>
             <a className={`nav_link ${currentSelectedIcon === ATTENTION ? 'active' : ''}`} onClick={handleAttentionClick}>
-              <AttentionIcon
-                fill='white'
-                className='bx bx-grid-alt nav_icon'
-              />
+              <OverlayTrigger
+                placement='right'
+                delay={{ show: 250, hide: 400 }}
+                overlay={(props) => renderTooltip(ATTENTION, props)}
+              >
+                <AttentionIcon
+                  fill='white'
+                  className='bx bx-grid-alt nav_icon'
+                />
+              </OverlayTrigger>
             </a>
             <a className={`nav_link ${currentSelectedIcon === MOOD ? 'active' : ''}`} onClick={handleMoodClick}>
-              <MoodIcon
-                fill='white'
-                className='bx bx-grid-alt nav_icon'
-              />
+              <OverlayTrigger
+                placement='right'
+                delay={{ show: 250, hide: 400 }}
+                overlay={(props) => renderTooltip(MOOD, props)}
+              >
+                <MoodIcon
+                  fill='white'
+                  className='bx bx-grid-alt nav_icon'
+                />
+              </OverlayTrigger>
             </a>
             <a className={`nav_link ${currentSelectedIcon === HEADCOUNT ? 'active' : ''}`} onClick={handleHeadcountClick}>
-              <HeadcountIcon
-                fill='white'
-                className='bx bx-grid-alt nav_icon'
-              />
+              <OverlayTrigger
+                placement='right'
+                delay={{ show: 250, hide: 400 }}
+                overlay={(props) => renderTooltip(HEADCOUNT, props)}
+              >
+                <HeadcountIcon
+                  fill='white'
+                  className='bx bx-grid-alt nav_icon'
+                />
+              </OverlayTrigger>
               {/* <span className="nav_name">HC</span> */}
             </a>
           </div>
