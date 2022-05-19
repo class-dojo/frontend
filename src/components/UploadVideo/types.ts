@@ -1,9 +1,11 @@
 export type VideoSource = string | Buffer | Blob | File;
 
 export interface VideoStillsWithInfo {
-  rawFrameDataArray: Uint8Array[],
-  duration: number
+  rawFrameDataArray?: Uint8Array[]
+  duration?: number
+  sorryTooLong?: string
 }
+
 export interface Analytics {
   analysisData: DataAnalysis
 }

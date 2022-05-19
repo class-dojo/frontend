@@ -19,7 +19,7 @@ const UploadVideo = () => {
   const [showAlert, toggleShowAlert] = useReducer(state => !state, false);
   const [isTranscoding, toggleIsTranscoding] = useReducer(state => !state, false);
   const [alertMessage, setAlertMessage] = useState<AlertMessageProps>();
-  const accuracy = useRef<number>(5); // TODO initialise as wanted default value
+  const accuracy = useRef<number>(10); // TODO initialise as wanted default value
   const videoName = useRef<string>('');
   const videoDate = useRef<string>('');
   const source = useRef<VideoSource>('');
@@ -55,24 +55,29 @@ const UploadVideo = () => {
       ffmpeg.current.setProgress(({ ratio }) => {
         setBarProgress(ratio*100);
       });
-      const { rawFrameDataArray, duration }: VideoStillsWithInfo = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
-      toggleIsTranscoding();
-      toggleShowSpinner();
-      const { filesArray, newFramesNames, videoId } = transformRawFrameData(rawFrameDataArray);
-      const { links }: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
-      const isUploaded = await uploadImgToBucket(filesArray, links);
-      if (isUploaded) {
-        const analysis = await getAnalysis(videoId, videoName.current, videoDate.current, duration, accuracy.current);
-        if (analysis) {
-          const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-          const completeData = { ...analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current, videoId};
-          toggleShowSpinner();
-          navigate(`/analysis/${videoId}`, { state: completeData as DataAnalysis });
+      const { rawFrameDataArray, duration, sorryTooLong }: VideoStillsWithInfo = await getStillsFromVideo(ffmpeg.current, source.current, accuracy.current);
+      if (sorryTooLong) {
+        toggleIsTranscoding();
+        return alert(sorryTooLong);
+      } else if (rawFrameDataArray && duration) {
+        toggleIsTranscoding();
+        toggleShowSpinner();
+        const { filesArray, newFramesNames, videoId } = transformRawFrameData(rawFrameDataArray);
+        const { links }: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
+        const isUploaded = await uploadImgToBucket(filesArray, links);
+        if (isUploaded) {
+          const analysis = await getAnalysis(videoId, videoName.current, videoDate.current, duration, accuracy.current);
+          if (analysis) {
+            const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+            const completeData = { ...analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current, videoId};
+            toggleShowSpinner();
+            navigate(`/analysis/${videoId}`, { state: completeData as DataAnalysis });
+          } else {
+            showError();
+          }
         } else {
           showError();
         }
-      } else {
-        showError();
       }
     } else {!source.current && setAlertMessage(fileNotSelected);
       toggleShowAlert();
@@ -99,7 +104,7 @@ const UploadVideo = () => {
           <p className="mb-4">Upload a video and Class Dojo will analyze it</p>
           <div className='mt-4'>
             <small className='me-3'>Select analysis quality</small>
-            <select style={{maxWidth: 200}} defaultValue={5} onChange={handleAccuracyChange}>
+            <select style={{maxWidth: 200}} defaultValue={10} onChange={handleAccuracyChange}>
               <optgroup label="Quality">
                 <option value={20}>Low</option>
                 <option value={10}>Medium</option>
