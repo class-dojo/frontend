@@ -1,17 +1,23 @@
 import { fetchFile, FFmpeg } from '@ffmpeg/ffmpeg';
 import { VideoSource, DataAnalysis, VideoStillsWithInfo } from './types';
 import { v4 as uuidv4 } from 'uuid';
+import { sorryTooLong } from './Alert/utils';
 
 export const getStillsFromVideo = async (ffmpeg: FFmpeg, source: VideoSource, accuracy: number): Promise<VideoStillsWithInfo> => {
-  ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
-  await ffmpeg.run('-i', 'test.mp4', '-vf', `fps=1/${accuracy}`, '%d.jpg');
-  const rawFrameDataArray = [];
   const duration: number = await getVideoDuration(source);
-  for (let i = 1, ratio = Math.floor(duration / accuracy); i <= ratio; i++) {
-    const frame: Uint8Array = ffmpeg.FS('readFile', `${i}.jpg`);
-    rawFrameDataArray.push(frame);
+  const ratio = Math.floor(duration / accuracy);
+  if (ratio <= 50) {
+    ffmpeg.FS('writeFile', 'test.mp4', await fetchFile(source));
+    await ffmpeg.run('-i', 'test.mp4', '-vf', `fps=1/${accuracy}`, '%d.jpg');
+    const rawFrameDataArray = [];
+    for (let i = 1; /*ratio = Math.floor(duration / accuracy);*/ i <= ratio; i++) {
+      const frame: Uint8Array = ffmpeg.FS('readFile', `${i}.jpg`);
+      rawFrameDataArray.push(frame);
+    }
+    return { rawFrameDataArray, duration };
+  } else {
+    return { sorryTooLong };
   }
-  return { rawFrameDataArray, duration };
 };
 
 export const getVideoDuration = async (source: VideoSource) => {
