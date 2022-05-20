@@ -18,7 +18,7 @@ const Landing = () => {
   const handleOnClick = () => anchorScroll();
 
   return (
-    <div className='mainScreen'>
+    <main className='mainScreen'>
       <section>
         <Hero handleOnClick={handleOnClick}/>
       </section>
@@ -26,7 +26,7 @@ const Landing = () => {
         <CentralGif/>
       </section>
       <Bottom/>
-    </div>
+    </main>
   );
 };
 

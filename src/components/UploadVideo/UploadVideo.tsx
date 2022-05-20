@@ -64,14 +64,18 @@ const UploadVideo = () => {
         toggleShowSpinner();
         const { filesArray, newFramesNames, videoId } = transformRawFrameData(rawFrameDataArray);
         const { links }: S3Links = await sendDataToBackEnd(newFramesNames, videoId);
-        const isUploaded = await uploadImgToBucket(filesArray, links);
-        if (isUploaded) {
-          const analysis = await getAnalysis(videoId, videoName.current, videoDate.current, duration, accuracy.current);
-          if (analysis) {
-            const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
-            const completeData = { ...analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current, videoId};
-            toggleShowSpinner();
-            navigate(`/analysis/${videoId}`, { state: completeData as DataAnalysis });
+        if (links && links.length === filesArray.length) {
+          const isUploaded = await uploadImgToBucket(filesArray, links);
+          if (isUploaded) {
+            const analysis = await getAnalysis(videoId, videoName.current, videoDate.current, duration, accuracy.current);
+            if (analysis) {
+              const analysisWithRawFrames = attachRawFramesToAnalysis(rawFrameDataArray, analysis);
+              const completeData = { ...analysisWithRawFrames, videoName: videoName.current, videoDate: videoDate.current, duration, accuracy: accuracy.current, videoId};
+              toggleShowSpinner();
+              navigate(`/analysis/${videoId}`, { state: completeData as DataAnalysis });
+            } else {
+              showError();
+            }
           } else {
             showError();
           }
