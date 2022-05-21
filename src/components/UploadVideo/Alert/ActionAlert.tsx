@@ -9,7 +9,7 @@ alertMessage: AlertMessageProps
 
 const ActionAlert = ({ toggleShowAlert, alertMessage }: AlertProps) => {
   return (
-    <Alert variant={alertMessage.variant} onClose={toggleShowAlert} dismissible>
+    <Alert style={{width: '100%'}} variant={alertMessage.variant} onClose={toggleShowAlert} dismissible>
       <Alert.Heading>{alertMessage.heading}</Alert.Heading>
       <p>{alertMessage.body}</p>
     </Alert>
