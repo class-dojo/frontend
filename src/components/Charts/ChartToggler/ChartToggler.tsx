@@ -21,11 +21,7 @@ type ChartTogglerProps = {
 }
 
 const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.primaryGreen, data, accuracy, dataType }: ChartTogglerProps) => { // TODO has to take data and parse it here
-  const [isBarChart, setIsBarChart] = useState(true);
-
-  useEffect(() => {
-    setIsBarChart(isBarChartOnInit);
-  }, []);
+  const [isBarChart, setIsBarChart] = useState(isBarChartOnInit);
 
   const togglePrimaryChartType = (event: todoType) => {
     if (!event.target.className.split(' ').includes('selected')) {
@@ -45,7 +41,7 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
           </div>
         </div>
       </div>
-      {isBarChart && <BarChart
+      {isBarChart ? <BarChart
         frames={getImportantFrames(data)}
         accuracy={accuracy}
         isMultibar={false}
@@ -53,20 +49,20 @@ const ChartToggler = ({ isThumbnail, isBarChartOnInit, type, color = colors.prim
         color={color}
         isThumbnail={isThumbnail}
         yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
-      />}
-      {!isBarChart && <LineChart
-        frames={getImportantFrames(data)}
-        accuracy={accuracy}
-        isMultiline={false}
-        dataset={[{
-          ...parseChartData(data, dataType, accuracy, 'line') as LineDataset,
-          id: type,
-          color
-        }]}
-        yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
-        title={type}
-        isThumbnail={isThumbnail}
-      />}
+      /> :
+        <LineChart
+          frames={getImportantFrames(data)}
+          accuracy={accuracy}
+          isMultiline={false}
+          dataset={[{
+            ...parseChartData(data, dataType, accuracy, 'line') as LineDataset,
+            id: type,
+            color
+          }]}
+          yAxisName={type === ATTENTION || type === MOOD ? `${type} index` : type}
+          title={type}
+          isThumbnail={isThumbnail}
+        />}
     </div>
   );
 };

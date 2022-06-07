@@ -60,7 +60,7 @@ const MixedChart = ({ isThumbnail, color, type, accuracy, data }: MixedChartProp
   function getMultiBarData () {
     const data1 = parseChartData(data, 'attentionScore', accuracy, 'bar') as BarDataset;
     const data2 = parseChartData(data, 'moodScore', accuracy, 'bar') as BarDataset;
-    const keys = ['Attention', 'Mood'];
+    const keys = [ATTENTION, MOOD];
     const importantIndexes = [...data1.importantIndexes, ...data2.importantIndexes]; // TODO filter repeated
 
     const combinedData = [];
