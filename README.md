@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# Class Dojo - Frontend repository
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo contains the frontend of Class Dojo. You can run it locally, it will use the mock API for returning data when you upload a video.
 
-## Available Scripts
+You can find the complete project [here](https://github.com/class-dojo)
 
-In the project directory, you can run:
+And you can try the deployed app [here](www.classdojo.ninja)
 
-### `npm start`
+## Using Class Dojo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Run
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+````
 
-### `npm test`
+Should not be run outside of docker container
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### Upload a video
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![UPLOAD](images/upload_screen.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Simply select a video from your machine and choose analysis quality. Higher quality analysis will take longer.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### Dashboard
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![DASHBOARD](images/dashboard.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This screen displays the aggregate, attention and mood graphs in a compact and clear view. You can see it all with no need to scroll.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Click the share analysis button to copy a link to your analysis results, which you can store and share.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Chart mode can be toggled on all charts, and the aggregate chart allows for
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Detailed view
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![DETAILED](images/detailed_view.png)
+
+This screen displays your analysis in large chart format. High precision is the name of the game.
+
+
+## Tech stack
+
+- React with typescript
+- Bootstrap for styling
+- Ffmpeg wasm for extracting frames from videos
+- NIVO for creating charts
+

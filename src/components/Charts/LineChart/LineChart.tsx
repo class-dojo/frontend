@@ -145,7 +145,7 @@ const LineChart = ({ isMultiline, dataset, frames, accuracy, yAxisName, isOverla
           areaOpacity={0.8}
           enablePoints={true}
           pointSymbol={(pointProps: todoType) => {
-            if (hasPoints) return <circle cx="0" cy="0" r={4} stroke={pointProps.color} strokeWidth="2" fill={pointProps.color} />;
+            if (hasPoints) return;
             // TODO refactor
             let fillColor = '';
             let borderColor = '';
